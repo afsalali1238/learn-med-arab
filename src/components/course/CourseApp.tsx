@@ -10,46 +10,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
-function HeroSection() {
-  return (
-    <div className="relative overflow-hidden bg-primary px-6 py-12 text-primary-foreground sm:py-16 md:py-20">
-      <div className="absolute inset-0 opacity-10">
-        <svg
-          className="h-full w-full"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 100 100"
-          fill="currentColor"
-        >
-          <path d="M50 0L100 50L50 100L0 50Z" />
-          <path d="M25 25L75 75M75 25L25 75" stroke="currentColor" strokeWidth="2" />
-        </svg>
-      </div>
-      <div className="relative mx-auto max-w-3xl text-center">
-        <div className="mb-4 flex items-center justify-center gap-1.5">
-          <img src="/provia-logo.png" alt="" aria-hidden="true" className="h-4 w-4 brightness-0 invert" />
-          <span className="text-[11px] font-black italic uppercase tracking-widest text-primary-foreground/70">
-            A Provia Product
-          </span>
-        </div>
-        <h1 className="mb-4 text-3xl font-black italic uppercase tracking-tight sm:text-5xl">
-          Clinical Fluency{" "}
-          <span className="bg-gradient-to-r from-blue-200 via-emerald-200 to-blue-200 bg-clip-text text-transparent">
-            in Dubai
-          </span>
-        </h1>
-        <p className="mx-auto mb-6 max-w-xl text-primary-foreground/80 sm:text-lg">
-          Master conversational Medical Arabic in 8 weeks. Learn Khaleeji and Levantine dialects, culturally-competent greetings, and navigate complex clinical scenarios.
-        </p>
-        <div className="flex flex-wrap justify-center gap-4 text-sm font-medium">
-          <span className="rounded-full bg-primary-foreground/20 px-3 py-1">8 Weeks</span>
-          <span className="rounded-full bg-primary-foreground/20 px-3 py-1">24 Checkpoints</span>
-          <span className="rounded-full bg-primary-foreground/20 px-3 py-1">2 Dialects</span>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function CourseApp() {
   const {
     progress,
@@ -120,13 +80,10 @@ export function CourseApp() {
             <Skeleton className="h-24 w-full rounded-2xl" />
           </div>
         ) : tab === "syllabus" ? (
-          <>
-            <HeroSection />
-            <SyllabusView
-              weeks={WEEKS}
-              perWeekPct={perWeekPct}
-            />
-          </>
+          <SyllabusView
+            weeks={WEEKS}
+            perWeekPct={perWeekPct}
+          />
         ) : tab === "vocab" ? (
           <VocabBankView
             entries={progress.vocabBank}
