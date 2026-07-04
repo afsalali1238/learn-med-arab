@@ -19,6 +19,9 @@ interface Props {
   onOpenVocab: () => void;
   vocabCount: number;
   capstoneTitle: string;
+  stats: Stats;
+  streak: number;
+  badges: Badge[];
 }
 
 export function Sidebar({
@@ -34,6 +37,9 @@ export function Sidebar({
   onOpenVocab,
   vocabCount,
   capstoneTitle,
+  stats,
+  streak,
+  badges,
 }: Props) {
   return (
     <aside className="sticky top-0 hidden h-screen w-[300px] shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground md:flex">
