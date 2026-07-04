@@ -1,12 +1,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { WEEKS, COURSE_TITLE, COURSE_SUBTITLE, CAPSTONE } from "@/data/course";
+import { ArrowLeft } from "lucide-react";
+import { WEEKS, COURSE_TITLE } from "@/data/course";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
-import { Sidebar } from "./Sidebar";
-import { MobileTopBar } from "./MobileTopBar";
 import { WeekView } from "./WeekView";
-import { VocabBankModal } from "./VocabBankModal";
+import { AppHeader } from "./AppHeader";
+import { BottomNav, type NavTab } from "./BottomNav";
+import { SyllabusView } from "./SyllabusView";
+import { VocabBankView } from "./VocabBankView";
+import { StatsView } from "./StatsView";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
+import { totalXp, xpToLevel } from "@/lib/xp";
 
 export function CourseApp() {
   const {
@@ -19,11 +24,11 @@ export function CourseApp() {
     removeVocab,
   } = useCourseProgress();
 
-  const [activeWeekId, setActiveWeekId] = useState(WEEKS[0].id);
-  const [vocabOpen, setVocabOpen] = useState(false);
+  const [tab, setTab] = useState<NavTab>("syllabus");
+  const [activeWeekId, setActiveWeekId] = useState<string | null>(null);
 
   const activeWeek = useMemo(
-    () => WEEKS.find((w) => w.id === activeWeekId) ?? WEEKS[0],
+    () => (activeWeekId ? WEEKS.find((w) => w.id === activeWeekId) ?? null : null),
     [activeWeekId],
   );
 
@@ -49,14 +54,11 @@ export function CourseApp() {
     return map;
   }, [progress.completedCheckpoints]);
 
-  const scenariosSubmitted = useMemo(
-    () => Object.values(progress.assignments).filter((a) => a.submitted).length,
-    [progress.assignments],
+  const xp = useMemo(
+    () => totalXp(WEEKS, progress.completedCheckpoints, progress.assignments),
+    [progress.completedCheckpoints, progress.assignments],
   );
-  const weeksComplete = useMemo(
-    () => Object.values(perWeekPct).filter((p) => p === 100).length,
-    [perWeekPct],
-  );
+  const { level, intoLevel, nextLevel } = xpToLevel(xp);
 
   // Gentle celebration on week completion only
   const prevWeekPct = useRef<Record<string, number>>({});
@@ -66,7 +68,11 @@ export function CourseApp() {
       return;
     }
     Object.entries(perWeekPct).forEach(([wid, pct]) => {
-      if (pct === 100 && prevWeekPct.current[wid] !== 100 && prevWeekPct.current[wid] !== undefined) {
+      if (
+        pct === 100 &&
+        prevWeekPct.current[wid] !== 100 &&
+        prevWeekPct.current[wid] !== undefined
+      ) {
         const w = WEEKS.find((x) => x.id === wid);
         if (w) toast.success(`Week ${w.number} complete`, { description: w.title });
       }
@@ -74,64 +80,87 @@ export function CourseApp() {
     prevWeekPct.current = perWeekPct;
   }, [perWeekPct, hydrated]);
 
+  const openWeek = (id: string) => {
+    setActiveWeekId(id);
+    // scroll to top on navigation
+    if (typeof window !== "undefined") window.scrollTo({ top: 0 });
+  };
+  const closeWeek = () => setActiveWeekId(null);
+
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <MobileTopBar
-        courseTitle={COURSE_TITLE}
-        weeks={WEEKS}
-        activeWeekId={activeWeek.id}
-        onSelectWeek={setActiveWeekId}
-        globalPct={globalPct}
-        globalCompleted={globalCompleted}
-        totalCheckpoints={totalCheckpoints}
-        perWeekPct={perWeekPct}
-        onOpenVocab={() => setVocabOpen(true)}
-        vocabCount={progress.vocabBank.length}
-        weeksComplete={weeksComplete}
-        weeksTotal={WEEKS.length}
-        scenariosSubmitted={scenariosSubmitted}
-        activeDays={progress.streak}
-      />
-      <div className="mx-auto flex min-h-screen max-w-[1400px]">
-        <Sidebar
-          courseTitle={COURSE_TITLE}
-          courseSubtitle={COURSE_SUBTITLE}
-          weeks={WEEKS}
-          activeWeekId={activeWeek.id}
-          onSelectWeek={setActiveWeekId}
-          globalPct={globalPct}
-          globalCompleted={globalCompleted}
-          totalCheckpoints={totalCheckpoints}
-          perWeekPct={perWeekPct}
-          onOpenVocab={() => setVocabOpen(true)}
-          vocabCount={progress.vocabBank.length}
-          capstoneTitle={CAPSTONE.title}
-          weeksComplete={weeksComplete}
-          weeksTotal={WEEKS.length}
-          scenariosSubmitted={scenariosSubmitted}
-          scenariosTotal={WEEKS.length}
-          activeDays={progress.streak}
-        />
-        <main className="min-w-0 flex-1 overflow-y-auto">
-          <WeekView
-            week={activeWeek}
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <AppHeader title={COURSE_TITLE} level={level} xp={xp} progressPct={globalPct} />
+
+      <main className="flex-1">
+        {activeWeek ? (
+          <div>
+            <div className="mx-auto max-w-3xl px-4 pt-4 sm:px-6">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={closeWeek}
+                className="-ml-2 gap-1.5 text-muted-foreground hover:text-foreground"
+              >
+                <ArrowLeft className="h-4 w-4" />
+                Back to Syllabus
+              </Button>
+            </div>
+            <WeekView
+              week={activeWeek}
+              completedCheckpoints={progress.completedCheckpoints}
+              assignment={
+                progress.assignments[activeWeek.id] ?? { answers: "", submitted: false }
+              }
+              note={progress.notes[activeWeek.id] ?? ""}
+              onToggleCheckpoint={toggleCheckpoint}
+              onSetAssignment={(patch) => setAssignment(activeWeek.id, patch)}
+              onSetNote={(v) => setNote(activeWeek.id, v)}
+              onAddVocab={addVocab}
+            />
+          </div>
+        ) : tab === "syllabus" ? (
+          <SyllabusView
+            weeks={WEEKS}
             completedCheckpoints={progress.completedCheckpoints}
-            assignment={progress.assignments[activeWeek.id] ?? { answers: "", submitted: false }}
-            note={progress.notes[activeWeek.id] ?? ""}
-            onToggleCheckpoint={toggleCheckpoint}
-            onSetAssignment={(patch) => setAssignment(activeWeek.id, patch)}
-            onSetNote={(v) => setNote(activeWeek.id, v)}
-            onAddVocab={addVocab}
+            assignments={progress.assignments}
+            perWeekPct={perWeekPct}
+            onSelectWeek={openWeek}
           />
-        </main>
-      </div>
-      <VocabBankModal
-        open={vocabOpen}
-        onOpenChange={setVocabOpen}
-        entries={progress.vocabBank}
-        onAdd={addVocab}
-        onRemove={removeVocab}
-      />
+        ) : tab === "vocab" ? (
+          <VocabBankView
+            entries={progress.vocabBank}
+            onAdd={addVocab}
+            onRemove={removeVocab}
+          />
+        ) : (
+          <StatsView
+            weeks={WEEKS}
+            completedCheckpoints={progress.completedCheckpoints}
+            assignments={progress.assignments}
+            perWeekPct={perWeekPct}
+            totalCheckpoints={totalCheckpoints}
+            vocabCount={progress.vocabBank.length}
+            streak={progress.streak}
+            longestStreak={progress.longestStreak}
+            xp={xp}
+            level={level}
+            intoLevel={intoLevel}
+            nextLevel={nextLevel}
+          />
+        )}
+      </main>
+
+      {!activeWeek && (
+        <BottomNav
+          active={tab}
+          onChange={(t) => {
+            setTab(t);
+            if (typeof window !== "undefined") window.scrollTo({ top: 0 });
+          }}
+          vocabCount={progress.vocabBank.length}
+        />
+      )}
+
       <Toaster richColors position="top-center" />
     </div>
   );
