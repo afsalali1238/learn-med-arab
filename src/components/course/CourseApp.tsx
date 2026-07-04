@@ -11,7 +11,6 @@ import { StatsView } from "./StatsView";
 import { Toaster } from "@/components/ui/sonner";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { totalXp, xpToLevel } from "@/lib/xp";
 
 export function CourseApp() {
   const {
@@ -54,12 +53,6 @@ export function CourseApp() {
     return map;
   }, [progress.completedCheckpoints]);
 
-  const xp = useMemo(
-    () => totalXp(WEEKS, progress.completedCheckpoints, progress.assignments),
-    [progress.completedCheckpoints, progress.assignments],
-  );
-  const { level, intoLevel, nextLevel } = xpToLevel(xp);
-
   // Gentle celebration on week completion only
   const prevWeekPct = useRef<Record<string, number>>({});
   useEffect(() => {
@@ -82,14 +75,13 @@ export function CourseApp() {
 
   const openWeek = (id: string) => {
     setActiveWeekId(id);
-    // scroll to top on navigation
     if (typeof window !== "undefined") window.scrollTo({ top: 0 });
   };
   const closeWeek = () => setActiveWeekId(null);
 
   return (
     <div className="flex min-h-screen flex-col bg-background text-foreground">
-      <AppHeader title={COURSE_TITLE} level={level} xp={xp} progressPct={globalPct} />
+      <AppHeader title={COURSE_TITLE} progressPct={globalPct} />
 
       <main className="flex-1">
         {activeWeek ? (
@@ -121,7 +113,6 @@ export function CourseApp() {
         ) : tab === "syllabus" ? (
           <SyllabusView
             weeks={WEEKS}
-            completedCheckpoints={progress.completedCheckpoints}
             assignments={progress.assignments}
             perWeekPct={perWeekPct}
             onSelectWeek={openWeek}
@@ -140,12 +131,6 @@ export function CourseApp() {
             perWeekPct={perWeekPct}
             totalCheckpoints={totalCheckpoints}
             vocabCount={progress.vocabBank.length}
-            streak={progress.streak}
-            longestStreak={progress.longestStreak}
-            xp={xp}
-            level={level}
-            intoLevel={intoLevel}
-            nextLevel={nextLevel}
           />
         )}
       </main>
