@@ -10,7 +10,7 @@ interface Props {
 export function WeeklyNotes({ value, onChange }: Props) {
   const [local, setLocal] = useState(value);
   const [saved, setSaved] = useState(false);
-  const timer = useRef<ReturnType<typeof setTimeout>>();
+  const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     setLocal(value);

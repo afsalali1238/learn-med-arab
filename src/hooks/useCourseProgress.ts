@@ -1,13 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import type { VocabEntry } from "@/data/course";
 
 const STORAGE_KEY = "medical-arabic-course-v1";
-
-export interface VocabEntry {
-  id: string;
-  arabic: string;
-  transliteration: string;
-  note?: string;
-}
 
 export interface CourseProgress {
   completedCheckpoints: string[];
