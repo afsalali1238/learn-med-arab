@@ -1,8 +1,8 @@
-import { BookOpen, Flame, GraduationCap, Menu, Trophy } from "lucide-react";
+import { BookOpen, GraduationCap, Menu } from "lucide-react";
 import type { Week } from "@/data/course";
-import type { Stats } from "@/lib/gamification";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/components/ui/sheet";
+import { ProgressSummary } from "./ProgressSummary";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
@@ -17,10 +17,10 @@ interface Props {
   perWeekPct: Record<string, number>;
   onOpenVocab: () => void;
   vocabCount: number;
-  stats: Stats;
-  streak: number;
-  earnedBadges: number;
-  totalBadges: number;
+  weeksComplete: number;
+  weeksTotal: number;
+  scenariosSubmitted: number;
+  activeDays: number;
 }
 
 export function MobileTopBar({
@@ -34,10 +34,10 @@ export function MobileTopBar({
   perWeekPct,
   onOpenVocab,
   vocabCount,
-  stats,
-  streak,
-  earnedBadges,
-  totalBadges,
+  weeksComplete,
+  weeksTotal,
+  scenariosSubmitted,
+  activeDays,
 }: Props) {
   const [open, setOpen] = useState(false);
   const activeWeek = weeks.find((w) => w.id === activeWeekId);
@@ -60,44 +60,25 @@ export function MobileTopBar({
                 {courseTitle}
               </SheetTitle>
             </SheetHeader>
-            <div className="space-y-3 border-b border-border px-4 py-4">
-              <div className="flex items-center justify-between rounded-xl border border-border bg-card p-3">
-                <div className="flex items-center gap-2">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-                    <span className="text-sm font-black">{stats.level}</span>
-                  </div>
-                  <div>
-                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Level</div>
-                    <div className="text-sm font-semibold">{stats.xp} XP</div>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-1 text-xs">
-                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/10 px-2 py-0.5 text-orange-600 dark:text-orange-400">
-                    <Flame className="h-3 w-3" /> {streak}d
-                  </span>
-                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
-                    <Trophy className="h-3 w-3" /> {earnedBadges}/{totalBadges}
-                  </span>
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 flex items-baseline justify-between">
-                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Course Progress</span>
-                  <span className="text-xs font-semibold">{globalPct}%</span>
-                </div>
-                <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                  <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${globalPct}%` }} />
-                </div>
-                <div className="mt-1 text-[11px] text-muted-foreground">
-                  {globalCompleted} / {totalCheckpoints} checkpoints
-                </div>
-              </div>
+            <div className="border-b border-border px-4 py-4">
+              <ProgressSummary
+                globalPct={globalPct}
+                checkpointsDone={globalCompleted}
+                checkpointsTotal={totalCheckpoints}
+                weeksComplete={weeksComplete}
+                weeksTotal={weeksTotal}
+                scenariosSubmitted={scenariosSubmitted}
+                scenariosTotal={weeksTotal}
+                vocabSaved={vocabCount}
+                activeDays={activeDays}
+              />
             </div>
-            <nav className="max-h-[calc(100vh-260px)] overflow-y-auto px-3 py-3">
+            <nav className="max-h-[calc(100vh-320px)] overflow-y-auto px-3 py-3">
               <ul className="space-y-1">
                 {weeks.map((w) => {
                   const isActive = w.id === activeWeekId;
                   const pct = perWeekPct[w.id] ?? 0;
+                  const done = pct === 100;
                   return (
                     <li key={w.id}>
                       <button
@@ -116,22 +97,27 @@ export function MobileTopBar({
                           <span
                             className={cn(
                               "flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-semibold",
-                              isActive
-                                ? "bg-primary text-primary-foreground"
-                                : "bg-muted",
+                              done
+                                ? "bg-emerald-500 text-white"
+                                : isActive
+                                  ? "bg-primary text-primary-foreground"
+                                  : "bg-muted",
                             )}
                           >
-                            {w.number}
+                            {done ? "✓" : w.number}
                           </span>
-                          <span className="line-clamp-2 text-sm font-medium leading-snug">
+                          <span className="line-clamp-2 flex-1 text-sm font-medium leading-snug">
                             {w.title}
+                          </span>
+                          <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">
+                            {pct}%
                           </span>
                         </div>
                         <div className="ml-8 h-1 overflow-hidden rounded-full bg-muted/60">
                           <div
                             className={cn(
                               "h-full rounded-full transition-all",
-                              pct === 100 ? "bg-emerald-500" : "bg-primary/70",
+                              done ? "bg-emerald-500" : "bg-primary/70",
                             )}
                             style={{ width: `${pct}%` }}
                           />
@@ -164,17 +150,11 @@ export function MobileTopBar({
         </Sheet>
 
         <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-1.5 text-[11px] font-medium">
-            <span className="inline-flex h-4 min-w-4 items-center justify-center rounded bg-primary px-1 text-[10px] font-black text-primary-foreground">
-              L{stats.level}
-            </span>
-            <span className="text-muted-foreground">{stats.xp} XP</span>
-            <span className="inline-flex items-center gap-0.5 text-orange-600 dark:text-orange-400">
-              <Flame className="h-3 w-3" />{streak}
-            </span>
+          <div className="truncate text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
+            Week {activeWeek?.number} · {weeksComplete}/{weeksTotal} weeks · {globalPct}%
           </div>
           <div className="truncate text-sm font-semibold text-foreground">
-            W{activeWeek?.number}: {activeWeek?.title}
+            {activeWeek?.title}
           </div>
         </div>
 
