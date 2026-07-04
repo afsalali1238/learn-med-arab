@@ -82,7 +82,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         content:
           "An 8-week self-paced course for pharmacists to master conversational Medical Arabic in Dubai — Khaleeji and Levantine dialects, clinical scenarios, and cultural competency.",
       },
-      { name: "author", content: "Clinical Fluency" },
+      { name: "author", content: "Provia" },
+      { name: "theme-color", content: "#f8fafc" },
       { property: "og:title", content: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai" },
       {
         property: "og:description",
@@ -97,7 +98,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: "icon", href: "/provia-logo.png", type: "image/png" },
+      { rel: "icon", href: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {

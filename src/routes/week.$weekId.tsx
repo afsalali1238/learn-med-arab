@@ -24,16 +24,11 @@ function WeekRoute() {
     setAssignment,
     setNote,
     addVocab,
+    calculateOverallProgress,
+    calculateWeekProgress,
   } = useCourseProgress();
 
-  const totalCheckpoints = useMemo(
-    () => WEEKS.reduce((n, w) => n + w.checkpoints.length, 0),
-    [],
-  );
-  const globalCompleted = progress.completedCheckpoints.length;
-  const globalPct = totalCheckpoints
-    ? Math.round((globalCompleted / totalCheckpoints) * 100)
-    : 0;
+  const { globalPct } = calculateOverallProgress();
 
   if (!hydrated) return null;
 
@@ -67,6 +62,7 @@ function WeekRoute() {
           completedCheckpoints={progress.completedCheckpoints}
           assignment={progress.assignments[activeWeek.id] ?? { answers: "", submitted: false }}
           note={progress.notes[activeWeek.id] ?? ""}
+          weekProgress={calculateWeekProgress(activeWeek.id, activeWeek.checkpoints.length)}
           onToggleCheckpoint={toggleCheckpoint}
           onSetAssignment={(patch) => setAssignment(activeWeek.id, patch)}
           onSetNote={(v) => setNote(activeWeek.id, v)}

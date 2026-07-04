@@ -25,8 +25,17 @@ function HeroSection() {
         </svg>
       </div>
       <div className="relative mx-auto max-w-3xl text-center">
-        <h1 className="mb-4 text-3xl font-bold tracking-tight sm:text-5xl">
-          Clinical Fluency in Dubai
+        <div className="mb-4 flex items-center justify-center gap-1.5">
+          <img src="/provia-logo.png" alt="" aria-hidden="true" className="h-4 w-4 brightness-0 invert" />
+          <span className="text-[11px] font-black italic uppercase tracking-widest text-primary-foreground/70">
+            A Provia Product
+          </span>
+        </div>
+        <h1 className="mb-4 text-3xl font-black italic uppercase tracking-tight sm:text-5xl">
+          Clinical Fluency{" "}
+          <span className="bg-gradient-to-r from-blue-200 via-emerald-200 to-blue-200 bg-clip-text text-transparent">
+            in Dubai
+          </span>
         </h1>
         <p className="mx-auto mb-6 max-w-xl text-primary-foreground/80 sm:text-lg">
           Master conversational Medical Arabic in 8 weeks. Learn Khaleeji and Levantine dialects, culturally-competent greetings, and navigate complex clinical scenarios.
@@ -132,6 +141,7 @@ export function CourseApp() {
             perWeekPct={perWeekPct}
             totalCheckpoints={totalCheckpoints - WEEKS.length}
             vocabCount={progress.vocabBank.length}
+            globalPct={globalPct}
             onExport={exportProgress}
             onImport={importProgress}
           />

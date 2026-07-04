@@ -11,6 +11,7 @@ interface Props {
   perWeekPct: Record<string, number>;
   totalCheckpoints: number;
   vocabCount: number;
+  globalPct?: number;
   onExport?: () => void;
   onImport?: (file: File) => void;
 }
@@ -51,6 +52,7 @@ export function StatsView({
   perWeekPct,
   totalCheckpoints,
   vocabCount,
+  globalPct,
   onExport,
   onImport,
 }: Props) {
@@ -59,9 +61,7 @@ export function StatsView({
   const checkpointsDone = completedCheckpoints.length;
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
-  const overallPct = totalCheckpoints
-    ? Math.round((checkpointsDone / totalCheckpoints) * 100)
-    : 0;
+  const overallPct = globalPct ?? (totalCheckpoints ? Math.round((checkpointsDone / totalCheckpoints) * 100) : 0);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];

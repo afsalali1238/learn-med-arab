@@ -13,21 +13,24 @@ interface Props {
   scenario: Scenario;
   answers: string;
   submitted: boolean;
+  selfScore?: string;
   onChangeAnswers: (v: string) => void;
   onSaveDraft: () => void;
   onSubmit: () => void;
+  onSelfScoreChange?: (score: string) => void;
 }
 
 export function ClinicalScenario({
   scenario,
   answers,
   submitted,
+  selfScore = "",
   onChangeAnswers,
   onSaveDraft,
   onSubmit,
+  onSelfScoreChange,
 }: Props) {
   const [drawerOpen, setDrawerOpen] = useState(submitted);
-  const [selfScore, setSelfScore] = useState<string>("");
 
   const handleSave = () => {
     onSaveDraft();
@@ -184,7 +187,7 @@ export function ClinicalScenario({
               </div>
               <RadioGroup
                 value={selfScore}
-                onValueChange={setSelfScore}
+                onValueChange={onSelfScoreChange}
                 className="flex flex-col gap-3 sm:flex-row sm:gap-6"
               >
                 <div className="flex items-center space-x-2">

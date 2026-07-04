@@ -4,6 +4,7 @@ import type { VocabEntry } from "@/data/course";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SpeakButton } from "./SpeakButton";
+import { cn } from "@/lib/utils";
 
 interface Props {
   entries: VocabEntry[];

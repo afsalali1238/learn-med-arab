@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useState } from "react";
 import { toast } from "sonner";
 import type { VocabEntry } from "@/data/course";
+import { WEEKS } from "@/data/course";
 
 const STORAGE_KEY = "medical-arabic-course-v1";
 
 export interface CourseProgress {
   completedCheckpoints: string[];
-  assignments: Record<string, { answers: string; submitted: boolean }>;
+  assignments: Record<string, { answers: string; submitted: boolean; selfScore?: string }>;
   notes: Record<string, string>;
   vocabBank: VocabEntry[];
 }
@@ -63,7 +64,7 @@ export function useCourseProgress() {
   }, []);
 
   const setAssignment = useCallback(
-    (weekId: string, patch: Partial<{ answers: string; submitted: boolean }>) => {
+    (weekId: string, patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>) => {
       setProgress((p) => {
         const prev = p.assignments[weekId] ?? { answers: "", submitted: false };
         return {
@@ -155,6 +156,37 @@ export function useCourseProgress() {
     reader.readAsText(file);
   }, []);
 
+  const calculateWeekProgress = useCallback((weekId: string, weekCheckpointsCount: number) => {
+    const doneCheckpoints = progress.completedCheckpoints.filter((c) => c.startsWith(weekId)).length; 
+    // actually, WEEKS.find(w => w.id === weekId).checkpoints.length is safer but weekCheckpointsCount is passed in. Let's just use WEEKS.
+    const week = WEEKS.find((w) => w.id === weekId);
+    if (!week) return { done: 0, total: 1, pct: 0 };
+    
+    const done = week.checkpoints.filter((c) => progress.completedCheckpoints.includes(c.id)).length;
+    const scenarioDone = progress.assignments[weekId]?.submitted ? 1 : 0;
+    const total = week.checkpoints.length + 1;
+    return {
+      doneCheckpoints: done,
+      scenarioDone,
+      doneTotal: done + scenarioDone,
+      total,
+      pct: Math.round(((done + scenarioDone) / total) * 100),
+    };
+  }, [progress.completedCheckpoints, progress.assignments]);
+
+  const calculateOverallProgress = useCallback(() => {
+    const totalCheckpoints = WEEKS.reduce((n, w) => n + w.checkpoints.length + 1, 0);
+    const globalCompleted = 
+      progress.completedCheckpoints.length + 
+      Object.values(progress.assignments).filter((a) => a.submitted).length;
+    
+    return {
+      globalCompleted,
+      totalCheckpoints,
+      globalPct: totalCheckpoints ? Math.round((globalCompleted / totalCheckpoints) * 100) : 0,
+    };
+  }, [progress.completedCheckpoints, progress.assignments]);
+
   return {
     progress,
     hydrated,
@@ -165,5 +197,7 @@ export function useCourseProgress() {
     removeVocab,
     exportProgress,
     importProgress,
+    calculateWeekProgress,
+    calculateOverallProgress,
   };
 }

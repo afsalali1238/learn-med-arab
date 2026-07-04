@@ -10,12 +10,13 @@ import { VocabTables } from "./VocabTables";
 interface Props {
   week: Week;
   completedCheckpoints: string[];
-  assignment: { answers: string; submitted: boolean };
+  assignment: { answers: string; submitted: boolean; selfScore?: string };
   note: string;
   onToggleCheckpoint: (id: string) => void;
-  onSetAssignment: (patch: Partial<{ answers: string; submitted: boolean }>) => void;
+  onSetAssignment: (patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>) => void;
   onSetNote: (value: string) => void;
   onAddVocab: (entry: Omit<VocabEntry, "id">) => void;
+  weekProgress?: { doneTotal: number; total: number; pct: number };
 }
 
 export function WeekView({
@@ -27,12 +28,14 @@ export function WeekView({
   onSetAssignment,
   onSetNote,
   onAddVocab,
+  weekProgress,
 }: Props) {
-  const weekDoneCount = week.checkpoints.filter((c) => completedCheckpoints.includes(c.id)).length;
-  const weekPct = week.checkpoints.length
-    ? Math.round((weekDoneCount / week.checkpoints.length) * 100)
-    : 0;
   const scenarioDone = assignment.submitted;
+
+  // Fallback if not provided (should be provided by the route)
+  const weekDoneCount = weekProgress?.doneTotal ?? week.checkpoints.filter((c) => completedCheckpoints.includes(c.id)).length + (scenarioDone ? 1 : 0);
+  const weekTotal = weekProgress?.total ?? week.checkpoints.length + 1;
+  const weekPct = weekProgress?.pct ?? (weekTotal ? Math.round((weekDoneCount / weekTotal) * 100) : 0);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-10 md:px-10 md:py-14">
@@ -57,7 +60,7 @@ export function WeekView({
               This week
             </span>
             <span className="text-sm font-semibold text-foreground">
-              {weekDoneCount} / {week.checkpoints.length} checkpoints · {weekPct}%
+              {weekDoneCount} / {weekTotal} items · {weekPct}%
             </span>
           </div>
           <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
@@ -134,9 +137,11 @@ export function WeekView({
           scenario={week.scenario}
           answers={assignment.answers}
           submitted={assignment.submitted}
+          selfScore={assignment.selfScore}
           onChangeAnswers={(v) => onSetAssignment({ answers: v })}
           onSaveDraft={() => onSetAssignment({ submitted: false })}
           onSubmit={() => onSetAssignment({ submitted: true })}
+          onSelfScoreChange={(v) => onSetAssignment({ selfScore: v })}
         />
       </section>
 

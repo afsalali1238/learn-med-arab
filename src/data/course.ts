@@ -160,7 +160,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Arabic Body Parts Vocabulary — Levantine & MSA",
         description: "Colloquial vs. standard anatomical terms with pronunciation drills.",
-        url: "https://www.youtube.com/watch?v=5X-X9g0oZgI",
+        url: "https://www.youtube.com/results?search_query=arabic+body+parts+levantine+MSA",
       },
       {
         type: "audio",

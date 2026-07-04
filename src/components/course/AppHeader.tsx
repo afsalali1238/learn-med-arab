@@ -13,13 +13,16 @@ export function AppHeader({ title, progressPct }: Props) {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
-        <div className="min-w-0">
-          <h1 className="truncate text-sm font-bold leading-tight sm:text-base">
-            {title}
-          </h1>
-          <p className="text-[11px] text-muted-foreground sm:text-xs">
-            Clinical Arabic Course
-          </p>
+        <div className="flex min-w-0 items-center gap-2.5">
+          <img src="/provia-logo.png" alt="" aria-hidden="true" className="h-7 w-7 shrink-0" />
+          <div className="min-w-0">
+            <span className="block text-base font-black italic tracking-tighter bg-gradient-to-r from-blue-500 to-emerald-400 bg-clip-text text-transparent sm:text-lg">
+              PROVIA
+            </span>
+            <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
+              {title}
+            </p>
+          </div>
         </div>
         <div className="flex items-center gap-4">
           <div className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground sm:text-sm">
