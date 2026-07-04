@@ -35,10 +35,7 @@ export function SyllabusView({
           const unlocked = isUnlocked(index);
           const pct = perWeekPct[week.id] ?? 0;
           const done = pct === 100;
-          const submitted = !!assignments[week.id]?.submitted;
-          const maxXp = weekMaxXp(week);
-          const earnedXp = weekEarnedXp(week, completedCheckpoints, submitted);
-          const remainingXp = Math.max(0, maxXp - earnedXp);
+
 
           return (
             <li key={week.id}>
