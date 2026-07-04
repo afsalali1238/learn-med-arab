@@ -1,5 +1,6 @@
-import { BookOpen, GraduationCap, Menu } from "lucide-react";
+import { BookOpen, Flame, GraduationCap, Menu, Trophy } from "lucide-react";
 import type { Week } from "@/data/course";
+import type { Stats } from "@/lib/gamification";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,10 @@ interface Props {
   perWeekPct: Record<string, number>;
   onOpenVocab: () => void;
   vocabCount: number;
+  stats: Stats;
+  streak: number;
+  earnedBadges: number;
+  totalBadges: number;
 }
 
 export function MobileTopBar({
@@ -29,6 +34,10 @@ export function MobileTopBar({
   perWeekPct,
   onOpenVocab,
   vocabCount,
+  stats,
+  streak,
+  earnedBadges,
+  totalBadges,
 }: Props) {
   const [open, setOpen] = useState(false);
   const activeWeek = weeks.find((w) => w.id === activeWeekId);
