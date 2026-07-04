@@ -1,11 +1,9 @@
 import { ChevronRight, Lock, Check } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
-import { weekMaxXp, weekEarnedXp } from "@/lib/xp";
 
 interface Props {
   weeks: Week[];
-  completedCheckpoints: string[];
   assignments: Record<string, { submitted: boolean }>;
   perWeekPct: Record<string, number>;
   onSelectWeek: (id: string) => void;
@@ -13,8 +11,6 @@ interface Props {
 
 export function SyllabusView({
   weeks,
-  completedCheckpoints,
-  assignments,
   perWeekPct,
   onSelectWeek,
 }: Props) {
@@ -39,10 +35,7 @@ export function SyllabusView({
           const unlocked = isUnlocked(index);
           const pct = perWeekPct[week.id] ?? 0;
           const done = pct === 100;
-          const submitted = !!assignments[week.id]?.submitted;
-          const maxXp = weekMaxXp(week);
-          const earnedXp = weekEarnedXp(week, completedCheckpoints, submitted);
-          const remainingXp = Math.max(0, maxXp - earnedXp);
+
 
           return (
             <li key={week.id}>
@@ -84,13 +77,9 @@ export function SyllabusView({
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                       Week {week.number}
                     </span>
-                    {unlocked && remainingXp > 0 && (
-                      <span className="text-[10px] font-semibold text-primary">
-                        +{remainingXp} XP
-                      </span>
-                    )}
                     {done && (
                       <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+
                         Complete
                       </span>
                     )}

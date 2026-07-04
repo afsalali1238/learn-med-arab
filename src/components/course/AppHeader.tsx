@@ -1,13 +1,9 @@
-import { Zap } from "lucide-react";
-
 interface Props {
   title: string;
-  level: number;
-  xp: number;
   progressPct: number;
 }
 
-export function AppHeader({ title, level, xp, progressPct }: Props) {
+export function AppHeader({ title, progressPct }: Props) {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex max-w-3xl items-center justify-between gap-3 px-4 py-3 sm:px-6">
@@ -16,14 +12,11 @@ export function AppHeader({ title, level, xp, progressPct }: Props) {
             {title}
           </h1>
           <p className="text-[11px] text-muted-foreground sm:text-xs">
-            Level {level} · Student
+            Clinical Arabic Course
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1.5 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
-          <Zap className="h-3.5 w-3.5 fill-emerald-500 text-emerald-500" />
-          <span className="text-xs font-semibold tabular-nums sm:text-sm">
-            {xp} XP
-          </span>
+        <div className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground sm:text-sm">
+          {progressPct}%
         </div>
       </div>
       <div className="h-1 w-full bg-muted">
