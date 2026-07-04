@@ -1,11 +1,13 @@
-import { Clock } from "lucide-react";
+import { Clock, Flame, Trophy } from "lucide-react";
 import type { Week, VocabEntry } from "@/data/course";
+import type { Badge, Stats } from "@/lib/gamification";
 import { CoreConceptsCards } from "./CoreConceptsCards";
 import { ResourceGrid } from "./ResourceGrid";
 import { CheckpointTimeline } from "./CheckpointTimeline";
 import { ClinicalScenario } from "./ClinicalScenario";
 import { WeeklyNotes } from "./WeeklyNotes";
 import { VocabTables } from "./VocabTables";
+import { BadgesGrid } from "./BadgesGrid";
 
 interface Props {
   week: Week;
@@ -16,6 +18,9 @@ interface Props {
   onSetAssignment: (patch: Partial<{ answers: string; submitted: boolean }>) => void;
   onSetNote: (value: string) => void;
   onAddVocab: (entry: Omit<VocabEntry, "id">) => void;
+  stats: Stats;
+  streak: number;
+  badges: Badge[];
 }
 
 export function WeekView({
