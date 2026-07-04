@@ -8,6 +8,9 @@ export interface CourseProgress {
   assignments: Record<string, { answers: string; submitted: boolean }>;
   notes: Record<string, string>;
   vocabBank: VocabEntry[];
+  streak: number;
+  longestStreak: number;
+  lastActiveDate: string | null;
 }
 
 const EMPTY: CourseProgress = {
@@ -15,6 +18,9 @@ const EMPTY: CourseProgress = {
   assignments: {},
   notes: {},
   vocabBank: [],
+  streak: 0,
+  longestStreak: 0,
+  lastActiveDate: null,
 };
 
 function load(): CourseProgress {
@@ -28,10 +34,30 @@ function load(): CourseProgress {
       assignments: parsed.assignments ?? {},
       notes: parsed.notes ?? {},
       vocabBank: parsed.vocabBank ?? [],
+      streak: parsed.streak ?? 0,
+      longestStreak: parsed.longestStreak ?? 0,
+      lastActiveDate: parsed.lastActiveDate ?? null,
     };
   } catch {
     return EMPTY;
   }
+}
+
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function bumpStreak(p: CourseProgress): CourseProgress {
+  const today = todayKey();
+  if (p.lastActiveDate === today) return p;
+  const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+  const nextStreak = p.lastActiveDate === yesterday ? p.streak + 1 : 1;
+  return {
+    ...p,
+    streak: nextStreak,
+    longestStreak: Math.max(p.longestStreak, nextStreak),
+    lastActiveDate: today,
+  };
 }
 
 export function useCourseProgress() {
