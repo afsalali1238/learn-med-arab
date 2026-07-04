@@ -1,5 +1,6 @@
-import { BookOpen, GraduationCap, Menu } from "lucide-react";
+import { BookOpen, Flame, GraduationCap, Menu, Trophy } from "lucide-react";
 import type { Week } from "@/data/course";
+import type { Stats } from "@/lib/gamification";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetHeader } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
@@ -16,6 +17,10 @@ interface Props {
   perWeekPct: Record<string, number>;
   onOpenVocab: () => void;
   vocabCount: number;
+  stats: Stats;
+  streak: number;
+  earnedBadges: number;
+  totalBadges: number;
 }
 
 export function MobileTopBar({
@@ -29,6 +34,10 @@ export function MobileTopBar({
   perWeekPct,
   onOpenVocab,
   vocabCount,
+  stats,
+  streak,
+  earnedBadges,
+  totalBadges,
 }: Props) {
   const [open, setOpen] = useState(false);
   const activeWeek = weeks.find((w) => w.id === activeWeekId);
@@ -51,21 +60,37 @@ export function MobileTopBar({
                 {courseTitle}
               </SheetTitle>
             </SheetHeader>
-            <div className="border-b border-border px-5 py-4">
-              <div className="mb-2 flex items-baseline justify-between">
-                <span className="text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                  Progress
-                </span>
-                <span className="text-sm font-semibold">{globalPct}%</span>
+            <div className="space-y-3 border-b border-border px-4 py-4">
+              <div className="flex items-center justify-between rounded-xl border border-border bg-card p-3">
+                <div className="flex items-center gap-2">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground">
+                    <span className="text-sm font-black">{stats.level}</span>
+                  </div>
+                  <div>
+                    <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">Level</div>
+                    <div className="text-sm font-semibold">{stats.xp} XP</div>
+                  </div>
+                </div>
+                <div className="flex flex-col items-end gap-1 text-xs">
+                  <span className="inline-flex items-center gap-1 rounded-full bg-orange-500/10 px-2 py-0.5 text-orange-600 dark:text-orange-400">
+                    <Flame className="h-3 w-3" /> {streak}d
+                  </span>
+                  <span className="inline-flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-amber-600 dark:text-amber-400">
+                    <Trophy className="h-3 w-3" /> {earnedBadges}/{totalBadges}
+                  </span>
+                </div>
               </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                <div
-                  className="h-full rounded-full bg-primary transition-all duration-500"
-                  style={{ width: `${globalPct}%` }}
-                />
-              </div>
-              <div className="mt-2 text-xs text-muted-foreground">
-                {globalCompleted} / {totalCheckpoints} checkpoints
+              <div>
+                <div className="mb-1 flex items-baseline justify-between">
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">Course Progress</span>
+                  <span className="text-xs font-semibold">{globalPct}%</span>
+                </div>
+                <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
+                  <div className="h-full rounded-full bg-primary transition-all duration-500" style={{ width: `${globalPct}%` }} />
+                </div>
+                <div className="mt-1 text-[11px] text-muted-foreground">
+                  {globalCompleted} / {totalCheckpoints} checkpoints
+                </div>
               </div>
             </div>
             <nav className="max-h-[calc(100vh-260px)] overflow-y-auto px-3 py-3">
@@ -139,11 +164,17 @@ export function MobileTopBar({
         </Sheet>
 
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-            Week {activeWeek?.number} · {globalPct}%
+          <div className="flex items-center gap-1.5 text-[11px] font-medium">
+            <span className="inline-flex h-4 min-w-4 items-center justify-center rounded bg-primary px-1 text-[10px] font-black text-primary-foreground">
+              L{stats.level}
+            </span>
+            <span className="text-muted-foreground">{stats.xp} XP</span>
+            <span className="inline-flex items-center gap-0.5 text-orange-600 dark:text-orange-400">
+              <Flame className="h-3 w-3" />{streak}
+            </span>
           </div>
           <div className="truncate text-sm font-semibold text-foreground">
-            {activeWeek?.title}
+            W{activeWeek?.number}: {activeWeek?.title}
           </div>
         </div>
 
