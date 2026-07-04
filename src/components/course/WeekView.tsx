@@ -147,6 +147,12 @@ export function WeekView({
         <h2 className="mb-4 text-lg font-semibold text-foreground">Weekly Clinical Notes</h2>
         <WeeklyNotes value={note} onChange={onSetNote} />
       </section>
+
+      {/* Achievements (visible on mobile where sidebar is hidden) */}
+      <section className="mb-10 md:hidden">
+        <h2 className="mb-4 text-lg font-semibold text-foreground">Achievements</h2>
+        <BadgesGrid badges={badges} />
+      </section>
     </div>
   );
 }
