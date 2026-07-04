@@ -603,3 +603,10 @@ export const WEEKS: Week[] = [
     },
   },
 ];
+
+export interface VocabEntry {
+  id: string;
+  arabic: string;
+  transliteration: string;
+  note?: string;
+}
