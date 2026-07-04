@@ -2,6 +2,7 @@ import { Award, BookOpen, Flame, Target, Trophy, Zap } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
 import { weekMaxXp, weekEarnedXp } from "@/lib/xp";
+import { computeAchievements } from "@/lib/achievements";
 
 interface Props {
   weeks: Week[];
@@ -68,6 +69,18 @@ export function StatsView({
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
   const levelPct = Math.round((intoLevel / nextLevel) * 100);
+
+  const achievements = computeAchievements({
+    checkpointsDone,
+    weeksComplete,
+    totalWeeks: weeks.length,
+    scenariosSubmitted,
+    vocabCount,
+    streak,
+    longestStreak,
+    xp,
+  });
+  const earnedCount = achievements.filter((a) => a.earned).length;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
@@ -142,6 +155,64 @@ export function StatsView({
           value={xp}
           accent="bg-primary/10 text-primary"
         />
+      </div>
+
+      {/* Achievement badges */}
+      <div className="mt-6">
+        <div className="mb-3 flex items-baseline justify-between">
+          <h3 className="text-sm font-semibold">Achievements</h3>
+          <span className="text-[11px] font-medium tabular-nums text-muted-foreground">
+            {earnedCount} / {achievements.length} earned
+          </span>
+        </div>
+        <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
+          {achievements.map((a) => {
+            const Icon = a.icon;
+            return (
+              <li
+                key={a.id}
+                className={cn(
+                  "rounded-xl border p-3 transition-all",
+                  a.earned
+                    ? "border-border bg-card"
+                    : "border-dashed border-border/70 bg-muted/30",
+                )}
+              >
+                <div className="flex items-start gap-2.5">
+                  <div
+                    className={cn(
+                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
+                      a.earned ? a.accent : "bg-muted text-muted-foreground",
+                    )}
+                  >
+                    <Icon className="h-4 w-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div
+                      className={cn(
+                        "truncate text-[13px] font-semibold leading-tight",
+                        !a.earned && "text-muted-foreground",
+                      )}
+                    >
+                      {a.title}
+                    </div>
+                    <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
+                      {a.description}
+                    </div>
+                  </div>
+                </div>
+                {!a.earned && (
+                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-muted">
+                    <div
+                      className="h-full rounded-full bg-primary/60 transition-all"
+                      style={{ width: `${a.progress}%` }}
+                    />
+                  </div>
+                )}
+              </li>
+            );
+          })}
+        </ul>
       </div>
 
       {/* Per-week breakdown */}

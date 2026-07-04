@@ -19,8 +19,8 @@ export function AppHeader({ title, level, xp, progressPct }: Props) {
             Level {level} · Student
           </p>
         </div>
-        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1.5 text-primary">
-          <Zap className="h-3.5 w-3.5 fill-primary" />
+        <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1.5 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-300">
+          <Zap className="h-3.5 w-3.5 fill-emerald-500 text-emerald-500" />
           <span className="text-xs font-semibold tabular-nums sm:text-sm">
             {xp} XP
           </span>
