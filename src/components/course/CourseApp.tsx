@@ -18,34 +18,21 @@ export function CourseApp() {
     removeVocab,
     exportProgress,
     importProgress,
+    calculateWeekProgress,
+    calculateOverallProgress,
   } = useCourseProgress();
 
   const [tab, setTab] = useState<NavTab>("syllabus");
 
-  const totalCheckpoints = useMemo(
-    () => WEEKS.reduce((n, w) => n + w.checkpoints.length + 1, 0), // +1 for the scenario
-    [],
-  );
-  const globalCompleted = 
-    progress.completedCheckpoints.length + 
-    Object.values(progress.assignments).filter((a) => a.submitted).length;
-  const globalPct = totalCheckpoints
-    ? Math.round((globalCompleted / totalCheckpoints) * 100)
-    : 0;
+  const { totalCheckpoints, globalPct } = calculateOverallProgress();
 
   const perWeekPct = useMemo(() => {
     const map: Record<string, number> = {};
     WEEKS.forEach((w) => {
-      const doneCheckpoints = w.checkpoints.filter((c) =>
-        progress.completedCheckpoints.includes(c.id),
-      ).length;
-      const scenarioDone = progress.assignments[w.id]?.submitted ? 1 : 0;
-      const total = w.checkpoints.length + 1;
-      
-      map[w.id] = Math.round(((doneCheckpoints + scenarioDone) / total) * 100);
+      map[w.id] = calculateWeekProgress(w.id).pct;
     });
     return map;
-  }, [progress.completedCheckpoints, progress.assignments]);
+  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress]);
 
   // Gentle celebration on week completion only
   const prevWeekPct = useRef<Record<string, number>>({});

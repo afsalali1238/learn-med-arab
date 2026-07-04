@@ -211,8 +211,8 @@ export function VocabBankView({ entries, onAdd, onRemove }: Props) {
               )}>
                 {/* Front (Arabic) */}
                 <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center p-6 text-center">
-                  <p dir="rtl" className="font-arabic text-3xl sm:text-4xl text-foreground mb-4">
-                    {filteredEntries[flashcardIndex].arabic}
+                  <p dir="auto" className="font-arabic text-3xl sm:text-4xl text-foreground mb-4">
+                    {filteredEntries[flashcardIndex].arabic || filteredEntries[flashcardIndex].transliteration}
                   </p>
                   <div className="text-xs text-muted-foreground flex items-center gap-1 mt-4">
                     <RotateCcw className="h-3 w-3" /> Click to flip

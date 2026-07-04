@@ -83,7 +83,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           "An 8-week self-paced course for pharmacists to master conversational Medical Arabic in Dubai — Khaleeji and Levantine dialects, clinical scenarios, and cultural competency.",
       },
       { name: "author", content: "Provia" },
-      { name: "theme-color", content: "#f8fafc" },
+      { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#f8fafc" },
+      { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#020817" },
       { property: "og:title", content: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai" },
       {
         property: "og:description",

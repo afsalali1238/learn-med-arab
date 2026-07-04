@@ -62,7 +62,7 @@ function WeekRoute() {
           completedCheckpoints={progress.completedCheckpoints}
           assignment={progress.assignments[activeWeek.id] ?? { answers: "", submitted: false }}
           note={progress.notes[activeWeek.id] ?? ""}
-          weekProgress={calculateWeekProgress(activeWeek.id, activeWeek.checkpoints.length)}
+          weekProgress={calculateWeekProgress(activeWeek.id)}
           onToggleCheckpoint={toggleCheckpoint}
           onSetAssignment={(patch) => setAssignment(activeWeek.id, patch)}
           onSetNote={(v) => setNote(activeWeek.id, v)}

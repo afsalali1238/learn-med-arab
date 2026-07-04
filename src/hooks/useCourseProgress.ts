@@ -110,14 +110,16 @@ export function useCourseProgress() {
   const exportProgress = useCallback(() => {
     try {
       const dataStr = JSON.stringify(progress, null, 2);
-      const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
       
       const exportFileDefaultName = `medical-arabic-progress-${new Date().toISOString().split('T')[0]}.json`;
       
       const linkElement = document.createElement("a");
-      linkElement.setAttribute("href", dataUri);
+      linkElement.setAttribute("href", url);
       linkElement.setAttribute("download", exportFileDefaultName);
       linkElement.click();
+      URL.revokeObjectURL(url);
       
       toast.success("Progress exported successfully");
     } catch (e) {
@@ -156,9 +158,7 @@ export function useCourseProgress() {
     reader.readAsText(file);
   }, []);
 
-  const calculateWeekProgress = useCallback((weekId: string, weekCheckpointsCount: number) => {
-    const doneCheckpoints = progress.completedCheckpoints.filter((c) => c.startsWith(weekId)).length; 
-    // actually, WEEKS.find(w => w.id === weekId).checkpoints.length is safer but weekCheckpointsCount is passed in. Let's just use WEEKS.
+  const calculateWeekProgress = useCallback((weekId: string) => {
     const week = WEEKS.find((w) => w.id === weekId);
     if (!week) return { done: 0, total: 1, pct: 0 };
     
