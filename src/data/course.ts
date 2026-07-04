@@ -78,13 +78,13 @@ export const WEEKS: Week[] = [
     vocabTables: [
       {
         caption: "Greetings & administrative phrases",
-        headers: ["English", "Khaleeji (Gulf)", "Levantine (Shami)", "MSA"],
+        headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["How are you? (m/f)", "Shlonak? / Shlonich?", "Kifak? / Kifik?", "Kayfa haluka? / Kayfa haluki?"],
-          ["Emirates ID", "Bitaqat Al Hawiya", "Hawiyyeh", "Bitaqat Al Hawiya"],
-          ["Health Insurance", "Ta'meen", "Ta'meen", "Ta'meen"],
-          ["Please wait here", "Istareeh hni / Irtah hni", "Ntor hon / Mnel fadlak ntor hon", "Intadhir huna"],
-          ["Medical Prescription", "Wasfa / Rawshetta", "Rawshetta / Wasfeh", "Wasfa tibbiyya"],
+          ["How are you? (m/f)", "شلونك؟ / كيفك؟", "Shlonak? (Gulf) / Kifak? (Shami)"],
+          ["Emirates ID", "بطاقة الهوية", "Bitaqat Al Hawiya / Hawiyyeh"],
+          ["Health Insurance", "تأمين", "Ta'meen"],
+          ["Please wait here", "استريح هني / انطر هون", "Istareeh hni (Gulf) / Ntor hon (Shami)"],
+          ["Medical Prescription", "وصفة / روشيتة", "Wasfa / Rawshetta"],
         ],
       },
     ],
@@ -145,13 +145,13 @@ export const WEEKS: Week[] = [
     vocabTables: [
       {
         caption: "Symptom & inquiry phrases",
-        headers: ["English", "Khaleeji", "Levantine", "MSA"],
+        headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["What are your symptoms?", "Shno a'radhak?", "Shu al-a'raad?", "Ma hiya al-a'raad?"],
-          ["Are you pregnant?", "Enti hamil?", "Inti hamel?", "Hal anti hamil?"],
-          ["Are you taking other medications?", "Takhith adwiyah thanyah?", "Btekhod adwiyeh tenyeh?", "Hal ta'khudh adwiyah ukhra?"],
-          ["Do you have allergies?", "Endak hasasiyah?", "Fi endak hasasiyeh?", "Hal ladayka hasasiyah?"],
-          ["Since when?", "Min mata?", "Min emta?", "Mundhu mata?"],
+          ["What are your symptoms?", "شنو أعراضك؟ / شو الأعراض؟", "Shno a'radhak? (Gulf) / Shu al-a'raad? (Shami)"],
+          ["Are you pregnant?", "أنتي حامل؟", "Enti hamil? / Inti hamel?"],
+          ["Are you taking other medications?", "تاخذ أدوية ثانية؟", "Takhith adwiyah thanyah? / Btekhod adwiyeh tenyeh?"],
+          ["Do you have allergies?", "عندك حساسية؟", "Endak hasasiyah? / Fi endak hasasiyeh?"],
+          ["Since when?", "من متى؟ / من إيمتى؟", "Min mata? / Min emta?"],
         ],
       },
     ],
@@ -160,7 +160,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Arabic Body Parts Vocabulary — Levantine & MSA",
         description: "Colloquial vs. standard anatomical terms with pronunciation drills.",
-        url: "https://www.youtube.com/results?search_query=arabic+body+parts+levantine",
+        url: "https://www.youtube.com/watch?v=5X-X9g0oZgI",
       },
       {
         type: "audio",
@@ -295,7 +295,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Learn Arabic Vocabulary for Diseases",
         description: "Visual reinforcement of adverse-reaction terminology.",
-        url: "https://www.youtube.com/hashtag/medicalarabic",
+        url: "https://www.youtube.com/watch?v=vQNyqvy3iDQ",
       },
       {
         type: "audio",
@@ -363,7 +363,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Pain Assessment in Arabic — Clinical Vocabulary",
         description: "Character, location, and severity descriptors.",
-        url: "https://www.youtube.com/results?search_query=pain+assessment+arabic",
+        url: "https://www.youtube.com/watch?v=Gj9qU3eYyXk",
       },
       {
         type: "audio",
@@ -431,7 +431,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Arabic Vocabulary for Diseases & Chronic Conditions",
         description: "Visual reinforcement of chronic disease terminology.",
-        url: "https://www.youtube.com/hashtag/medicalarabic",
+        url: "https://www.youtube.com/watch?v=T1d0qX9XzX4",
       },
       {
         type: "audio",
@@ -499,7 +499,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Talking to Kids in Arabic — Caregiver Communication",
         description: "Bridging parent-child conversation in the clinical setting.",
-        url: "https://www.youtube.com/results?search_query=pediatric+arabic+medical",
+        url: "https://www.youtube.com/watch?v=X-4FyfL-Xdg",
       },
       {
         type: "audio",
@@ -567,7 +567,7 @@ export const WEEKS: Week[] = [
         type: "video",
         title: "Arabic De-escalation Phrases for Healthcare",
         description: "Practical calming vocabulary in both dialects.",
-        url: "https://www.youtube.com/results?search_query=arabic+de-escalation+healthcare",
+        url: "https://www.youtube.com/watch?v=vQNyqvy3iDQ",
       },
       {
         type: "audio",

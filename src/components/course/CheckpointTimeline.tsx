@@ -27,9 +27,12 @@ export function CheckpointTimeline({ checkpoints, completed, onToggle }: Props) 
             </span>
             <button
               onClick={() => onToggle(c.id)}
+              role="checkbox"
+              aria-checked={isDone}
+              aria-label={`Mark complete: ${c.label}`}
               className={cn(
                 "flex w-full items-start gap-3 rounded-lg border border-border bg-card p-4 text-left transition-all hover:border-primary/40",
-                isDone && "border-emerald-500/30 bg-emerald-50/50",
+                isDone && "border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-900/20",
               )}
             >
               <span

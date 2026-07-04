@@ -2,6 +2,7 @@ import { Bookmark } from "lucide-react";
 import type { VocabTable, VocabEntry } from "@/data/course";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { SpeakButton } from "./SpeakButton";
 
 interface Props {
   tables: VocabTable[];
@@ -46,21 +47,31 @@ export function VocabTables({ tables, onSaveToVocab }: Props) {
                       key={ri}
                       className="border-b border-border last:border-b-0 hover:bg-muted/20"
                     >
-                      {row.map((cell, ci) => (
-                        <td
-                          key={ci}
-                          dir={looksArabic(cell) ? "rtl" : "ltr"}
-                          className={
-                            looksArabic(cell)
-                              ? "px-4 py-3 text-right font-arabic text-base leading-relaxed text-foreground"
-                              : ci === 0
-                                ? "px-4 py-3 font-medium text-foreground"
-                                : "px-4 py-3 text-muted-foreground"
-                          }
-                        >
-                          {cell}
-                        </td>
-                      ))}
+                      {row.map((cell, ci) => {
+                        const isArabic = looksArabic(cell);
+                        return (
+                          <td
+                            key={ci}
+                            dir={isArabic ? "rtl" : "ltr"}
+                            className={
+                              isArabic
+                                ? "px-4 py-3 text-right font-arabic text-base leading-relaxed text-foreground"
+                                : ci === 0
+                                  ? "px-4 py-3 font-medium text-foreground"
+                                  : "px-4 py-3 text-muted-foreground"
+                            }
+                          >
+                            {isArabic ? (
+                              <div className="flex items-center gap-2 justify-end">
+                                <span>{cell}</span>
+                                <SpeakButton text={cell} className="opacity-0 transition-opacity [tr:hover_&]:opacity-100 focus:opacity-100" />
+                              </div>
+                            ) : (
+                              cell
+                            )}
+                          </td>
+                        );
+                      })}
                       <td className="px-2 py-3 text-right">
                         <Button
                           size="icon"

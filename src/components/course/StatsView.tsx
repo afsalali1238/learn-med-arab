@@ -1,6 +1,8 @@
-import { BookOpen, Target, Trophy, Award } from "lucide-react";
+import { BookOpen, Target, Trophy, Award, Download, Upload } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { useRef } from "react";
 
 interface Props {
   weeks: Week[];
@@ -9,6 +11,8 @@ interface Props {
   perWeekPct: Record<string, number>;
   totalCheckpoints: number;
   vocabCount: number;
+  onExport?: () => void;
+  onImport?: (file: File) => void;
 }
 
 function StatCard({
@@ -47,13 +51,28 @@ export function StatsView({
   perWeekPct,
   totalCheckpoints,
   vocabCount,
+  onExport,
+  onImport,
 }: Props) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
   const checkpointsDone = completedCheckpoints.length;
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
   const overallPct = totalCheckpoints
     ? Math.round((checkpointsDone / totalCheckpoints) * 100)
     : 0;
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file && onImport) {
+      onImport(file);
+    }
+    // reset the input
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
@@ -143,6 +162,31 @@ export function StatsView({
             );
           })}
         </ul>
+      </div>
+
+      {/* Data Management */}
+      <div className="mt-8 rounded-2xl border border-border bg-card p-5">
+        <h3 className="mb-1 text-sm font-semibold">Backup Progress</h3>
+        <p className="mb-4 text-xs text-muted-foreground">
+          Your progress is stored on this device. Export it to save a backup, or import a previous backup file.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-3">
+          <Button variant="outline" onClick={onExport} className="gap-2 flex-1">
+            <Download className="h-4 w-4" />
+            Export Data
+          </Button>
+          <Button variant="outline" onClick={() => fileInputRef.current?.click()} className="gap-2 flex-1">
+            <Upload className="h-4 w-4" />
+            Import Data
+          </Button>
+          <input
+            type="file"
+            accept=".json"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+        </div>
       </div>
     </div>
   );
