@@ -1,11 +1,9 @@
 import { ChevronRight, Lock, Check } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
-import { weekMaxXp, weekEarnedXp } from "@/lib/xp";
 
 interface Props {
   weeks: Week[];
-  completedCheckpoints: string[];
   assignments: Record<string, { submitted: boolean }>;
   perWeekPct: Record<string, number>;
   onSelectWeek: (id: string) => void;
@@ -13,8 +11,6 @@ interface Props {
 
 export function SyllabusView({
   weeks,
-  completedCheckpoints,
-  assignments,
   perWeekPct,
   onSelectWeek,
 }: Props) {
