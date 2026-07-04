@@ -79,7 +79,7 @@ export function useCourseProgress() {
   }, [progress, hydrated]);
 
   const toggleCheckpoint = useCallback((id: string) => {
-    setProgress((p) => ({
+    setProgress((p) => bumpStreak({
       ...p,
       completedCheckpoints: p.completedCheckpoints.includes(id)
         ? p.completedCheckpoints.filter((c) => c !== id)
@@ -91,21 +91,21 @@ export function useCourseProgress() {
     (weekId: string, patch: Partial<{ answers: string; submitted: boolean }>) => {
       setProgress((p) => {
         const prev = p.assignments[weekId] ?? { answers: "", submitted: false };
-        return {
+        return bumpStreak({
           ...p,
           assignments: { ...p.assignments, [weekId]: { ...prev, ...patch } },
-        };
+        });
       });
     },
     [],
   );
 
   const setNote = useCallback((weekId: string, value: string) => {
-    setProgress((p) => ({ ...p, notes: { ...p.notes, [weekId]: value } }));
+    setProgress((p) => bumpStreak({ ...p, notes: { ...p.notes, [weekId]: value } }));
   }, []);
 
   const addVocab = useCallback((entry: Omit<VocabEntry, "id">) => {
-    setProgress((p) => ({
+    setProgress((p) => bumpStreak({
       ...p,
       vocabBank: [
         ...p.vocabBank,
