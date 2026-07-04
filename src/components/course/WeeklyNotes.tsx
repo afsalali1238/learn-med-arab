@@ -24,7 +24,9 @@ export function WeeklyNotes({ value, onChange }: Props) {
       setSaved(true);
       setTimeout(() => setSaved(false), 1500);
     }, 400);
-    return () => timer.current && clearTimeout(timer.current);
+    return () => {
+      if (timer.current) clearTimeout(timer.current);
+    };
   }, [local, value, onChange]);
 
   return (
