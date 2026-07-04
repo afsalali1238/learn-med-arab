@@ -1,6 +1,9 @@
 import { BookOpen, GraduationCap, Sparkles } from "lucide-react";
 import type { Week } from "@/data/course";
+import type { Badge, Stats } from "@/lib/gamification";
 import { Button } from "@/components/ui/button";
+import { StatsBar } from "./StatsBar";
+import { BadgesGrid } from "./BadgesGrid";
 import { cn } from "@/lib/utils";
 
 interface Props {
