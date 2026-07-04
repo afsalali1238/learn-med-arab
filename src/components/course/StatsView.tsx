@@ -70,6 +70,18 @@ export function StatsView({
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
   const levelPct = Math.round((intoLevel / nextLevel) * 100);
 
+  const achievements = computeAchievements({
+    checkpointsDone,
+    weeksComplete,
+    totalWeeks: weeks.length,
+    scenariosSubmitted,
+    vocabCount,
+    streak,
+    longestStreak,
+    xp,
+  });
+  const earnedCount = achievements.filter((a) => a.earned).length;
+
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
       <h2 className="text-xl font-bold sm:text-2xl">Your Progress</h2>
