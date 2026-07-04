@@ -77,13 +77,9 @@ export function SyllabusView({
                     <span className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
                       Week {week.number}
                     </span>
-                    {unlocked && remainingXp > 0 && (
-                      <span className="text-[10px] font-semibold text-primary">
-                        +{remainingXp} XP
-                      </span>
-                    )}
                     {done && (
                       <span className="text-[10px] font-semibold text-emerald-600 dark:text-emerald-400">
+
                         Complete
                       </span>
                     )}
