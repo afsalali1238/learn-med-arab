@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { WEEKS, COURSE_TITLE, COURSE_SUBTITLE, CAPSTONE } from "@/data/course";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { Sidebar } from "./Sidebar";
+import { MobileTopBar } from "./MobileTopBar";
 import { WeekView } from "./WeekView";
 import { VocabBankModal } from "./VocabBankModal";
 import { Toaster } from "@/components/ui/sonner";
@@ -48,6 +49,18 @@ export function CourseApp() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
+      <MobileTopBar
+        courseTitle={COURSE_TITLE}
+        weeks={WEEKS}
+        activeWeekId={activeWeek.id}
+        onSelectWeek={setActiveWeekId}
+        globalPct={globalPct}
+        globalCompleted={globalCompleted}
+        totalCheckpoints={totalCheckpoints}
+        perWeekPct={perWeekPct}
+        onOpenVocab={() => setVocabOpen(true)}
+        vocabCount={progress.vocabBank.length}
+      />
       <div className="mx-auto flex min-h-screen max-w-[1400px]">
         <Sidebar
           courseTitle={COURSE_TITLE}
@@ -63,7 +76,7 @@ export function CourseApp() {
           vocabCount={progress.vocabBank.length}
           capstoneTitle={CAPSTONE.title}
         />
-        <main className="flex-1 overflow-y-auto">
+        <main className="min-w-0 flex-1 overflow-y-auto">
           <WeekView
             week={activeWeek}
             completedCheckpoints={progress.completedCheckpoints}
