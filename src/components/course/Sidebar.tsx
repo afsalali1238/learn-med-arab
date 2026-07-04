@@ -1,9 +1,7 @@
 import { BookOpen, GraduationCap, Sparkles } from "lucide-react";
 import type { Week } from "@/data/course";
-import type { Badge, Stats } from "@/lib/gamification";
 import { Button } from "@/components/ui/button";
-import { StatsBar } from "./StatsBar";
-import { BadgesGrid } from "./BadgesGrid";
+import { ProgressSummary } from "./ProgressSummary";
 import { cn } from "@/lib/utils";
 
 interface Props {
@@ -19,9 +17,11 @@ interface Props {
   onOpenVocab: () => void;
   vocabCount: number;
   capstoneTitle: string;
-  stats: Stats;
-  streak: number;
-  badges: Badge[];
+  weeksComplete: number;
+  weeksTotal: number;
+  scenariosSubmitted: number;
+  scenariosTotal: number;
+  activeDays: number;
 }
 
 export function Sidebar({
@@ -37,12 +37,14 @@ export function Sidebar({
   onOpenVocab,
   vocabCount,
   capstoneTitle,
-  stats,
-  streak,
-  badges,
+  weeksComplete,
+  weeksTotal,
+  scenariosSubmitted,
+  scenariosTotal,
+  activeDays,
 }: Props) {
   return (
-    <aside className="sticky top-0 hidden h-screen w-[300px] shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground md:flex">
+    <aside className="sticky top-0 hidden h-screen w-[320px] shrink-0 flex-col border-r border-border bg-sidebar text-sidebar-foreground md:flex">
       <div className="flex items-center gap-3 border-b border-border px-6 py-5">
         <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary text-primary-foreground">
           <GraduationCap className="h-5 w-5" />
@@ -53,31 +55,18 @@ export function Sidebar({
         </div>
       </div>
 
-      <div className="space-y-3 border-b border-border px-4 py-4">
-        <StatsBar
-          stats={stats}
-          streak={streak}
-          earnedBadges={badges.filter((b) => b.earned).length}
-          totalBadges={badges.length}
+      <div className="border-b border-border px-4 py-4">
+        <ProgressSummary
+          globalPct={globalPct}
+          checkpointsDone={globalCompleted}
+          checkpointsTotal={totalCheckpoints}
+          weeksComplete={weeksComplete}
+          weeksTotal={weeksTotal}
+          scenariosSubmitted={scenariosSubmitted}
+          scenariosTotal={scenariosTotal}
+          vocabSaved={vocabCount}
+          activeDays={activeDays}
         />
-        <div>
-          <div className="mb-1 flex items-baseline justify-between">
-            <span className="text-[10px] font-medium uppercase tracking-wider text-muted-foreground">
-              Course Progress
-            </span>
-            <span className="text-xs font-semibold text-foreground">{globalPct}%</span>
-          </div>
-          <div className="h-1.5 w-full overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-all duration-500 ease-out"
-              style={{ width: `${globalPct}%` }}
-            />
-          </div>
-          <div className="mt-1 text-[11px] text-muted-foreground">
-            {globalCompleted} / {totalCheckpoints} checkpoints
-          </div>
-        </div>
-        <BadgesGrid badges={badges} />
       </div>
 
       <nav className="flex-1 overflow-y-auto px-3 py-4">
@@ -88,6 +77,7 @@ export function Sidebar({
           {weeks.map((w) => {
             const isActive = w.id === activeWeekId;
             const pct = perWeekPct[w.id] ?? 0;
+            const done = pct === 100;
             return (
               <li key={w.id}>
                 <button
@@ -103,22 +93,27 @@ export function Sidebar({
                     <span
                       className={cn(
                         "flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-xs font-semibold",
-                        isActive
-                          ? "bg-primary text-primary-foreground"
-                          : "bg-muted text-muted-foreground group-hover:bg-background",
+                        done
+                          ? "bg-emerald-500 text-white"
+                          : isActive
+                            ? "bg-primary text-primary-foreground"
+                            : "bg-muted text-muted-foreground group-hover:bg-background",
                       )}
                     >
-                      {w.number}
+                      {done ? "✓" : w.number}
                     </span>
-                    <span className="line-clamp-2 text-sm font-medium leading-snug">
+                    <span className="line-clamp-2 flex-1 text-sm font-medium leading-snug">
                       {w.title}
                     </span>
+                    <span className="shrink-0 text-[11px] tabular-nums text-muted-foreground">
+                      {pct}%
+                    </span>
                   </div>
-                  <div className="ml-8 h-1 w-[calc(100%-2rem)] overflow-hidden rounded-full bg-muted/60">
+                  <div className="ml-8 h-1 overflow-hidden rounded-full bg-muted/60">
                     <div
                       className={cn(
                         "h-full rounded-full transition-all duration-500",
-                        pct === 100 ? "bg-emerald-500" : "bg-primary/70",
+                        done ? "bg-emerald-500" : "bg-primary/70",
                       )}
                       style={{ width: `${pct}%` }}
                     />
