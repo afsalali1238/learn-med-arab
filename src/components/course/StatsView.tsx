@@ -1,8 +1,6 @@
-import { Award, BookOpen, Flame, Target, Trophy, Zap } from "lucide-react";
+import { BookOpen, Target, Trophy, Award } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
-import { weekMaxXp, weekEarnedXp } from "@/lib/xp";
-import { computeAchievements } from "@/lib/achievements";
 
 interface Props {
   weeks: Week[];
@@ -11,25 +9,17 @@ interface Props {
   perWeekPct: Record<string, number>;
   totalCheckpoints: number;
   vocabCount: number;
-  streak: number;
-  longestStreak: number;
-  xp: number;
-  level: number;
-  intoLevel: number;
-  nextLevel: number;
 }
 
 function StatCard({
   icon: Icon,
   label,
   value,
-  hint,
   accent,
 }: {
-  icon: typeof Zap;
+  icon: typeof Target;
   label: string;
   value: string | number;
-  hint?: string;
   accent?: string;
 }) {
   return (
@@ -40,13 +30,12 @@ function StatCard({
           accent ?? "bg-primary/10 text-primary",
         )}
       >
-        <Icon className="h-4.5 w-4.5" />
+        <Icon className="h-4 w-4" />
       </div>
       <div className="text-2xl font-bold tabular-nums">{value}</div>
       <div className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">
         {label}
       </div>
-      {hint && <div className="mt-1 text-[11px] text-muted-foreground">{hint}</div>}
     </div>
   );
 }
@@ -58,67 +47,42 @@ export function StatsView({
   perWeekPct,
   totalCheckpoints,
   vocabCount,
-  streak,
-  longestStreak,
-  xp,
-  level,
-  intoLevel,
-  nextLevel,
 }: Props) {
   const checkpointsDone = completedCheckpoints.length;
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
-  const levelPct = Math.round((intoLevel / nextLevel) * 100);
-
-  const achievements = computeAchievements({
-    checkpointsDone,
-    weeksComplete,
-    totalWeeks: weeks.length,
-    scenariosSubmitted,
-    vocabCount,
-    streak,
-    longestStreak,
-    xp,
-  });
-  const earnedCount = achievements.filter((a) => a.earned).length;
+  const overallPct = totalCheckpoints
+    ? Math.round((checkpointsDone / totalCheckpoints) * 100)
+    : 0;
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
       <h2 className="text-xl font-bold sm:text-2xl">Your Progress</h2>
       <p className="mt-1 text-sm text-muted-foreground">
-        Track how you're growing week by week.
+        A simple view of what you've covered so far.
       </p>
 
-      {/* Level card */}
-      <div className="mt-5 rounded-2xl border border-border bg-gradient-to-br from-primary/5 to-primary/10 p-5">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[11px] font-semibold uppercase tracking-wider text-primary">
-              Level {level}
-            </div>
-            <div className="mt-1 text-lg font-bold">Student</div>
-          </div>
-          <div className="flex items-center gap-1.5 rounded-full bg-primary px-3 py-1.5 text-primary-foreground">
-            <Zap className="h-4 w-4 fill-current" />
-            <span className="text-sm font-bold tabular-nums">{xp} XP</span>
-          </div>
+      {/* Overall progress */}
+      <div className="mt-5 rounded-2xl border border-border bg-card p-5">
+        <div className="mb-2 flex items-center justify-between">
+          <span className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+            Course completion
+          </span>
+          <span className="text-sm font-semibold tabular-nums">{overallPct}%</span>
         </div>
-        <div className="mt-4">
-          <div className="mb-1.5 flex items-center justify-between text-[11px] text-muted-foreground">
-            <span>Progress to Level {level + 1}</span>
-            <span className="tabular-nums">{intoLevel} / {nextLevel} XP</span>
-          </div>
-          <div className="h-2 overflow-hidden rounded-full bg-muted">
-            <div
-              className="h-full rounded-full bg-primary transition-all duration-500"
-              style={{ width: `${levelPct}%` }}
-            />
-          </div>
+        <div className="h-2 overflow-hidden rounded-full bg-muted">
+          <div
+            className={cn(
+              "h-full rounded-full transition-all duration-500",
+              overallPct === 100 ? "bg-emerald-500" : "bg-primary",
+            )}
+            style={{ width: `${overallPct}%` }}
+          />
         </div>
       </div>
 
       {/* Grid stats */}
-      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
         <StatCard
           icon={Trophy}
           label="Weeks Complete"
@@ -142,77 +106,6 @@ export function StatsView({
           value={vocabCount}
           accent="bg-sky-500/10 text-sky-600 dark:text-sky-400"
         />
-        <StatCard
-          icon={Flame}
-          label="Current Streak"
-          value={`${streak}d`}
-          hint={longestStreak > streak ? `Best: ${longestStreak}d` : undefined}
-          accent="bg-orange-500/10 text-orange-600 dark:text-orange-400"
-        />
-        <StatCard
-          icon={Zap}
-          label="Total XP"
-          value={xp}
-          accent="bg-primary/10 text-primary"
-        />
-      </div>
-
-      {/* Achievement badges */}
-      <div className="mt-6">
-        <div className="mb-3 flex items-baseline justify-between">
-          <h3 className="text-sm font-semibold">Achievements</h3>
-          <span className="text-[11px] font-medium tabular-nums text-muted-foreground">
-            {earnedCount} / {achievements.length} earned
-          </span>
-        </div>
-        <ul className="grid grid-cols-2 gap-2.5 sm:grid-cols-3">
-          {achievements.map((a) => {
-            const Icon = a.icon;
-            return (
-              <li
-                key={a.id}
-                className={cn(
-                  "rounded-xl border p-3 transition-all",
-                  a.earned
-                    ? "border-border bg-card"
-                    : "border-dashed border-border/70 bg-muted/30",
-                )}
-              >
-                <div className="flex items-start gap-2.5">
-                  <div
-                    className={cn(
-                      "flex h-8 w-8 shrink-0 items-center justify-center rounded-full",
-                      a.earned ? a.accent : "bg-muted text-muted-foreground",
-                    )}
-                  >
-                    <Icon className="h-4 w-4" />
-                  </div>
-                  <div className="min-w-0">
-                    <div
-                      className={cn(
-                        "truncate text-[13px] font-semibold leading-tight",
-                        !a.earned && "text-muted-foreground",
-                      )}
-                    >
-                      {a.title}
-                    </div>
-                    <div className="mt-0.5 line-clamp-2 text-[11px] leading-snug text-muted-foreground">
-                      {a.description}
-                    </div>
-                  </div>
-                </div>
-                {!a.earned && (
-                  <div className="mt-2 h-1 overflow-hidden rounded-full bg-muted">
-                    <div
-                      className="h-full rounded-full bg-primary/60 transition-all"
-                      style={{ width: `${a.progress}%` }}
-                    />
-                  </div>
-                )}
-              </li>
-            );
-          })}
-        </ul>
       </div>
 
       {/* Per-week breakdown */}
@@ -221,9 +114,6 @@ export function StatsView({
         <ul className="space-y-2">
           {weeks.map((w) => {
             const pct = perWeekPct[w.id] ?? 0;
-            const submitted = !!assignments[w.id]?.submitted;
-            const earned = weekEarnedXp(w, completedCheckpoints, submitted);
-            const max = weekMaxXp(w);
             return (
               <li
                 key={w.id}
@@ -236,11 +126,8 @@ export function StatsView({
                     </div>
                     <div className="truncate text-sm font-medium">{w.title}</div>
                   </div>
-                  <div className="shrink-0 text-right">
-                    <div className="text-xs font-semibold tabular-nums">
-                      {earned}/{max} XP
-                    </div>
-                    <div className="text-[11px] text-muted-foreground tabular-nums">{pct}%</div>
+                  <div className="shrink-0 text-[11px] font-medium tabular-nums text-muted-foreground">
+                    {pct}%
                   </div>
                 </div>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
