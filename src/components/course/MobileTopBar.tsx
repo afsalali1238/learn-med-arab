@@ -164,11 +164,17 @@ export function MobileTopBar({
         </Sheet>
 
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[11px] font-medium uppercase tracking-wider text-muted-foreground">
-            Week {activeWeek?.number} · {globalPct}%
+          <div className="flex items-center gap-1.5 text-[11px] font-medium">
+            <span className="inline-flex h-4 min-w-4 items-center justify-center rounded bg-primary px-1 text-[10px] font-black text-primary-foreground">
+              L{stats.level}
+            </span>
+            <span className="text-muted-foreground">{stats.xp} XP</span>
+            <span className="inline-flex items-center gap-0.5 text-orange-600 dark:text-orange-400">
+              <Flame className="h-3 w-3" />{streak}
+            </span>
           </div>
           <div className="truncate text-sm font-semibold text-foreground">
-            {activeWeek?.title}
+            W{activeWeek?.number}: {activeWeek?.title}
           </div>
         </div>
 
