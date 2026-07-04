@@ -2,6 +2,7 @@ import { Award, BookOpen, Flame, Target, Trophy, Zap } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
 import { weekMaxXp, weekEarnedXp } from "@/lib/xp";
+import { computeAchievements } from "@/lib/achievements";
 
 interface Props {
   weeks: Week[];
