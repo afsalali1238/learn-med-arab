@@ -122,6 +122,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" dir="ltr">
       <head>
         <HeadContent />
+        <script src="/mespeak/mespeak.js"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
