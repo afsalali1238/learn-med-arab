@@ -1,4 +1,4 @@
-import { ChevronRight, Lock, Check, Eye, Award } from "lucide-react";
+import { ChevronRight, Lock, Check, Eye, Award, ExternalLink } from "lucide-react";
 import type { Week } from "@/data/course";
 import { CAPSTONE } from "@/data/course";
 import { cn } from "@/lib/utils";
@@ -135,6 +135,73 @@ export function SyllabusView({
           <p className="text-sm leading-relaxed text-amber-800/80 dark:text-amber-200/80">
             {CAPSTONE.description}
           </p>
+        </div>
+      </div>
+      <div className="mt-12 pt-8 border-t border-border/50">
+        <h2 className="text-xl font-bold sm:text-2xl mb-1">The Provia Ecosystem</h2>
+        <p className="text-sm text-muted-foreground mb-6">
+          Explore more tools designed to help you succeed in UAE healthcare.
+        </p>
+        <div className="grid gap-3 sm:grid-cols-2">
+          <a
+            href="https://med-arabic-hub.lovable.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Medical Arabic (PT)</h3>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Conversational Medical Arabic tailored specifically for Physiotherapists.
+            </p>
+          </a>
+          
+          <a
+            href="https://proviacv.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Provia CV</h3>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Free AI-powered CV audit, rewriter, and JD match for UAE healthcare.
+            </p>
+          </a>
+          
+          <a
+            href="https://proviaap.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">ProviaPrep</h3>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Gamified 45-day exam prep to master DHA, MOH, and DOH licensing.
+            </p>
+          </a>
+          
+          <a
+            href="https://proviapath.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
+          >
+            <div className="flex items-center justify-between">
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Credential Navigator</h3>
+              <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
+            </div>
+            <p className="text-xs text-muted-foreground">
+              Know exactly what documents, fees, and steps you need to get licensed.
+            </p>
+          </a>
         </div>
       </div>
     </div>
