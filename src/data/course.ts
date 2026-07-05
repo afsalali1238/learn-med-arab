@@ -72,10 +72,12 @@ export const WEEKS: Week[] = [
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
           ["How are you?", "كيف حالك؟", "Kayfa haluka?"],
+          ["How can I help you?", "كيف أقدر أساعدك؟", "Kayfa aqdir usa'idak?"],
           ["ID Card", "بطاقة الهوية", "Bitaqat al-hawiya"],
           ["Health Insurance", "تأمين صحي", "Ta'meen sihhi"],
+          ["Medical Prescription", "وصفة طبية", "Wasfa tibbiyya"],
           ["Please wait here", "من فضلك انتظر هنا", "Min fadlik intadhir huna"],
-          ["Medical Prescription", "وصفة طبية", "Wasfa tibbiyya"]
+          ["Excuse me / If you please", "لو سمحت", "Law samaht"]
         ]
       }
     ],
@@ -442,6 +444,8 @@ export const WEEKS: Week[] = [
         caption: "Administrative and Empathy Phrases",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
+          ["Please calm down", "أرجو الهدوء", "Arju al-hudoo'"],
+          ["I understand your situation", "أنا أتفهم وضعك", "Ana atafahham wad'ak"],
           ["Pre-authorization", "موافقة مسبقة", "Muwafaqa musabbaqa"],
           ["Claim Rejected", "مطالبة مرفوضة", "Mutalaba marfouda"],
           ["Alternative (Generic)", "بديل", "Badeel"],
