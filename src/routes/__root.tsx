@@ -122,7 +122,6 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en" dir="ltr">
       <head>
         <HeadContent />
-        <script src="/mespeak/mespeak.js"></script>
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -146,13 +145,128 @@ function RootShell({ children }: { children: ReactNode }) {
   );
 }
 
+import { CourseProgressProvider, useCourseProgress } from "@/hooks/useCourseProgress";
+import { WEEKS, COURSE_TITLE } from "@/data/course";
+import { AppHeader } from "@/components/course/AppHeader";
+import { BottomNav } from "@/components/course/BottomNav";
+import Confetti from "react-confetti";
+import { useWindowSize } from "react-use";
+import { toast } from "sonner";
+import { Toaster } from "@/components/ui/sonner";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useRef, useMemo, useState } from "react";
+import { useLocation } from "@tanstack/react-router";
+
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <CourseProgressProvider>
+        <CourseLayout />
+      </CourseProgressProvider>
     </QueryClientProvider>
+  );
+}
+
+function CourseLayout() {
+  const {
+    progress,
+    hydrated,
+    calculateWeekProgress,
+    xp,
+    level,
+  } = useCourseProgress();
+
+  const { width, height } = useWindowSize();
+  const [showConfetti, setShowConfetti] = useState(false);
+  const location = useLocation();
+  const isWeekRoute = location.pathname.startsWith("/week/");
+
+  const perWeekPct = useMemo(() => {
+    const map: Record<string, number> = {};
+    WEEKS.forEach((w) => {
+      map[w.id] = calculateWeekProgress(w.id).pct;
+    });
+    return map;
+  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress]);
+
+  const prevWeekPct = useRef<Record<string, number>>({});
+  const prevLevel = useRef<number | null>(null);
+
+  const fireConfetti = () => {
+    setShowConfetti(true);
+    setTimeout(() => setShowConfetti(false), 4000);
+  };
+
+  useEffect(() => {
+    if (!hydrated) {
+      prevWeekPct.current = perWeekPct;
+      prevLevel.current = level.level;
+      return;
+    }
+    
+    if (prevLevel.current !== null && level.level > prevLevel.current) {
+      toast.success(`Level Up!`, { description: `You reached ${level.title}` });
+      fireConfetti();
+    }
+    prevLevel.current = level.level;
+
+    Object.entries(perWeekPct).forEach(([wid, pct]) => {
+      if (
+        pct === 100 &&
+        prevWeekPct.current[wid] !== 100 &&
+        prevWeekPct.current[wid] !== undefined
+      ) {
+        const w = WEEKS.find((x) => x.id === wid);
+        if (w) {
+          toast.success(`Week ${w.number} complete`, { description: w.title });
+          fireConfetti();
+        }
+      }
+    });
+    prevWeekPct.current = perWeekPct;
+  }, [perWeekPct, level.level, hydrated]);
+
+  return (
+    <div className="flex min-h-screen flex-col bg-background text-foreground">
+      <Toaster />
+      {showConfetti && (
+        <Confetti
+          width={width}
+          height={height}
+          numberOfPieces={220}
+          recycle={false}
+          gravity={0.25}
+          colors={["#2563eb", "#14b8a6", "#38bdf8", "#0ea5e9", "#5eead4"]}
+          style={{ zIndex: 100 }}
+        />
+      )}
+
+      {!isWeekRoute && (
+        <AppHeader 
+          title={COURSE_TITLE} 
+          progressPct={level.next ? Math.min(100, Math.round(((xp - level.min) / (level.next.min - level.min)) * 100)) : 100} 
+          levelTitle={level.title}
+          levelLevel={level.level}
+          xp={xp}
+        />
+      )}
+
+      <main className={isWeekRoute ? "flex-1" : "flex-1 pb-20"}>
+        {!hydrated ? (
+          <div className="mx-auto max-w-3xl p-6 space-y-4">
+            <Skeleton className="h-[200px] w-full rounded-2xl" />
+            <Skeleton className="h-12 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
+            <Skeleton className="h-24 w-full rounded-2xl" />
+          </div>
+        ) : (
+          <Outlet />
+        )}
+      </main>
+
+      {!isWeekRoute && <BottomNav vocabCount={progress.vocabBank.length} />}
+    </div>
   );
 }

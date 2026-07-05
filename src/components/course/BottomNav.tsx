@@ -1,20 +1,20 @@
 import { BookOpen, LayoutList, TrendingUp } from "lucide-react";
 import { cn } from "@/lib/utils";
-
-export type NavTab = "syllabus" | "vocab" | "stats";
+import { Link, useLocation } from "@tanstack/react-router";
 
 interface Props {
-  active: NavTab;
-  onChange: (tab: NavTab) => void;
   vocabCount: number;
 }
 
-export function BottomNav({ active, onChange, vocabCount }: Props) {
-  const items: { id: NavTab; label: string; Icon: typeof LayoutList; badge?: number }[] = [
-    { id: "syllabus", label: "Syllabus", Icon: LayoutList },
-    { id: "vocab", label: "Vocab Bank", Icon: BookOpen, badge: vocabCount },
-    { id: "stats", label: "Stats", Icon: TrendingUp },
-  ];
+export function BottomNav({ vocabCount }: Props) {
+  const location = useLocation();
+  const currentPath = location.pathname;
+
+  const items = [
+    { to: "/", label: "Syllabus", Icon: LayoutList },
+    { to: "/vocab", label: "Vocab Bank", Icon: BookOpen, badge: vocabCount },
+    { to: "/stats", label: "Stats", Icon: TrendingUp },
+  ] as const;
 
   return (
     <nav
@@ -22,13 +22,12 @@ export function BottomNav({ active, onChange, vocabCount }: Props) {
       aria-label="Primary"
     >
       <ul className="mx-auto flex max-w-3xl items-stretch">
-        {items.map(({ id, label, Icon, badge }) => {
-          const isActive = active === id;
+        {items.map(({ to, label, Icon, badge }) => {
+          const isActive = currentPath === to;
           return (
-            <li key={id} className="flex-1">
-              <button
-                type="button"
-                onClick={() => onChange(id)}
+            <li key={to} className="flex-1">
+              <Link
+                to={to}
                 className={cn(
                   "relative flex w-full flex-col items-center justify-center gap-1 py-2.5 text-[11px] font-medium transition-colors",
                   isActive ? "text-primary" : "text-muted-foreground hover:text-foreground",
@@ -44,7 +43,7 @@ export function BottomNav({ active, onChange, vocabCount }: Props) {
                   )}
                 </div>
                 <span>{label}</span>
-              </button>
+              </Link>
             </li>
           );
         })}

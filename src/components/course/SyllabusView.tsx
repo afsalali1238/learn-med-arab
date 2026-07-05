@@ -90,12 +90,9 @@ export function SyllabusView({
                   </h3>
                   {unlocked ? (
                     <div className="mt-2 flex items-center gap-2">
-                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+                      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-secondary">
                         <div
-                          className={cn(
-                            "h-full rounded-full transition-all duration-500",
-                            done ? "bg-emerald-500" : "bg-primary",
-                          )}
+                          className="h-full rounded-full bg-gradient-to-r from-primary to-teal-500 transition-all duration-500"
                           style={{ width: `${pct}%` }}
                         />
                       </div>

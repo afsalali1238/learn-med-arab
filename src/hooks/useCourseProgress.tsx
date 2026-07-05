@@ -1,7 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useMemo, createContext, useContext, ReactNode } from "react";
 import { toast } from "sonner";
 import type { VocabEntry } from "@/data/course";
-import { WEEKS } from "@/data/course";
+import { WEEKS, XP_PER_QUIZ, XP_PER_FLASHCARD, XP_PER_WEEK, levelForXp } from "@/data/course";
 
 const STORAGE_KEY = "medical-arabic-course-v1";
 
@@ -39,7 +39,21 @@ function load(): CourseProgress {
   }
 }
 
+
+export const CourseProgressContext = createContext<ReturnType<typeof useCourseProgressProvider> | null>(null);
+
+export function CourseProgressProvider({ children }: { children: ReactNode }) {
+  const progress = useCourseProgressProvider();
+  return <CourseProgressContext.Provider value={progress}>{children}</CourseProgressContext.Provider>;
+}
+
 export function useCourseProgress() {
+  const ctx = useContext(CourseProgressContext);
+  if (!ctx) throw new Error("useCourseProgress must be used within CourseProgressProvider");
+  return ctx;
+}
+
+function useCourseProgressProvider() {
   const [progress, setProgress] = useState<CourseProgress>(EMPTY);
   const [hydrated, setHydrated] = useState(false);
 
@@ -147,6 +161,41 @@ export function useCourseProgress() {
     }
   }, [progress]);
 
+  const exportAnkiCSV = useCallback(async () => {
+    try {
+      if (progress.vocabBank.length === 0) {
+        toast.info("Vocabulary Bank is empty");
+        return;
+      }
+
+      const { getAudioFilename } = await import("@/lib/hash");
+      
+      let csvContent = "";
+      for (const v of progress.vocabBank) {
+        const audioFile = await getAudioFilename(v.arabic);
+        // Basic Anki import format: Front, Back, Audio (Wait, Anki CSV usually uses tabs or commas. Let's use comma and quotes)
+        const front = `"${v.arabic.replace(/"/g, '""')}<br/><br/><small>${v.transliteration.replace(/"/g, '""')}</small>"`;
+        const back = `"${v.english.replace(/"/g, '""')}"`;
+        const audio = `"[sound:${audioFile}]"`;
+        csvContent += `${front},${back},${audio}\n`;
+      }
+      
+      const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      
+      const linkElement = document.createElement("a");
+      linkElement.setAttribute("href", url);
+      linkElement.setAttribute("download", `medical-arabic-anki-${new Date().toISOString().split('T')[0]}.csv`);
+      linkElement.click();
+      URL.revokeObjectURL(url);
+      
+      toast.success("Anki CSV exported successfully", { description: "Copy your /public/audio/ files into your Anki collection.media folder." });
+    } catch (e) {
+      console.error(e);
+      toast.error("Failed to export Anki CSV");
+    }
+  }, [progress]);
+
   const importProgress = useCallback((file: File) => {
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -208,6 +257,23 @@ export function useCourseProgress() {
     };
   }, [progress.completedCheckpoints, progress.assignments]);
 
+  const xp = useMemo(() => {
+    let total = 0;
+    total += progress.completedCheckpoints.length * XP_PER_QUIZ;
+    total += progress.vocabBank.length * XP_PER_FLASHCARD;
+    
+    WEEKS.forEach(week => {
+      const done = week.checkpoints.filter((c) => progress.completedCheckpoints.includes(c.id)).length;
+      const scenarioDone = progress.assignments[week.id]?.submitted ? 1 : 0;
+      if (done + scenarioDone === week.checkpoints.length + 1) {
+        total += XP_PER_WEEK;
+      }
+    });
+    return total;
+  }, [progress]);
+
+  const level = useMemo(() => levelForXp(xp), [xp]);
+
   return {
     progress,
     hydrated,
@@ -219,8 +285,11 @@ export function useCourseProgress() {
     removeVocab,
     updateVocab,
     exportProgress,
+    exportAnkiCSV,
     importProgress,
     calculateWeekProgress,
     calculateOverallProgress,
+    xp,
+    level,
   };
 }

@@ -614,3 +614,25 @@ export interface VocabEntry {
   nextReviewDate?: number;
   interval?: number;
 }
+
+export const LEVELS = [
+  { level: 1, title: "Student", min: 0 },
+  { level: 2, title: "Clinical Novice", min: 100 },
+  { level: 3, title: "Bedside Communicator", min: 250 },
+  { level: 4, title: "Fluent Clinician", min: 450 },
+  { level: 5, title: "Clinical Communicator", min: 700 },
+];
+
+export const XP_PER_QUIZ = 25;
+export const XP_PER_FLASHCARD = 5;
+export const XP_PER_WEEK = 50;
+
+export function levelForXp(xp: number) {
+  let current = LEVELS[0];
+  for (const l of LEVELS) {
+    if (xp >= l.min) current = l;
+  }
+  const idx = LEVELS.indexOf(current);
+  const next = LEVELS[idx + 1] ?? null;
+  return { ...current, next };
+}

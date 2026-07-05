@@ -1,13 +1,16 @@
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Zap } from "lucide-react";
 import { useTheme } from "@/hooks/useTheme";
 import { Button } from "@/components/ui/button";
 
 interface Props {
   title: string;
   progressPct: number;
+  levelTitle?: string;
+  levelLevel?: number;
+  xp?: number;
 }
 
-export function AppHeader({ title, progressPct }: Props) {
+export function AppHeader({ title, progressPct, levelTitle, levelLevel, xp = 0 }: Props) {
   const { theme, toggleTheme } = useTheme();
 
   return (
@@ -20,22 +23,26 @@ export function AppHeader({ title, progressPct }: Props) {
               PROVIA
             </span>
             <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
-              {title}
+              {levelLevel ? `Level ${levelLevel} · ${levelTitle}` : title}
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-4">
-          <div className="shrink-0 text-xs font-semibold tabular-nums text-muted-foreground sm:text-sm">
-            {progressPct}%
+        <div className="flex items-center gap-3">
+          <div className="flex shrink-0 items-center gap-1.5 rounded-full bg-primary/10 px-2.5 py-1 sm:px-3 sm:py-1.5">
+            <Zap className="h-3.5 w-3.5 animate-pop fill-teal-500 text-teal-500 sm:h-4 sm:w-4" />
+            <span className="text-xs font-bold text-primary sm:text-sm">{xp}</span>
+            <span className="text-[9px] font-semibold uppercase text-muted-foreground sm:text-[10px]">
+              XP
+            </span>
           </div>
           <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-8 w-8 shrink-0 text-muted-foreground">
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </div>
       </div>
-      <div className="h-1 w-full bg-muted">
+      <div className="h-1.5 w-full bg-secondary">
         <div
-          className="h-full bg-primary transition-all duration-500"
+          className="h-full rounded-r-full bg-gradient-to-r from-primary to-teal-500 transition-all duration-500"
           style={{ width: `${progressPct}%` }}
         />
       </div>
