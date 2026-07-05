@@ -45,7 +45,7 @@ export function WeeklyNotes({ value, onChange }: Props) {
       <Textarea
         value={local}
         onChange={(e) => setLocal(e.target.value)}
-        placeholder="e.g., Remember: 'Shlonak' is Khaleeji, 'Kifak' is Levantine..."
+        placeholder="e.g., Remember: 'Qabl al-Akl' means before meals, 'Ba'd al-Akl' means after meals..."
         className="min-h-[120px] resize-y"
       />
     </div>

@@ -76,23 +76,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai" },
+      { title: "Medical Pharmacy Arabic" },
       {
         name: "description",
         content:
-          "An 8-week self-paced course for pharmacists to master conversational Medical Arabic in Dubai — Khaleeji and Levantine dialects, clinical scenarios, and cultural competency.",
+          "An 8-week self-paced course for pharmacists to master conversational Medical Arabic — standard clinical vocabulary, patient counseling, and de-escalation.",
       },
       { name: "author", content: "Provia" },
       { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#f8fafc" },
       { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#020817" },
       {
         property: "og:title",
-        content: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai",
+        content: "Medical Pharmacy Arabic",
       },
       {
         property: "og:description",
         content:
-          "8-week self-paced curriculum: greetings, symptom elicitation, dosage counseling, adverse reactions, and de-escalation — in Khaleeji and Levantine Arabic.",
+          "8-week self-paced curriculum: greetings, symptom elicitation, dosage counseling, adverse reactions, and de-escalation — in standard Medical Arabic.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },

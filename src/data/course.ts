@@ -776,6 +776,8 @@ export const LEVELS = [
   { level: 3, title: "Bedside Communicator", min: 250 },
   { level: 4, title: "Fluent Clinician", min: 450 },
   { level: 5, title: "Clinical Communicator", min: 700 },
+  { level: 6, title: "Bilingual Pharmacist", min: 1000 },
+  { level: 7, title: "Arabic Pharmacy Director", min: 1500 },
 ];
 
 export const XP_PER_QUIZ = 25;
