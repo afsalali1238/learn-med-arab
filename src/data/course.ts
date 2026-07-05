@@ -101,12 +101,6 @@ export const WEEKS: Week[] = [
         description: "Distinguish the phonetic baseline of the Gulf versus the Levant.",
         url: "https://www.youtube.com/results?search_query=khaleeji+vs+levantine+arabic",
       },
-      {
-        type: "article",
-        title: "Health Insurance in the United Arab Emirates",
-        description: "Structural differences between Thiqa, Saada, and private networks.",
-        url: "https://www.expatica.com/ae/healthcare/healthcare-basics/health-insurance-in-the-united-arab-emirates-71483/",
-      },
     ],
     checkpoints: [
       { id: "w1-c1", label: "Mastered 25 localized administrative and greeting phrases." },
