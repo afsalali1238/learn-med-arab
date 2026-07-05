@@ -85,7 +85,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "author", content: "Provia" },
       { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#f8fafc" },
       { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#020817" },
-      { property: "og:title", content: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai" },
+      {
+        property: "og:title",
+        content: "Medical Arabic for Pharmacists — Clinical Fluency in Dubai",
+      },
       {
         property: "og:description",
         content:
@@ -170,13 +173,7 @@ function RootComponent() {
 }
 
 function CourseLayout() {
-  const {
-    progress,
-    hydrated,
-    calculateWeekProgress,
-    xp,
-    level,
-  } = useCourseProgress();
+  const { progress, hydrated, calculateWeekProgress, xp, level } = useCourseProgress();
 
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] = useState(false);
@@ -205,7 +202,7 @@ function CourseLayout() {
       prevLevel.current = level.level;
       return;
     }
-    
+
     if (prevLevel.current !== null && level.level > prevLevel.current) {
       toast.success(`Level Up!`, { description: `You reached ${level.title}` });
       fireConfetti();
@@ -244,9 +241,13 @@ function CourseLayout() {
       )}
 
       {!isWeekRoute && (
-        <AppHeader 
-          title={COURSE_TITLE} 
-          progressPct={level.next ? Math.min(100, Math.round(((xp - level.min) / (level.next.min - level.min)) * 100)) : 100} 
+        <AppHeader
+          title={COURSE_TITLE}
+          progressPct={
+            level.next
+              ? Math.min(100, Math.round(((xp - level.min) / (level.next.min - level.min)) * 100))
+              : 100
+          }
           levelTitle={level.title}
           levelLevel={level.level}
           xp={xp}

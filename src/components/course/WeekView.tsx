@@ -15,7 +15,9 @@ interface Props {
   note: string;
   onToggleCheckpoint: (id: string) => void;
   onSetCheckpointScore: (id: string, score: number) => void;
-  onSetAssignment: (patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>) => void;
+  onSetAssignment: (
+    patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>,
+  ) => void;
   onSetNote: (value: string) => void;
   onAddVocab: (entry: Omit<VocabEntry, "id">) => void;
   weekProgress?: { doneTotal: number; total: number; pct: number };
@@ -37,9 +39,13 @@ export function WeekView({
   const scenarioDone = assignment.submitted;
 
   // Fallback if not provided (should be provided by the route)
-  const weekDoneCount = weekProgress?.doneTotal ?? week.checkpoints.filter((c) => completedCheckpoints.includes(c.id)).length + (scenarioDone ? 1 : 0);
+  const weekDoneCount =
+    weekProgress?.doneTotal ??
+    week.checkpoints.filter((c) => completedCheckpoints.includes(c.id)).length +
+      (scenarioDone ? 1 : 0);
   const weekTotal = weekProgress?.total ?? week.checkpoints.length + 1;
-  const weekPct = weekProgress?.pct ?? (weekTotal ? Math.round((weekDoneCount / weekTotal) * 100) : 0);
+  const weekPct =
+    weekProgress?.pct ?? (weekTotal ? Math.round((weekDoneCount / weekTotal) * 100) : 0);
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-10 md:px-10 md:py-14">
@@ -80,7 +86,13 @@ export function WeekView({
           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted-foreground">
             <span>
               Scenario:{" "}
-              <span className={scenarioDone ? "font-medium text-emerald-600 dark:text-emerald-400" : "font-medium text-foreground"}>
+              <span
+                className={
+                  scenarioDone
+                    ? "font-medium text-emerald-600 dark:text-emerald-400"
+                    : "font-medium text-foreground"
+                }
+              >
                 {scenarioDone ? "Submitted" : "Not submitted"}
               </span>
             </span>
@@ -139,7 +151,9 @@ export function WeekView({
 
       {/* Scenario */}
       <section className="mb-10">
-        <h2 className="mb-4 text-lg font-semibold text-foreground">Interactive Clinical Scenario</h2>
+        <h2 className="mb-4 text-lg font-semibold text-foreground">
+          Interactive Clinical Scenario
+        </h2>
         <ClinicalScenario
           scenario={week.scenario}
           answers={assignment.answers}

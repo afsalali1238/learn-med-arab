@@ -1,4 +1,12 @@
-import React, { useCallback, useEffect, useState, useMemo, createContext, useContext, ReactNode } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  createContext,
+  useContext,
+  ReactNode,
+} from "react";
 import { toast } from "sonner";
 import type { VocabEntry } from "@/data/course";
 import { WEEKS, XP_PER_QUIZ, XP_PER_FLASHCARD, XP_PER_WEEK, levelForXp } from "@/data/course";
@@ -39,12 +47,15 @@ function load(): CourseProgress {
   }
 }
 
-
-export const CourseProgressContext = createContext<ReturnType<typeof useCourseProgressProvider> | null>(null);
+export const CourseProgressContext = createContext<ReturnType<
+  typeof useCourseProgressProvider
+> | null>(null);
 
 export function CourseProgressProvider({ children }: { children: ReactNode }) {
   const progress = useCourseProgressProvider();
-  return <CourseProgressContext.Provider value={progress}>{children}</CourseProgressContext.Provider>;
+  return (
+    <CourseProgressContext.Provider value={progress}>{children}</CourseProgressContext.Provider>
+  );
 }
 
 export function useCourseProgress() {
@@ -91,7 +102,10 @@ function useCourseProgressProvider() {
   }, []);
 
   const setAssignment = useCallback(
-    (weekId: string, patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>) => {
+    (
+      weekId: string,
+      patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>,
+    ) => {
       setProgress((p) => {
         const prev = p.assignments[weekId] ?? { answers: "", submitted: false };
         return {
@@ -111,7 +125,7 @@ function useCourseProgressProvider() {
     setProgress((p) => {
       // Check for duplicates
       const isDuplicate = p.vocabBank.some(
-        (v) => v.arabic === entry.arabic && v.transliteration === entry.transliteration
+        (v) => v.arabic === entry.arabic && v.transliteration === entry.transliteration,
       );
 
       if (isDuplicate) {
@@ -146,15 +160,15 @@ function useCourseProgressProvider() {
       const dataStr = JSON.stringify(progress, null, 2);
       const blob = new Blob([dataStr], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      
-      const exportFileDefaultName = `medical-arabic-progress-${new Date().toISOString().split('T')[0]}.json`;
-      
+
+      const exportFileDefaultName = `medical-arabic-progress-${new Date().toISOString().split("T")[0]}.json`;
+
       const linkElement = document.createElement("a");
       linkElement.setAttribute("href", url);
       linkElement.setAttribute("download", exportFileDefaultName);
       linkElement.click();
       URL.revokeObjectURL(url);
-      
+
       toast.success("Progress exported successfully");
     } catch (e) {
       toast.error("Failed to export progress");
@@ -169,7 +183,7 @@ function useCourseProgressProvider() {
       }
 
       const { getAudioFilename } = await import("@/lib/hash");
-      
+
       let csvContent = "";
       for (const v of progress.vocabBank) {
         const audioFile = await getAudioFilename(v.arabic);
@@ -179,17 +193,22 @@ function useCourseProgressProvider() {
         const audio = `"[sound:${audioFile}]"`;
         csvContent += `${front},${back},${audio}\n`;
       }
-      
+
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
-      
+
       const linkElement = document.createElement("a");
       linkElement.setAttribute("href", url);
-      linkElement.setAttribute("download", `medical-arabic-anki-${new Date().toISOString().split('T')[0]}.csv`);
+      linkElement.setAttribute(
+        "download",
+        `medical-arabic-anki-${new Date().toISOString().split("T")[0]}.csv`,
+      );
       linkElement.click();
       URL.revokeObjectURL(url);
-      
-      toast.success("Anki CSV exported successfully", { description: "Copy your /public/audio/ files into your Anki collection.media folder." });
+
+      toast.success("Anki CSV exported successfully", {
+        description: "Copy your /public/audio/ files into your Anki collection.media folder.",
+      });
     } catch (e) {
       console.error(e);
       toast.error("Failed to export Anki CSV");
@@ -202,20 +221,23 @@ function useCourseProgressProvider() {
       try {
         const result = e.target?.result as string;
         const parsed = JSON.parse(result) as Partial<CourseProgress>;
-        
+
         // Basic validation
         if (typeof parsed !== "object" || parsed === null) {
           throw new Error("Invalid format");
         }
-        
+
         setProgress({
-          completedCheckpoints: Array.isArray(parsed.completedCheckpoints) ? parsed.completedCheckpoints : [],
-          checkpointScores: typeof parsed.checkpointScores === "object" ? parsed.checkpointScores : {},
+          completedCheckpoints: Array.isArray(parsed.completedCheckpoints)
+            ? parsed.completedCheckpoints
+            : [],
+          checkpointScores:
+            typeof parsed.checkpointScores === "object" ? parsed.checkpointScores : {},
           assignments: typeof parsed.assignments === "object" ? parsed.assignments : {},
           notes: typeof parsed.notes === "object" ? parsed.notes : {},
           vocabBank: Array.isArray(parsed.vocabBank) ? parsed.vocabBank : [],
         });
-        
+
         toast.success("Progress imported successfully");
       } catch (err) {
         console.error(err);
@@ -228,28 +250,33 @@ function useCourseProgressProvider() {
     reader.readAsText(file);
   }, []);
 
-  const calculateWeekProgress = useCallback((weekId: string) => {
-    const week = WEEKS.find((w) => w.id === weekId);
-    if (!week) return { done: 0, total: 1, pct: 0 };
-    
-    const done = week.checkpoints.filter((c) => progress.completedCheckpoints.includes(c.id)).length;
-    const scenarioDone = progress.assignments[weekId]?.submitted ? 1 : 0;
-    const total = week.checkpoints.length + 1;
-    return {
-      doneCheckpoints: done,
-      scenarioDone,
-      doneTotal: done + scenarioDone,
-      total,
-      pct: Math.round(((done + scenarioDone) / total) * 100),
-    };
-  }, [progress.completedCheckpoints, progress.assignments]);
+  const calculateWeekProgress = useCallback(
+    (weekId: string) => {
+      const week = WEEKS.find((w) => w.id === weekId);
+      if (!week) return { done: 0, total: 1, pct: 0 };
+
+      const done = week.checkpoints.filter((c) =>
+        progress.completedCheckpoints.includes(c.id),
+      ).length;
+      const scenarioDone = progress.assignments[weekId]?.submitted ? 1 : 0;
+      const total = week.checkpoints.length + 1;
+      return {
+        doneCheckpoints: done,
+        scenarioDone,
+        doneTotal: done + scenarioDone,
+        total,
+        pct: Math.round(((done + scenarioDone) / total) * 100),
+      };
+    },
+    [progress.completedCheckpoints, progress.assignments],
+  );
 
   const calculateOverallProgress = useCallback(() => {
     const totalCheckpoints = WEEKS.reduce((n, w) => n + w.checkpoints.length + 1, 0);
-    const globalCompleted = 
-      progress.completedCheckpoints.length + 
+    const globalCompleted =
+      progress.completedCheckpoints.length +
       Object.values(progress.assignments).filter((a) => a.submitted).length;
-    
+
     return {
       globalCompleted,
       totalCheckpoints,
@@ -261,9 +288,11 @@ function useCourseProgressProvider() {
     let total = 0;
     total += progress.completedCheckpoints.length * XP_PER_QUIZ;
     total += progress.vocabBank.length * XP_PER_FLASHCARD;
-    
-    WEEKS.forEach(week => {
-      const done = week.checkpoints.filter((c) => progress.completedCheckpoints.includes(c.id)).length;
+
+    WEEKS.forEach((week) => {
+      const done = week.checkpoints.filter((c) =>
+        progress.completedCheckpoints.includes(c.id),
+      ).length;
       const scenarioDone = progress.assignments[week.id]?.submitted ? 1 : 0;
       if (done + scenarioDone === week.checkpoints.length + 1) {
         total += XP_PER_WEEK;

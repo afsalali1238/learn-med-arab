@@ -27,16 +27,12 @@ export function SpeakButton({ text, fallbackText, className }: Props) {
       className={cn(
         "h-7 w-7 text-muted-foreground transition-all hover:text-primary focus:opacity-100",
         speaking && "animate-pulse text-primary",
-        className
+        className,
       )}
       title={speaking ? "Stop" : "Listen to pronunciation"}
       aria-label="Listen to pronunciation"
     >
-      {speaking ? (
-        <VolumeX className="h-3.5 w-3.5" />
-      ) : (
-        <Volume2 className="h-3.5 w-3.5" />
-      )}
+      {speaking ? <VolumeX className="h-3.5 w-3.5" /> : <Volume2 className="h-3.5 w-3.5" />}
     </Button>
   );
 }

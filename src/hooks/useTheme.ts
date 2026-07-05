@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 export type Theme = "dark" | "light" | "system";
 
 export function useTheme() {
-  const [theme, setTheme] = useState<Theme>(
-    () => (typeof window !== "undefined" ? (localStorage.getItem("theme") as Theme) || "system" : "system")
+  const [theme, setTheme] = useState<Theme>(() =>
+    typeof window !== "undefined" ? (localStorage.getItem("theme") as Theme) || "system" : "system",
   );
 
   useEffect(() => {

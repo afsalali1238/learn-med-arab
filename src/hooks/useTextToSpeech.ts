@@ -20,27 +20,27 @@ export function useTextToSpeech() {
       const filename = await getAudioFilename(text);
       const audio = new Audio(`/audio/${filename}`);
       audioRef.current = audio;
-      
+
       audio.onended = () => {
         setSpeaking(false);
         audioRef.current = null;
       };
-      
+
       audio.onerror = () => {
         console.error("Failed to play audio file:", filename);
         // Fallback to English TTS if available
         if (fallbackText && typeof window !== "undefined" && "speechSynthesis" in window) {
-           const utterance = new SpeechSynthesisUtterance(fallbackText);
-           utterance.lang = "en-US";
-           utterance.rate = 0.85;
-           utterance.onend = () => setSpeaking(false);
-           utterance.onerror = () => setSpeaking(false);
-           window.speechSynthesis.speak(utterance);
+          const utterance = new SpeechSynthesisUtterance(fallbackText);
+          utterance.lang = "en-US";
+          utterance.rate = 0.85;
+          utterance.onend = () => setSpeaking(false);
+          utterance.onerror = () => setSpeaking(false);
+          window.speechSynthesis.speak(utterance);
         } else {
-           setSpeaking(false);
+          setSpeaking(false);
         }
       };
-      
+
       await audio.play();
     } catch (err) {
       console.error("Audio playback failed", err);
@@ -61,5 +61,3 @@ export function useTextToSpeech() {
 
   return { speak, stop, speaking, supported: true };
 }
-
-

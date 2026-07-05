@@ -9,10 +9,7 @@ interface Props {
   perWeekPct: Record<string, number>;
 }
 
-export function SyllabusView({
-  weeks,
-  perWeekPct,
-}: Props) {
+export function SyllabusView({ weeks, perWeekPct }: Props) {
   // A week is unlocked for full progress tracking if it's the first, or if the previous week is 100% complete
   const isUnlocked = (index: number): boolean => {
     if (index === 0) return true;
@@ -147,14 +144,16 @@ export function SyllabusView({
             className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Medical Arabic (PT)</h3>
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                Medical Arabic (PT)
+              </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">
               Conversational Medical Arabic tailored specifically for Physiotherapists.
             </p>
           </a>
-          
+
           <a
             href="https://proviacv.vercel.app/"
             target="_blank"
@@ -162,14 +161,16 @@ export function SyllabusView({
             className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Provia CV</h3>
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                Provia CV
+              </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">
               Free AI-powered CV audit, rewriter, and JD match for UAE healthcare.
             </p>
           </a>
-          
+
           <a
             href="https://proviaap.vercel.app/"
             target="_blank"
@@ -177,14 +178,16 @@ export function SyllabusView({
             className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">ProviaPrep</h3>
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                ProviaPrep
+              </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">
               Gamified 45-day exam prep to master DHA, MOH, and DOH licensing.
             </p>
           </a>
-          
+
           <a
             href="https://proviapath.vercel.app/"
             target="_blank"
@@ -192,7 +195,9 @@ export function SyllabusView({
             className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">Credential Navigator</h3>
+              <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                Credential Navigator
+              </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">

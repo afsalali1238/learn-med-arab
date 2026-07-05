@@ -30,9 +30,7 @@ export function ResourceGrid({ resources }: { resources: Resource[] }) {
               </span>
               <ExternalLink className="h-4 w-4 text-muted-foreground transition-colors group-hover:text-primary" />
             </div>
-            <h4 className="mb-1.5 text-sm font-semibold leading-snug text-foreground">
-              {r.title}
-            </h4>
+            <h4 className="mb-1.5 text-sm font-semibold leading-snug text-foreground">{r.title}</h4>
             <p className="text-xs leading-relaxed text-muted-foreground">{r.description}</p>
           </a>
         );

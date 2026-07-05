@@ -1,5 +1,16 @@
 import { useMemo, useState, useEffect } from "react";
-import { Plus, Trash2, Search, Download, Layers, List, RotateCcw, Frown, Meh, Smile } from "lucide-react";
+import {
+  Plus,
+  Trash2,
+  Search,
+  Download,
+  Layers,
+  List,
+  RotateCcw,
+  Frown,
+  Meh,
+  Smile,
+} from "lucide-react";
 import type { VocabEntry } from "@/data/course";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -19,19 +30,19 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
   const [note, setNote] = useState("");
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "flashcards">("list");
-  
+
   // Flashcard state
   const [sessionCards, setSessionCards] = useState<VocabEntry[]>([]);
   const [flashcardIndex, setFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
 
   const dueCardsCount = useMemo(() => {
-    return entries.filter(e => !e.nextReviewDate || e.nextReviewDate <= Date.now()).length;
+    return entries.filter((e) => !e.nextReviewDate || e.nextReviewDate <= Date.now()).length;
   }, [entries]);
 
   useEffect(() => {
     if (viewMode === "flashcards") {
-      const due = entries.filter(e => !e.nextReviewDate || e.nextReviewDate <= Date.now());
+      const due = entries.filter((e) => !e.nextReviewDate || e.nextReviewDate <= Date.now());
       setSessionCards(due.sort(() => 0.5 - Math.random()));
       setFlashcardIndex(0);
       setIsFlipped(false);
@@ -57,16 +68,16 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
       (e) =>
         (e.arabic && e.arabic.includes(s)) ||
         (e.transliteration && e.transliteration.toLowerCase().includes(s)) ||
-        (e.note && e.note.toLowerCase().includes(s))
+        (e.note && e.note.toLowerCase().includes(s)),
     );
   }, [entries, search]);
 
   const exportCSV = () => {
     if (entries.length === 0) return;
     const header = "Arabic,Transliteration,Note\n";
-    const csv = entries.map(e => 
-      `"${e.arabic || ""}","${e.transliteration || ""}","${e.note || ""}"`
-    ).join("\n");
+    const csv = entries
+      .map((e) => `"${e.arabic || ""}","${e.transliteration || ""}","${e.note || ""}"`)
+      .join("\n");
     const blob = new Blob([header + csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const link = document.createElement("a");
@@ -100,13 +111,13 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
 
     onUpdate(currentCard.id, { interval: nextInterval, nextReviewDate });
     setIsFlipped(false);
-    
+
     // Move to next card in session
     if (flashcardIndex < sessionCards.length - 1) {
       setFlashcardIndex((i) => i + 1);
     } else {
       // Session finished, useEffect will re-compute due cards and refresh
-      setSessionCards([]); 
+      setSessionCards([]);
     }
   };
 
@@ -114,16 +125,19 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5 gap-4">
         <div>
-          <h2 className="text-xl font-bold sm:text-2xl flex items-center gap-2">
-            Vocabulary Bank
-          </h2>
+          <h2 className="text-xl font-bold sm:text-2xl flex items-center gap-2">Vocabulary Bank</h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Save Arabic terms to memorize. Stored on this device.
           </p>
         </div>
         {entries.length > 0 && (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setViewMode(v => v === "list" ? "flashcards" : "list")} className="gap-2 relative">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setViewMode((v) => (v === "list" ? "flashcards" : "list"))}
+              className="gap-2 relative"
+            >
               {viewMode === "list" ? <Layers className="h-4 w-4" /> : <List className="h-4 w-4" />}
               {viewMode === "list" ? "Flashcards" : "List View"}
               {viewMode === "list" && dueCardsCount > 0 && (
@@ -153,7 +167,9 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
             />
           </div>
           <div className="sm:col-span-1">
-            <label className="mb-1 block text-xs font-medium text-muted-foreground">Transliteration</label>
+            <label className="mb-1 block text-xs font-medium text-muted-foreground">
+              Transliteration
+            </label>
             <Input
               placeholder="e.g. alam (pain)"
               value={translit}
@@ -161,7 +177,9 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-xs font-medium text-muted-foreground">Note (optional)</label>
+            <label className="mb-1 block text-xs font-medium text-muted-foreground">
+              Note (optional)
+            </label>
             <Input
               placeholder="Context or grammar hint"
               value={note}
@@ -204,7 +222,13 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <p dir="auto" className="font-arabic text-xl sm:text-2xl text-foreground">
                           {e.arabic || e.transliteration}
                         </p>
-                        {(e.arabic || e.transliteration) && <SpeakButton text={e.arabic || e.transliteration} fallbackText={e.transliteration} className="shrink-0 -mr-2 -mt-2" />}
+                        {(e.arabic || e.transliteration) && (
+                          <SpeakButton
+                            text={e.arabic || e.transliteration}
+                            fallbackText={e.transliteration}
+                            className="shrink-0 -mr-2 -mt-2"
+                          />
+                        )}
                       </div>
                       <p className="mt-2 font-mono text-sm text-foreground">{e.transliteration}</p>
                       {e.note && <p className="mt-1.5 text-xs text-muted-foreground">{e.note}</p>}
@@ -225,24 +249,30 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
             <div className="flex flex-col items-center max-w-md mx-auto mt-12">
               {sessionCards.length > 0 ? (
                 <>
-                  <div 
+                  <div
                     className="w-full aspect-[4/3] perspective-1000 cursor-pointer"
                     onClick={() => setIsFlipped(!isFlipped)}
                   >
-                    <div className={cn(
-                      "relative w-full h-full transition-transform duration-500 transform-style-3d shadow-sm rounded-2xl border border-border bg-card",
-                      isFlipped ? "rotate-y-180" : ""
-                    )}>
+                    <div
+                      className={cn(
+                        "relative w-full h-full transition-transform duration-500 transform-style-3d shadow-sm rounded-2xl border border-border bg-card",
+                        isFlipped ? "rotate-y-180" : "",
+                      )}
+                    >
                       {/* Front (Arabic) */}
                       <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center p-6 text-center">
-                        <p dir="auto" className="font-arabic text-3xl sm:text-4xl text-foreground mb-4">
-                          {sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration}
+                        <p
+                          dir="auto"
+                          className="font-arabic text-3xl sm:text-4xl text-foreground mb-4"
+                        >
+                          {sessionCards[flashcardIndex].arabic ||
+                            sessionCards[flashcardIndex].transliteration}
                         </p>
                         <div className="text-xs text-muted-foreground flex items-center gap-1 mt-4">
                           <RotateCcw className="h-3 w-3" /> Click to flip
                         </div>
                       </div>
-                      
+
                       {/* Back (Transliteration/Note) */}
                       <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col items-center justify-center p-6 text-center bg-muted/20">
                         <p className="font-mono text-xl sm:text-2xl text-foreground mb-3">
@@ -260,20 +290,36 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                   <div className="flex flex-col items-center gap-4 mt-8 w-full">
                     {isFlipped ? (
                       <div className="flex gap-2 w-full">
-                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-rose-200 hover:bg-rose-50" onClick={() => handleReview("again")}>
+                        <Button
+                          variant="outline"
+                          className="flex-1 flex-col h-auto py-2 border-rose-200 hover:bg-rose-50"
+                          onClick={() => handleReview("again")}
+                        >
                           <Frown className="h-5 w-5 mb-1 text-rose-500" />
                           <span className="text-xs font-medium text-rose-600">Again</span>
                           <span className="text-[10px] text-muted-foreground">&lt; 1m</span>
                         </Button>
-                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-blue-200 hover:bg-blue-50" onClick={() => handleReview("good")}>
+                        <Button
+                          variant="outline"
+                          className="flex-1 flex-col h-auto py-2 border-blue-200 hover:bg-blue-50"
+                          onClick={() => handleReview("good")}
+                        >
                           <Meh className="h-5 w-5 mb-1 text-blue-500" />
                           <span className="text-xs font-medium text-blue-600">Good</span>
-                          <span className="text-[10px] text-muted-foreground">{(sessionCards[flashcardIndex].interval || 1) * 2}d</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {(sessionCards[flashcardIndex].interval || 1) * 2}d
+                          </span>
                         </Button>
-                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-emerald-200 hover:bg-emerald-50" onClick={() => handleReview("easy")}>
+                        <Button
+                          variant="outline"
+                          className="flex-1 flex-col h-auto py-2 border-emerald-200 hover:bg-emerald-50"
+                          onClick={() => handleReview("easy")}
+                        >
                           <Smile className="h-5 w-5 mb-1 text-emerald-500" />
                           <span className="text-xs font-medium text-emerald-600">Easy</span>
-                          <span className="text-[10px] text-muted-foreground">{(sessionCards[flashcardIndex].interval || 1) * 3}d</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {(sessionCards[flashcardIndex].interval || 1) * 3}d
+                          </span>
                         </Button>
                       </div>
                     ) : (
@@ -281,8 +327,16 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <span className="text-sm font-medium text-muted-foreground">
                           {flashcardIndex + 1} / {sessionCards.length}
                         </span>
-                        {(sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration) && (
-                          <SpeakButton text={sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration} fallbackText={sessionCards[flashcardIndex].transliteration} className="mt-2" />
+                        {(sessionCards[flashcardIndex].arabic ||
+                          sessionCards[flashcardIndex].transliteration) && (
+                          <SpeakButton
+                            text={
+                              sessionCards[flashcardIndex].arabic ||
+                              sessionCards[flashcardIndex].transliteration
+                            }
+                            fallbackText={sessionCards[flashcardIndex].transliteration}
+                            className="mt-2"
+                          />
                         )}
                       </div>
                     )}

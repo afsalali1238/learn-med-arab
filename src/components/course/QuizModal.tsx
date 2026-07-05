@@ -1,5 +1,12 @@
 import { useState, useEffect, useMemo } from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+  DialogDescription,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Check, X } from "lucide-react";
 
@@ -44,13 +51,13 @@ export function QuizModal({
         setIsFinished(true);
         return;
       }
-      
+
       const shuffled = [...validRows].sort(() => 0.5 - Math.random());
       const selected = shuffled.slice(0, Math.min(numQuestions, shuffled.length));
 
       const generatedQuestions = selected.map((row) => {
         const correct = { arabic: row[1], transliteration: row[2] };
-        
+
         // Pick 3 distractors
         const distractors = validRows
           .filter((r) => r[0] !== row[0])
@@ -59,7 +66,7 @@ export function QuizModal({
           .map((r) => ({ arabic: r[1], transliteration: r[2] }));
 
         const options = [correct, ...distractors].sort(() => 0.5 - Math.random());
-        
+
         return {
           english: row[0],
           correctArabic: row[1],
@@ -122,12 +129,16 @@ export function QuizModal({
             <DialogTitle>Quiz Results</DialogTitle>
           </DialogHeader>
           <div className="flex flex-col items-center justify-center py-8">
-            <div className={`text-5xl font-black mb-4 ${passed ? "text-emerald-500" : "text-rose-500"}`}>
+            <div
+              className={`text-5xl font-black mb-4 ${passed ? "text-emerald-500" : "text-rose-500"}`}
+            >
               {Math.round(finalScore * 100)}%
             </div>
             <p className="text-muted-foreground text-center">
-              {passed 
-                ? isReviewMode ? "Great job! You've completed the review." : "Great job! You've passed the quiz." 
+              {passed
+                ? isReviewMode
+                  ? "Great job! You've completed the review."
+                  : "Great job! You've passed the quiz."
                 : `You need at least ${Math.round(passThreshold * 100)}% to pass. Try reviewing the vocabulary and retake the quiz.`}
             </p>
           </div>
@@ -152,7 +163,7 @@ export function QuizModal({
             Question {currentIndex + 1} of {questions.length}
           </DialogDescription>
         </DialogHeader>
-        
+
         <div className="py-4 space-y-6">
           <div className="text-center">
             <h3 className="text-lg font-medium text-muted-foreground mb-1">Translate this term</h3>
@@ -164,11 +175,15 @@ export function QuizModal({
               const isSelected = selectedAnswer === idx;
               const isCorrect = isChecking && opt.arabic === q.correctArabic;
               const isWrong = isChecking && isSelected && opt.arabic !== q.correctArabic;
-              
+
               let btnClass = "border-border hover:border-primary/50 bg-card text-foreground";
-              if (isSelected && !isChecking) btnClass = "border-primary ring-1 ring-primary bg-primary/10";
-              if (isCorrect) btnClass = "border-emerald-500 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400";
-              if (isWrong) btnClass = "border-rose-500 bg-rose-500/20 text-rose-700 dark:text-rose-400";
+              if (isSelected && !isChecking)
+                btnClass = "border-primary ring-1 ring-primary bg-primary/10";
+              if (isCorrect)
+                btnClass =
+                  "border-emerald-500 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400";
+              if (isWrong)
+                btnClass = "border-rose-500 bg-rose-500/20 text-rose-700 dark:text-rose-400";
 
               return (
                 <button
@@ -177,7 +192,9 @@ export function QuizModal({
                   className={`w-full flex flex-col items-center p-4 rounded-xl border-2 transition-all ${btnClass}`}
                   disabled={isChecking}
                 >
-                  <span className="font-arabic text-xl mb-1">{opt.arabic || opt.transliteration}</span>
+                  <span className="font-arabic text-xl mb-1">
+                    {opt.arabic || opt.transliteration}
+                  </span>
                   {opt.arabic && <span className="text-sm opacity-80">{opt.transliteration}</span>}
                 </button>
               );
@@ -187,11 +204,7 @@ export function QuizModal({
 
         <DialogFooter>
           {!isChecking ? (
-            <Button 
-              className="w-full" 
-              disabled={selectedAnswer === null} 
-              onClick={handleCheck}
-            >
+            <Button className="w-full" disabled={selectedAnswer === null} onClick={handleCheck}>
               Check Answer
             </Button>
           ) : (

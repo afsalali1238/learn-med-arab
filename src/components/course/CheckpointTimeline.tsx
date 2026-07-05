@@ -13,7 +13,14 @@ interface Props {
   vocabRows: string[][];
 }
 
-export function CheckpointTimeline({ checkpoints, completed, checkpointScores, onToggle, onSaveScore, vocabRows }: Props) {
+export function CheckpointTimeline({
+  checkpoints,
+  completed,
+  checkpointScores,
+  onToggle,
+  onSaveScore,
+  vocabRows,
+}: Props) {
   const [activeQuiz, setActiveQuiz] = useState<string | null>(null);
 
   const handleCheckpointClick = (id: string) => {
@@ -61,9 +68,7 @@ export function CheckpointTimeline({ checkpoints, completed, checkpointScores, o
               <span
                 className={cn(
                   "mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded border-2 transition-colors",
-                  isDone
-                    ? "border-emerald-500 bg-emerald-500"
-                    : "border-input bg-background",
+                  isDone ? "border-emerald-500 bg-emerald-500" : "border-input bg-background",
                 )}
               >
                 {isDone && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
@@ -79,7 +84,8 @@ export function CheckpointTimeline({ checkpoints, completed, checkpointScores, o
                 </span>
                 {isDone && checkpointScores[c.id] && (
                   <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mt-1">
-                    Passed with {Math.round(checkpointScores[c.id].score * 100)}% on {new Date(checkpointScores[c.id].timestamp).toLocaleDateString()}
+                    Passed with {Math.round(checkpointScores[c.id].score * 100)}% on{" "}
+                    {new Date(checkpointScores[c.id].timestamp).toLocaleDateString()}
                   </span>
                 )}
               </div>

@@ -74,9 +74,7 @@ export function ClinicalScenario({
 
       <div className="p-6">
         <div className="mb-2 flex items-center justify-between">
-          <label className="block text-sm font-medium text-foreground">
-            Your Consultation
-          </label>
+          <label className="block text-sm font-medium text-foreground">Your Consultation</label>
           <span className="text-xs text-muted-foreground">{wordCount} words</span>
         </div>
         <Textarea
@@ -101,11 +99,7 @@ export function ClinicalScenario({
         )}
         {submitted && (
           <div className="mt-4 flex justify-end">
-            <Button
-              variant="ghost"
-              onClick={() => setDrawerOpen((o) => !o)}
-              className="gap-2"
-            >
+            <Button variant="ghost" onClick={() => setDrawerOpen((o) => !o)} className="gap-2">
               <ChevronDown
                 className={cn("h-4 w-4 transition-transform", drawerOpen && "rotate-180")}
               />
@@ -137,7 +131,10 @@ export function ClinicalScenario({
                 <div className="mb-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                   Your Submission
                 </div>
-                <div className="rounded-lg border border-border bg-background p-4 text-[15px] leading-relaxed text-foreground min-h-[120px] whitespace-pre-wrap" dir="auto">
+                <div
+                  className="rounded-lg border border-border bg-background p-4 text-[15px] leading-relaxed text-foreground min-h-[120px] whitespace-pre-wrap"
+                  dir="auto"
+                >
                   {answers}
                 </div>
               </div>
@@ -150,7 +147,10 @@ export function ClinicalScenario({
                       Model Arabic Answer
                     </span>
                     {scenario.answerKey.arabic && (
-                      <SpeakButton text={scenario.answerKey.arabic} fallbackText={scenario.answerKey.transliteration} />
+                      <SpeakButton
+                        text={scenario.answerKey.arabic}
+                        fallbackText={scenario.answerKey.transliteration}
+                      />
                     )}
                   </div>
                   <p
@@ -185,7 +185,9 @@ export function ClinicalScenario({
             <div className="rounded-xl border border-primary/20 bg-primary/5 p-5">
               <div className="mb-4">
                 <h4 className="text-sm font-semibold text-foreground">Self-Assessment</h4>
-                <p className="text-xs text-muted-foreground">How close was your response to the model answer?</p>
+                <p className="text-xs text-muted-foreground">
+                  How close was your response to the model answer?
+                </p>
               </div>
               <RadioGroup
                 value={selfScore}
@@ -194,15 +196,24 @@ export function ClinicalScenario({
               >
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="needs-work" id="r1" />
-                  <Label htmlFor="r1" className="cursor-pointer">Needs Work</Label>
+                  <Label htmlFor="r1" className="cursor-pointer">
+                    Needs Work
+                  </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="close" id="r2" />
-                  <Label htmlFor="r2" className="cursor-pointer">Close enough</Label>
+                  <Label htmlFor="r2" className="cursor-pointer">
+                    Close enough
+                  </Label>
                 </div>
                 <div className="flex items-center space-x-2">
                   <RadioGroupItem value="nailed-it" id="r3" />
-                  <Label htmlFor="r3" className="cursor-pointer font-medium text-emerald-600 dark:text-emerald-400">Nailed it</Label>
+                  <Label
+                    htmlFor="r3"
+                    className="cursor-pointer font-medium text-emerald-600 dark:text-emerald-400"
+                  >
+                    Nailed it
+                  </Label>
                 </div>
               </RadioGroup>
             </div>

@@ -35,7 +35,12 @@ export function AppHeader({ title, progressPct, levelTitle, levelLevel, xp = 0 }
               XP
             </span>
           </div>
-          <Button variant="ghost" size="icon" onClick={toggleTheme} className="h-8 w-8 shrink-0 text-muted-foreground">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={toggleTheme}
+            className="h-8 w-8 shrink-0 text-muted-foreground"
+          >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </div>

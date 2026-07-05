@@ -15,7 +15,12 @@ interface Props {
   vocabCount: number;
   globalPct?: number;
   xp?: number;
-  level?: { level: number; title: string; min: number; next: { level: number; title: string; min: number } | null };
+  level?: {
+    level: number;
+    title: string;
+    min: number;
+    next: { level: number; title: string; min: number } | null;
+  };
   onExport?: () => void;
   onExportAnkiCSV?: () => void;
   onImport?: (file: File) => void;
@@ -70,7 +75,8 @@ export function StatsView({
   const checkpointsDone = completedCheckpoints.length;
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
-  const overallPct = globalPct ?? (totalCheckpoints ? Math.round((checkpointsDone / totalCheckpoints) * 100) : 0);
+  const overallPct =
+    globalPct ?? (totalCheckpoints ? Math.round((checkpointsDone / totalCheckpoints) * 100) : 0);
 
   const completedWeeks = useMemo(() => {
     return weeks.filter((w) => (perWeekPct[w.id] ?? 0) > 0);
@@ -181,7 +187,7 @@ export function StatsView({
                       ? "bg-primary text-primary-foreground shadow-sm"
                       : reached
                         ? "bg-teal-500/20 text-teal-600 dark:text-teal-400"
-                        : "bg-muted text-muted-foreground"
+                        : "bg-muted text-muted-foreground",
                   )}
                 >
                   {l.level}
@@ -189,7 +195,7 @@ export function StatsView({
                 <span
                   className={cn(
                     "flex-1 font-medium",
-                    reached ? "text-foreground" : "text-muted-foreground"
+                    reached ? "text-foreground" : "text-muted-foreground",
                   )}
                 >
                   {l.title}
@@ -210,10 +216,7 @@ export function StatsView({
           {weeks.map((w) => {
             const pct = perWeekPct[w.id] ?? 0;
             return (
-              <li
-                key={w.id}
-                className="rounded-xl border border-border bg-card p-3"
-              >
+              <li key={w.id} className="rounded-xl border border-border bg-card p-3">
                 <div className="flex items-center justify-between gap-2">
                   <div className="min-w-0">
                     <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground">
@@ -244,18 +247,27 @@ export function StatsView({
       <div className="mt-8 rounded-2xl border border-border bg-card p-5">
         <h3 className="mb-1 text-sm font-semibold">Backup & Export</h3>
         <p className="mb-4 text-xs text-muted-foreground">
-          Your progress is stored on this device. Export it to save a backup, or export vocabulary to Anki.
+          Your progress is stored on this device. Export it to save a backup, or export vocabulary
+          to Anki.
         </p>
         <div className="flex flex-col sm:flex-row gap-3">
           <Button variant="outline" onClick={onExport} className="gap-2 flex-1">
             <Download className="h-4 w-4" />
             Backup JSON
           </Button>
-          <Button variant="outline" onClick={onExportAnkiCSV} className="gap-2 flex-1 border-primary/20 text-primary hover:bg-primary/5">
+          <Button
+            variant="outline"
+            onClick={onExportAnkiCSV}
+            className="gap-2 flex-1 border-primary/20 text-primary hover:bg-primary/5"
+          >
             <Download className="h-4 w-4" />
             Export to Anki
           </Button>
-          <Button variant="outline" onClick={() => fileInputRef.current?.click()} className="gap-2 flex-1">
+          <Button
+            variant="outline"
+            onClick={() => fileInputRef.current?.click()}
+            className="gap-2 flex-1"
+          >
             <Upload className="h-4 w-4" />
             Import JSON
           </Button>
