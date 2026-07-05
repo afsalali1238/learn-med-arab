@@ -58,8 +58,8 @@ export const WEEKS: Week[] = [
     timeAllocation:
       "2h Listening / Video Analysis · 2h Speaking Practice & Phonetic Drills · 2h Weekly Assignment",
     coreConcepts: [
-      "Dubai's healthcare environment splits between Emirati nationals (Khaleeji dialect) and a large Levantine-speaking expatriate population. Rapidly identifying which dialect framework to employ — often from visual cues like the Kandura or Abaya, or the patient's first greeting — is critical for building the trust that drives medication compliance.",
-      "Initial greetings diverge phonetically and morphologically. Khaleeji greetings lean on hospitality and tribal respect; Levantine greetings are more casual and urbane. This week also establishes administrative intake vocabulary: requesting the Emirates ID (Bitaqat Al Hawiya), verifying Thiqa/Saada/private networks, and directing patients using culturally warm imperatives instead of rigid textbook translations.",
+      "Master essential greetings and administrative vocabulary (Emirates ID, Insurance).",
+      "Quickly distinguish between Khaleeji and Levantine dialects to build patient trust.",
     ],
     focusAreas: [
       {
