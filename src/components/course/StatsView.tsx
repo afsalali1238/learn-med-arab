@@ -1,8 +1,9 @@
-import { BookOpen, Target, Trophy, Award, Download, Upload } from "lucide-react";
+import { BookOpen, Target, Trophy, Award, Download, Upload, RefreshCw } from "lucide-react";
 import type { Week } from "@/data/course";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { useRef } from "react";
+import { useRef, useState, useMemo } from "react";
+import { QuizModal } from "./QuizModal";
 
 interface Props {
   weeks: Week[];
@@ -57,11 +58,20 @@ export function StatsView({
   onImport,
 }: Props) {
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
 
   const checkpointsDone = completedCheckpoints.length;
   const weeksComplete = Object.values(perWeekPct).filter((p) => p === 100).length;
   const scenariosSubmitted = Object.values(assignments).filter((a) => a.submitted).length;
   const overallPct = globalPct ?? (totalCheckpoints ? Math.round((checkpointsDone / totalCheckpoints) * 100) : 0);
+
+  const completedWeeks = useMemo(() => {
+    return weeks.filter((w) => (perWeekPct[w.id] ?? 0) > 0);
+  }, [weeks, perWeekPct]);
+
+  const reviewVocabRows = useMemo(() => {
+    return completedWeeks.flatMap((w) => w.vocabTables.flatMap((t) => t.rows));
+  }, [completedWeeks]);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -99,6 +109,21 @@ export function StatsView({
           />
         </div>
       </div>
+
+      {completedWeeks.length > 1 && reviewVocabRows.length > 0 && (
+        <div className="mt-4 rounded-2xl border border-border bg-card p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <h3 className="font-semibold">Cross-Week Review</h3>
+            <p className="text-xs text-muted-foreground mt-1">
+              Test your knowledge across all the weeks you've started.
+            </p>
+          </div>
+          <Button onClick={() => setIsReviewOpen(true)} className="gap-2 w-full sm:w-auto">
+            <RefreshCw className="h-4 w-4" />
+            Start Review Quiz
+          </Button>
+        </div>
+      )}
 
       {/* Grid stats */}
       <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -188,6 +213,16 @@ export function StatsView({
           />
         </div>
       </div>
+
+      <QuizModal
+        isOpen={isReviewOpen}
+        onClose={() => setIsReviewOpen(false)}
+        onPass={() => {}}
+        vocabRows={reviewVocabRows}
+        numQuestions={10}
+        passThreshold={0}
+        isReviewMode={true}
+      />
     </div>
   );
 }

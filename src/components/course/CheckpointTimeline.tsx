@@ -1,14 +1,37 @@
+import { useState } from "react";
 import { Check } from "lucide-react";
 import type { Checkpoint } from "@/data/course";
 import { cn } from "@/lib/utils";
+import { QuizModal } from "./QuizModal";
 
 interface Props {
   checkpoints: Checkpoint[];
   completed: string[];
+  checkpointScores: Record<string, { score: number; timestamp: number }>;
   onToggle: (id: string) => void;
+  onSaveScore: (id: string, score: number) => void;
+  vocabRows: string[][];
 }
 
-export function CheckpointTimeline({ checkpoints, completed, onToggle }: Props) {
+export function CheckpointTimeline({ checkpoints, completed, checkpointScores, onToggle, onSaveScore, vocabRows }: Props) {
+  const [activeQuiz, setActiveQuiz] = useState<string | null>(null);
+
+  const handleCheckpointClick = (id: string) => {
+    const isDone = completed.includes(id);
+    if (isDone) {
+      onToggle(id); // Allow un-checking without a quiz
+    } else {
+      setActiveQuiz(id);
+    }
+  };
+
+  const handleQuizPass = (score: number) => {
+    if (activeQuiz) {
+      onToggle(activeQuiz);
+      onSaveScore(activeQuiz, score);
+      setActiveQuiz(null);
+    }
+  };
   return (
     <ol className="relative space-y-3 border-l-2 border-border pl-6">
       {checkpoints.map((c) => {
@@ -26,7 +49,7 @@ export function CheckpointTimeline({ checkpoints, completed, onToggle }: Props) 
               {isDone && <Check className="h-3 w-3" strokeWidth={3} />}
             </span>
             <button
-              onClick={() => onToggle(c.id)}
+              onClick={() => handleCheckpointClick(c.id)}
               role="checkbox"
               aria-checked={isDone}
               aria-label={`Mark complete: ${c.label}`}
@@ -45,18 +68,34 @@ export function CheckpointTimeline({ checkpoints, completed, onToggle }: Props) 
               >
                 {isDone && <Check className="h-3 w-3 text-white" strokeWidth={3} />}
               </span>
-              <span
-                className={cn(
-                  "text-sm leading-relaxed transition-colors",
-                  isDone ? "text-foreground" : "text-muted-foreground",
+              <div className="flex flex-col text-left">
+                <span
+                  className={cn(
+                    "text-sm leading-relaxed transition-colors",
+                    isDone ? "text-foreground" : "text-muted-foreground",
+                  )}
+                >
+                  {c.label}
+                </span>
+                {isDone && checkpointScores[c.id] && (
+                  <span className="text-[11px] font-medium text-emerald-600 dark:text-emerald-400 mt-1">
+                    Passed with {Math.round(checkpointScores[c.id].score * 100)}% on {new Date(checkpointScores[c.id].timestamp).toLocaleDateString()}
+                  </span>
                 )}
-              >
-                {c.label}
-              </span>
+              </div>
             </button>
           </li>
         );
       })}
+
+      {activeQuiz && (
+        <QuizModal
+          isOpen={!!activeQuiz}
+          onClose={() => setActiveQuiz(null)}
+          onPass={handleQuizPass}
+          vocabRows={vocabRows}
+        />
+      )}
     </ol>
   );
 }

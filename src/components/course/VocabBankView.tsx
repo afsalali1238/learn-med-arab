@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { Plus, Trash2, Search, Download, Layers, List, ChevronLeft, ChevronRight, RotateCcw } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { Plus, Trash2, Search, Download, Layers, List, RotateCcw, Frown, Meh, Smile } from "lucide-react";
 import type { VocabEntry } from "@/data/course";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,9 +10,10 @@ interface Props {
   entries: VocabEntry[];
   onAdd: (entry: Omit<VocabEntry, "id">) => void;
   onRemove: (id: string) => void;
+  onUpdate: (id: string, patch: Partial<VocabEntry>) => void;
 }
 
-export function VocabBankView({ entries, onAdd, onRemove }: Props) {
+export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
   const [arabic, setArabic] = useState("");
   const [translit, setTranslit] = useState("");
   const [note, setNote] = useState("");
@@ -20,8 +21,22 @@ export function VocabBankView({ entries, onAdd, onRemove }: Props) {
   const [viewMode, setViewMode] = useState<"list" | "flashcards">("list");
   
   // Flashcard state
+  const [sessionCards, setSessionCards] = useState<VocabEntry[]>([]);
   const [flashcardIndex, setFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const dueCardsCount = useMemo(() => {
+    return entries.filter(e => !e.nextReviewDate || e.nextReviewDate <= Date.now()).length;
+  }, [entries]);
+
+  useEffect(() => {
+    if (viewMode === "flashcards") {
+      const due = entries.filter(e => !e.nextReviewDate || e.nextReviewDate <= Date.now());
+      setSessionCards(due.sort(() => 0.5 - Math.random()));
+      setFlashcardIndex(0);
+      setIsFlipped(false);
+    }
+  }, [viewMode, entries]);
 
   const submit = () => {
     if (!arabic.trim() && !translit.trim()) return;
@@ -62,30 +77,60 @@ export function VocabBankView({ entries, onAdd, onRemove }: Props) {
     document.body.removeChild(link);
   };
 
-  const handleNextCard = () => {
-    setIsFlipped(false);
-    setFlashcardIndex((i) => (i + 1) % filteredEntries.length);
-  };
+  const handleReview = (quality: "again" | "good" | "easy") => {
+    const currentCard = sessionCards[flashcardIndex];
+    if (!currentCard) return;
 
-  const handlePrevCard = () => {
+    let nextInterval = currentCard.interval || 1;
+    let nextReviewDate = Date.now();
+
+    const MINUTE = 60 * 1000;
+    const DAY = 24 * 60 * MINUTE;
+
+    if (quality === "again") {
+      nextInterval = 1;
+      nextReviewDate += MINUTE; // 1 minute from now
+    } else if (quality === "good") {
+      nextReviewDate += nextInterval * DAY;
+      nextInterval = Math.min(nextInterval * 2, 30);
+    } else if (quality === "easy") {
+      nextReviewDate += nextInterval * 3 * DAY;
+      nextInterval = Math.min(nextInterval * 3, 60);
+    }
+
+    onUpdate(currentCard.id, { interval: nextInterval, nextReviewDate });
     setIsFlipped(false);
-    setFlashcardIndex((i) => (i - 1 + filteredEntries.length) % filteredEntries.length);
+    
+    // Move to next card in session
+    if (flashcardIndex < sessionCards.length - 1) {
+      setFlashcardIndex((i) => i + 1);
+    } else {
+      // Session finished, useEffect will re-compute due cards and refresh
+      setSessionCards([]); 
+    }
   };
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-6 sm:px-6 sm:py-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-5 gap-4">
         <div>
-          <h2 className="text-xl font-bold sm:text-2xl">Vocabulary Bank</h2>
+          <h2 className="text-xl font-bold sm:text-2xl flex items-center gap-2">
+            Vocabulary Bank
+          </h2>
           <p className="mt-1 text-sm text-muted-foreground">
             Save Arabic terms to memorize. Stored on this device.
           </p>
         </div>
         {entries.length > 0 && (
           <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={() => setViewMode(v => v === "list" ? "flashcards" : "list")} className="gap-2">
+            <Button variant="outline" size="sm" onClick={() => setViewMode(v => v === "list" ? "flashcards" : "list")} className="gap-2 relative">
               {viewMode === "list" ? <Layers className="h-4 w-4" /> : <List className="h-4 w-4" />}
               {viewMode === "list" ? "Flashcards" : "List View"}
+              {viewMode === "list" && dueCardsCount > 0 && (
+                <span className="absolute -top-2 -right-2 flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[10px] font-bold text-primary-foreground">
+                  {dueCardsCount}
+                </span>
+              )}
             </Button>
             <Button variant="outline" size="sm" onClick={exportCSV} className="gap-2">
               <Download className="h-4 w-4" />
@@ -100,158 +145,165 @@ export function VocabBankView({ entries, onAdd, onRemove }: Props) {
           <div className="sm:col-span-1">
             <label className="mb-1 block text-xs font-medium text-muted-foreground">Arabic</label>
             <Input
-              dir="rtl"
-              className="text-right font-arabic text-base"
+              dir="auto"
+              placeholder="e.g. ألم"
               value={arabic}
               onChange={(e) => setArabic(e.target.value)}
-              placeholder="السلام عليكم"
+              className="font-arabic"
             />
           </div>
           <div className="sm:col-span-1">
-            <label className="mb-1 block text-xs font-medium text-muted-foreground">
-              Transliteration
-            </label>
+            <label className="mb-1 block text-xs font-medium text-muted-foreground">Transliteration</label>
             <Input
+              placeholder="e.g. alam (pain)"
               value={translit}
               onChange={(e) => setTranslit(e.target.value)}
-              placeholder="As-salamu alaykum"
             />
           </div>
           <div className="sm:col-span-2">
-            <label className="mb-1 block text-xs font-medium text-muted-foreground">
-              Note (optional)
-            </label>
+            <label className="mb-1 block text-xs font-medium text-muted-foreground">Note (optional)</label>
             <Input
+              placeholder="Context or grammar hint"
               value={note}
               onChange={(e) => setNote(e.target.value)}
-              placeholder="e.g., Khaleeji formal greeting"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") submit();
+              }}
             />
           </div>
-          <div className="sm:col-span-2">
-            <Button onClick={submit} className="w-full gap-2">
-              <Plus className="h-4 w-4" />
-              Add to Vocabulary Bank
+          <div className="mt-2 sm:col-span-2">
+            <Button onClick={submit} className="w-full sm:w-auto">
+              <Plus className="mr-2 h-4 w-4" /> Add Word
             </Button>
           </div>
         </div>
       )}
 
       {entries.length > 0 && (
-        <div className="mt-5 relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setFlashcardIndex(0);
-              setIsFlipped(false);
-            }}
-            placeholder="Search vocabulary..."
-            className="pl-9 bg-card"
-          />
-        </div>
-      )}
+        <div className="mt-8">
+          {viewMode === "list" ? (
+            <>
+              <div className="relative mb-4">
+                <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                <Input
+                  className="pl-9"
+                  placeholder="Search vocabulary..."
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                />
+              </div>
 
-      <div className="mt-5">
-        {entries.length === 0 ? (
-          <p className="rounded-2xl border border-dashed border-border py-10 text-center text-sm text-muted-foreground">
-            No saved terms yet. Add one above, or tap the bookmark icon in any dialect table.
-          </p>
-        ) : filteredEntries.length === 0 ? (
-          <p className="py-10 text-center text-sm text-muted-foreground">
-            No terms match your search.
-          </p>
-        ) : viewMode === "list" ? (
-          <ul className="divide-y divide-border rounded-2xl border border-border bg-card">
-            {filteredEntries.map((e) => (
-              <li key={e.id} className="flex items-start gap-3 px-4 py-3">
-                <div className="min-w-0 flex-1">
-                  {e.arabic && (
-                    <div className="flex items-center gap-2 justify-end">
-                      <p
-                        dir="rtl"
-                        className="text-right font-arabic text-lg leading-snug text-foreground"
-                      >
-                        {e.arabic}
-                      </p>
-                    </div>
-                  )}
-                  {e.transliteration && (
-                    <p className="mt-0.5 font-mono text-sm italic text-muted-foreground">
-                      {e.transliteration}
-                    </p>
-                  )}
-                  {e.note && <p className="mt-1 text-xs text-muted-foreground">{e.note}</p>}
-                </div>
-                <div className="flex flex-col items-center gap-1">
-                  {e.arabic && <SpeakButton text={e.arabic} />}
-                  <Button
-                    size="icon"
-                    variant="ghost"
-                    className="h-7 w-7 shrink-0 text-muted-foreground hover:text-destructive"
-                    onClick={() => onRemove(e.id)}
-                    aria-label="Remove term"
+              <ul className="grid gap-3 sm:grid-cols-2">
+                {filteredEntries.map((e) => (
+                  <li
+                    key={e.id}
+                    className="group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <div>
+                      <div className="flex items-start justify-between gap-4">
+                        <p dir="auto" className="font-arabic text-xl sm:text-2xl text-foreground">
+                          {e.arabic || e.transliteration}
+                        </p>
+                        {e.arabic && <SpeakButton text={e.arabic} className="shrink-0 -mr-2 -mt-2" />}
+                      </div>
+                      <p className="mt-2 font-mono text-sm text-foreground">{e.transliteration}</p>
+                      {e.note && <p className="mt-1.5 text-xs text-muted-foreground">{e.note}</p>}
+                    </div>
+                    <button
+                      onClick={() => onRemove(e.id)}
+                      className="absolute bottom-2 right-2 rounded p-1.5 text-muted-foreground opacity-0 transition-opacity hover:bg-destructive/10 hover:text-destructive group-hover:opacity-100"
+                      aria-label="Delete word"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : (
+            /* Flashcard View */
+            <div className="flex flex-col items-center max-w-md mx-auto mt-12">
+              {sessionCards.length > 0 ? (
+                <>
+                  <div 
+                    className="w-full aspect-[4/3] perspective-1000 cursor-pointer"
+                    onClick={() => setIsFlipped(!isFlipped)}
+                  >
+                    <div className={cn(
+                      "relative w-full h-full transition-transform duration-500 transform-style-3d shadow-sm rounded-2xl border border-border bg-card",
+                      isFlipped ? "rotate-y-180" : ""
+                    )}>
+                      {/* Front (Arabic) */}
+                      <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center p-6 text-center">
+                        <p dir="auto" className="font-arabic text-3xl sm:text-4xl text-foreground mb-4">
+                          {sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration}
+                        </p>
+                        <div className="text-xs text-muted-foreground flex items-center gap-1 mt-4">
+                          <RotateCcw className="h-3 w-3" /> Click to flip
+                        </div>
+                      </div>
+                      
+                      {/* Back (Transliteration/Note) */}
+                      <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col items-center justify-center p-6 text-center bg-muted/20">
+                        <p className="font-mono text-xl sm:text-2xl text-foreground mb-3">
+                          {sessionCards[flashcardIndex].transliteration}
+                        </p>
+                        {sessionCards[flashcardIndex].note && (
+                          <p className="text-sm text-muted-foreground border-t border-border/50 pt-3 mt-2 w-full">
+                            {sessionCards[flashcardIndex].note}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center gap-4 mt-8 w-full">
+                    {isFlipped ? (
+                      <div className="flex gap-2 w-full">
+                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-rose-200 hover:bg-rose-50" onClick={() => handleReview("again")}>
+                          <Frown className="h-5 w-5 mb-1 text-rose-500" />
+                          <span className="text-xs font-medium text-rose-600">Again</span>
+                          <span className="text-[10px] text-muted-foreground">&lt; 1m</span>
+                        </Button>
+                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-blue-200 hover:bg-blue-50" onClick={() => handleReview("good")}>
+                          <Meh className="h-5 w-5 mb-1 text-blue-500" />
+                          <span className="text-xs font-medium text-blue-600">Good</span>
+                          <span className="text-[10px] text-muted-foreground">{(sessionCards[flashcardIndex].interval || 1) * 2}d</span>
+                        </Button>
+                        <Button variant="outline" className="flex-1 flex-col h-auto py-2 border-emerald-200 hover:bg-emerald-50" onClick={() => handleReview("easy")}>
+                          <Smile className="h-5 w-5 mb-1 text-emerald-500" />
+                          <span className="text-xs font-medium text-emerald-600">Easy</span>
+                          <span className="text-[10px] text-muted-foreground">{(sessionCards[flashcardIndex].interval || 1) * 3}d</span>
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center">
+                        <span className="text-sm font-medium text-muted-foreground">
+                          {flashcardIndex + 1} / {sessionCards.length}
+                        </span>
+                        {sessionCards[flashcardIndex].arabic && (
+                          <SpeakButton text={sessionCards[flashcardIndex].arabic} className="mt-2" />
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="text-center p-8 bg-card rounded-2xl border border-border w-full">
+                  <Smile className="h-12 w-12 text-emerald-500 mx-auto mb-4" />
+                  <h3 className="text-lg font-bold">All caught up!</h3>
+                  <p className="text-sm text-muted-foreground mt-2">
+                    You have no vocabulary words due for review right now.
+                  </p>
+                  <Button variant="outline" className="mt-6" onClick={() => setViewMode("list")}>
+                    Back to List
                   </Button>
                 </div>
-              </li>
-            ))}
-          </ul>
-        ) : (
-          /* Flashcard View */
-          <div className="flex flex-col items-center max-w-md mx-auto">
-            <div 
-              className="w-full aspect-[4/3] perspective-1000 cursor-pointer"
-              onClick={() => setIsFlipped(!isFlipped)}
-            >
-              <div className={cn(
-                "relative w-full h-full transition-transform duration-500 transform-style-3d shadow-sm rounded-2xl border border-border bg-card",
-                isFlipped ? "rotate-y-180" : ""
-              )}>
-                {/* Front (Arabic) */}
-                <div className="absolute inset-0 backface-hidden flex flex-col items-center justify-center p-6 text-center">
-                  <p dir="auto" className="font-arabic text-3xl sm:text-4xl text-foreground mb-4">
-                    {filteredEntries[flashcardIndex].arabic || filteredEntries[flashcardIndex].transliteration}
-                  </p>
-                  <div className="text-xs text-muted-foreground flex items-center gap-1 mt-4">
-                    <RotateCcw className="h-3 w-3" /> Click to flip
-                  </div>
-                </div>
-                
-                {/* Back (Transliteration/Note) */}
-                <div className="absolute inset-0 backface-hidden rotate-y-180 flex flex-col items-center justify-center p-6 text-center bg-muted/20">
-                  <p className="font-mono text-xl sm:text-2xl text-foreground mb-3">
-                    {filteredEntries[flashcardIndex].transliteration}
-                  </p>
-                  {filteredEntries[flashcardIndex].note && (
-                    <p className="text-sm text-muted-foreground border-t border-border/50 pt-3 mt-2 w-full">
-                      {filteredEntries[flashcardIndex].note}
-                    </p>
-                  )}
-                </div>
-              </div>
+              )}
             </div>
-
-            <div className="flex items-center gap-4 mt-6 w-full justify-between">
-              <Button variant="outline" size="icon" onClick={handlePrevCard}>
-                <ChevronLeft className="h-5 w-5" />
-              </Button>
-              <div className="flex flex-col items-center">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {flashcardIndex + 1} / {filteredEntries.length}
-                </span>
-                {filteredEntries[flashcardIndex].arabic && (
-                  <SpeakButton text={filteredEntries[flashcardIndex].arabic} className="mt-2" />
-                )}
-              </div>
-              <Button variant="outline" size="icon" onClick={handleNextCard}>
-                <ChevronRight className="h-5 w-5" />
-              </Button>
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

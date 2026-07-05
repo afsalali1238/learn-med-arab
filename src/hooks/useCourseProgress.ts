@@ -7,6 +7,7 @@ const STORAGE_KEY = "medical-arabic-course-v1";
 
 export interface CourseProgress {
   completedCheckpoints: string[];
+  checkpointScores: Record<string, { score: number; timestamp: number }>;
   assignments: Record<string, { answers: string; submitted: boolean; selfScore?: string }>;
   notes: Record<string, string>;
   vocabBank: VocabEntry[];
@@ -14,6 +15,7 @@ export interface CourseProgress {
 
 const EMPTY: CourseProgress = {
   completedCheckpoints: [],
+  checkpointScores: {},
   assignments: {},
   notes: {},
   vocabBank: [],
@@ -27,6 +29,7 @@ function load(): CourseProgress {
     const parsed = JSON.parse(raw) as Partial<CourseProgress>;
     return {
       completedCheckpoints: parsed.completedCheckpoints ?? [],
+      checkpointScores: parsed.checkpointScores ?? {},
       assignments: parsed.assignments ?? {},
       notes: parsed.notes ?? {},
       vocabBank: parsed.vocabBank ?? [],
@@ -60,6 +63,16 @@ export function useCourseProgress() {
       completedCheckpoints: p.completedCheckpoints.includes(id)
         ? p.completedCheckpoints.filter((c) => c !== id)
         : [...p.completedCheckpoints, id],
+    }));
+  }, []);
+
+  const setCheckpointScore = useCallback((id: string, score: number) => {
+    setProgress((p) => ({
+      ...p,
+      checkpointScores: {
+        ...p.checkpointScores,
+        [id]: { score, timestamp: Date.now() },
+      },
     }));
   }, []);
 
@@ -107,6 +120,13 @@ export function useCourseProgress() {
     setProgress((p) => ({ ...p, vocabBank: p.vocabBank.filter((v) => v.id !== id) }));
   }, []);
 
+  const updateVocab = useCallback((id: string, patch: Partial<VocabEntry>) => {
+    setProgress((p) => ({
+      ...p,
+      vocabBank: p.vocabBank.map((v) => (v.id === id ? { ...v, ...patch } : v)),
+    }));
+  }, []);
+
   const exportProgress = useCallback(() => {
     try {
       const dataStr = JSON.stringify(progress, null, 2);
@@ -141,6 +161,7 @@ export function useCourseProgress() {
         
         setProgress({
           completedCheckpoints: Array.isArray(parsed.completedCheckpoints) ? parsed.completedCheckpoints : [],
+          checkpointScores: typeof parsed.checkpointScores === "object" ? parsed.checkpointScores : {},
           assignments: typeof parsed.assignments === "object" ? parsed.assignments : {},
           notes: typeof parsed.notes === "object" ? parsed.notes : {},
           vocabBank: Array.isArray(parsed.vocabBank) ? parsed.vocabBank : [],
@@ -191,10 +212,12 @@ export function useCourseProgress() {
     progress,
     hydrated,
     toggleCheckpoint,
+    setCheckpointScore,
     setAssignment,
     setNote,
     addVocab,
     removeVocab,
+    updateVocab,
     exportProgress,
     importProgress,
     calculateWeekProgress,

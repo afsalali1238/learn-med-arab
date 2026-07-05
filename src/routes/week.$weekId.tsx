@@ -21,6 +21,7 @@ function WeekRoute() {
     progress,
     hydrated,
     toggleCheckpoint,
+    setCheckpointScore,
     setAssignment,
     setNote,
     addVocab,
@@ -60,10 +61,12 @@ function WeekRoute() {
         <WeekView
           week={activeWeek}
           completedCheckpoints={progress.completedCheckpoints}
+          checkpointScores={progress.checkpointScores}
           assignment={progress.assignments[activeWeek.id] ?? { answers: "", submitted: false }}
           note={progress.notes[activeWeek.id] ?? ""}
           weekProgress={calculateWeekProgress(activeWeek.id)}
           onToggleCheckpoint={toggleCheckpoint}
+          onSetCheckpointScore={setCheckpointScore}
           onSetAssignment={(patch) => setAssignment(activeWeek.id, patch)}
           onSetNote={(v) => setNote(activeWeek.id, v)}
           onAddVocab={addVocab}

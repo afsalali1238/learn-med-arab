@@ -10,9 +10,11 @@ import { VocabTables } from "./VocabTables";
 interface Props {
   week: Week;
   completedCheckpoints: string[];
+  checkpointScores: Record<string, { score: number; timestamp: number }>;
   assignment: { answers: string; submitted: boolean; selfScore?: string };
   note: string;
   onToggleCheckpoint: (id: string) => void;
+  onSetCheckpointScore: (id: string, score: number) => void;
   onSetAssignment: (patch: Partial<{ answers: string; submitted: boolean; selfScore?: string }>) => void;
   onSetNote: (value: string) => void;
   onAddVocab: (entry: Omit<VocabEntry, "id">) => void;
@@ -22,9 +24,11 @@ interface Props {
 export function WeekView({
   week,
   completedCheckpoints,
+  checkpointScores,
   assignment,
   note,
   onToggleCheckpoint,
+  onSetCheckpointScore,
   onSetAssignment,
   onSetNote,
   onAddVocab,
@@ -126,7 +130,10 @@ export function WeekView({
         <CheckpointTimeline
           checkpoints={week.checkpoints}
           completed={completedCheckpoints}
+          checkpointScores={checkpointScores}
           onToggle={onToggleCheckpoint}
+          onSaveScore={onSetCheckpointScore}
+          vocabRows={week.vocabTables.flatMap((t) => t.rows)}
         />
       </section>
 

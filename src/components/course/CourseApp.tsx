@@ -16,6 +16,7 @@ export function CourseApp() {
     hydrated,
     addVocab,
     removeVocab,
+    updateVocab,
     exportProgress,
     importProgress,
     calculateWeekProgress,
@@ -76,6 +77,7 @@ export function CourseApp() {
             entries={progress.vocabBank}
             onAdd={addVocab}
             onRemove={removeVocab}
+            onUpdate={updateVocab}
           />
         ) : (
           <StatsView

@@ -77,14 +77,14 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Greetings & administrative phrases",
+        caption: "Greetings & administrative phrases (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["How are you? (m/f)", "شلونك؟ / كيفك؟", "Shlonak? (Gulf) / Kifak? (Shami)"],
-          ["Emirates ID", "بطاقة الهوية", "Bitaqat Al Hawiya / Hawiyyeh"],
-          ["Health Insurance", "تأمين", "Ta'meen"],
-          ["Please wait here", "استريح هني / انطر هون", "Istareeh hni (Gulf) / Ntor hon (Shami)"],
-          ["Medical Prescription", "وصفة / روشيتة", "Wasfa / Rawshetta"],
+          ["How are you? (m/f)", "كيف حالكَ؟ / كيف حالكِ؟", "Kayfa haluka? / Kayfa haluki?"],
+          ["Emirates ID", "بطاقة الهوية", "Bitaqat Al-Hawiya"],
+          ["Health Insurance", "تأمين صحي", "Ta'meen Sihhi"],
+          ["Please wait here", "من فضلك انتظر هنا", "Min fadlik intadhir huna"],
+          ["Medical Prescription", "وصفة طبية", "Wasfa tibbiyya"],
         ],
       },
     ],
@@ -117,14 +117,14 @@ export const WEEKS: Week[] = [
       patient:
         "A local Emirati male in traditional Kandura approaches the pharmacy counter. Welcome him respectfully, ask for his prescription, and request his Emirates ID and insurance card to process his medication.",
       instructions:
-        "Write exactly what you would say in Arabic script plus English transliteration. Use a respectful Khaleeji tone appropriate to Dubai — avoid stiff MSA that sounds cold.",
+        "Write exactly what you would say in Arabic script plus English transliteration. Use a professional Modern Standard Arabic (MSA) tone appropriate for a healthcare setting in the UAE — MSA is understood by patients of every Arab nationality, unlike a single regional dialect.",
       answerKey: {
         arabic:
-          "السلام عليكم، حياك الله. لو سمحت، عطني الوصفة والهوية وبطاقة التأمين عشان أجهز لك الدواء.",
+          "أهلاً بك يا أخي، كيف حالكَ؟ أعطني الوصفة لو سمحت، وهل ممكن بطاقة الهوية وبطاقة التأمين؟ تفضل بالجلوس هنا دقائق وسنعد لك الدواء.",
         transliteration:
-          "As-salamu alaykum, hayyak Allah. Law samaht, a'teeni al-wasfa wal-hawiya wa bitaqat at-ta'meen ashan ajahhiz lak ad-dawa.",
+          "Ahlan bika ya akhi, kayfa haluka? A'tini al-wasfa law samaht, wa hal mumkin bitaqat al-hawiya wa bitaqat al-ta'meen? Tafaddal bi-l-juloos huna daqaiq wa sanu'idd laka al-dawaa'.",
         rationale:
-          "Opening with 'As-salamu alaykum' followed by 'Hayyak Allah' is the culturally mandated Khaleeji welcome — it signals respect and hospitality before any transactional request. 'Ashan' (so that) is a warm Gulf connector; the MSA equivalent 'li-ajli an' would feel clinical. Requesting the wasfa first (versus insurance) mirrors local pharmacy etiquette: clinical need before administrative gatekeeping.",
+          "Kayfa haluka is the universally understood Modern Standard Arabic phrase for 'How are you?' — unlike Gulf 'shlonak' or Levantine 'kifak', it is recognized by every Arabic speaker regardless of nationality. 'Ahlan bika' (welcome) followed by 'ya akhi' (my brother) keeps a warm, respectful tone without lapsing into a specific regional dialect. 'Law samaht' (if you please) and 'tafaddal bi-l-juloos huna' (please sit here) are the standard, formally correct ways to make a polite request and offer a seat in a healthcare setting.",
       },
     },
   },
@@ -144,14 +144,14 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Symptom & inquiry phrases",
+        caption: "Clinical inquiry phrases (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["What are your symptoms?", "شنو أعراضك؟ / شو الأعراض؟", "Shno a'radhak? (Gulf) / Shu al-a'raad? (Shami)"],
-          ["Are you pregnant?", "أنتي حامل؟", "Enti hamil? / Inti hamel?"],
-          ["Are you taking other medications?", "تاخذ أدوية ثانية؟", "Takhith adwiyah thanyah? / Btekhod adwiyeh tenyeh?"],
-          ["Do you have allergies?", "عندك حساسية؟", "Endak hasasiyah? / Fi endak hasasiyeh?"],
-          ["Since when?", "من متى؟ / من إيمتى؟", "Min mata? / Min emta?"],
+          ["How old are you?", "كم عمركَ؟ / كم عمركِ؟", "Kam omruka? / Kam omruki?"],
+          ["What are your symptoms?", "ما هي الأعراض؟", "Ma hiya al-a'raad?"],
+          ["Are you pregnant?", "هل أنتِ حامل؟", "Hal anti hamil?"],
+          ["Are you taking other medications?", "هل تأخذ أدوية أخرى؟", "Hal ta'khudh adwiyah ukhra?"],
+          ["Do you have allergies?", "هل لديك حساسية؟", "Hal ladayka/ladayki hasasiyah?"],
         ],
       },
     ],
@@ -184,14 +184,14 @@ export const WEEKS: Week[] = [
       patient:
         "A Levantine woman in her 30s approaches the counter clutching her stomach. She looks tired and mildly distressed. Elicit her symptoms, onset, and current medications before recommending anything.",
       instructions:
-        "Draft a natural Levantine (Shami) dialogue eliciting symptoms. Include Arabic script and transliteration. Use softeners appropriate for a female patient describing abdominal symptoms.",
+        "Draft a formal Modern Standard Arabic (MSA) dialogue eliciting symptoms. Include Arabic script and transliteration. Use standard empathy markers appropriate for a female patient describing abdominal symptoms.",
       answerKey: {
         arabic:
-          "أهلين، شو الأعراض يلي عم تحسي فيها؟ من إمتا هيك؟ في وجع أو غثيان؟ عم تاخدي أي دوا هلق؟",
+          "أهلاً بكِ، أتمنى لكِ الشفاء. ما هي الأعراض التي تشعرين بها؟ منذ متى وأنتِ على هذه الحال؟ هل تشعرين بألم أو غثيان؟ وهل تتناولين أي دواء آخر حالياً؟",
         transliteration:
-          "Ahlain, shu al-a'raad yalli am tehessi feeha? Min emta hayk? Fi waja' aw ghathayan? Am takhdi ay dawa halla'?",
+          "Ahlan biki, atamanna laki al-shifaa'. Ma hiya al-a'raad allati tash'urina biha? Mundhu mata wa anti 'ala hadhihi al-haal? Hal tash'urina bi-alam aw ghathayan? Wa hal tatanawalina ay dawaa' aakhar haaliyan?",
         rationale:
-          "'Ahlain' is a warmer Levantine opener than 'Marhaba' for a distressed patient. 'Yalli am tehessi feeha' (that you're feeling) uses the continuous 'am' particle typical of Shami and softens the inquiry. Asking symptoms, onset, and current medications in one flowing turn — rather than a rigid checklist — matches how Levantine patients expect a caring provider to speak.",
+          "'Atamanna laki al-shifaa'' (I wish you a swift recovery) is a standard empathetic opener understood across every Arab region — unlike a dialect-specific comfort phrase, it never sounds out of place. 'Mundhu mata' (since when) and 'Ma hiya al-a'raad' use the formal MSA interrogative structure rather than colloquial 'shu al-a'raad' or 'shno a'radhak', so the question is unambiguous to a patient from any Arabic-speaking background. Asking about pain, nausea, and concurrent medications in the same formal register keeps the exchange clinically precise.",
       },
     },
   },
@@ -211,14 +211,16 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Dosage & administration phrases",
+        caption: "Dosage & administration phrases (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["Take one tablet twice daily", "خذ حبة مرتين باليوم", "Khodh habbah marratayn bil-yom"],
-          ["Before food / After food", "قبل الأكل / بعد الأكل", "Qabl al-akel / Ba'd al-akel"],
-          ["On an empty stomach", "على معدة فاضية", "'Ala mi'deh fadyeh"],
-          ["Apply to the skin", "دهنه على الجلد", "Duhno 'ala al-jild"],
-          ["Discard / Throw away", "ارميه / كبه", "Irmeeh (Gulf/MSA) / Kibbo (Shami)"],
+          ["Pill / Tablet", "قرص / حبة", "Qurs / Habbah"],
+          ["Capsule", "كبسولة", "Kabsoula"],
+          ["Medical Syrup", "شراب", "Sharab"],
+          ["Once a day", "مرة في اليوم", "Marrah fi al-yawm"],
+          ["Three times a day", "ثلاث مرات في اليوم", "Thalath marrat fi al-yawm"],
+          ["Before food", "قبل الأكل", "Qabla al-akl"],
+          ["After food", "بعد الأكل", "Ba'da al-akl"],
         ],
       },
     ],
@@ -251,14 +253,14 @@ export const WEEKS: Week[] = [
       patient:
         "A Levantine patient is picking up amoxicillin 500mg capsules — one capsule every 8 hours for 7 days. Counsel on dose, spacing, food timing, and stress the importance of completing the entire antibiotic course even after symptoms resolve.",
       instructions:
-        "Draft the full Arabic counseling dialogue in Levantine phrasing. Include Arabic script and transliteration. Instructions must be unambiguous to prevent antibiotic resistance.",
+        "Draft the full Arabic counseling dialogue in formal Modern Standard Arabic (MSA). Include Arabic script and transliteration. Instructions must be unambiguous to prevent antibiotic resistance — MSA avoids any dialect-specific term for 'capsule' or 'course of treatment' that a patient from a different nationality might not recognize.",
       answerKey: {
         arabic:
-          "هاد المضاد الحيوي، خود كبسولة كل ٨ ساعات، يعني ٣ مرات باليوم، مع أو بعد الأكل. لازم تكمل العلاج ٧ أيام كاملة حتى لو حسيت إنك تحسنت، لأنو إذا وقفت بدري البكتيريا بترجع أقوى.",
+          "هذا مضاد حيوي. يجب أن تأخذ حبة واحدة، ثلاث مرات في اليوم، بعد الأكل، لمدة سبعة أيام. من المهم جداً أن تكمل الدواء كله حتى لو شعرت بتحسن، لكي لا تعود العدوى.",
         transliteration:
-          "Had al-mudad al-hayawi, khod kabsuleh kul 8 sa'aat, ya'ni 3 marraat bil-yom, ma' aw ba'd al-akel. Lazim tkammel al-'ilaj 7 ayyam kamleh hatta law hasseit innak thassant, la'anno iza waqqaft badri al-bakteria btirja' aqwa.",
+          "Hadha mudadd hayawi. Yajibu an ta'khudh habbah wahida, thalath marrat fi al-yawm, ba'da al-akl, li-muddat sab'at ayyam. Min al-muhim jiddan an tukmil al-dawaa' kullahu hatta law sha'arta bi-tahassun, li-kay la ta'ood al-adwa.",
         rationale:
-          "Naming the drug class ('al-mudad al-hayawi') anchors why completion matters. Restating '8 hours' as '3 times a day' reduces misinterpretation. The conditional 'hatta law hasseit innak thassant' (even if you feel better) directly addresses the #1 reason patients stop antibiotics early. Closing with the consequence ('bakteria btirja' aqwa' — bacteria come back stronger) uses concrete Levantine phrasing that resonates emotionally.",
+          "Hadha mudadd hayawi (this is an antibiotic) uses proper MSA demonstrative pronouns to name the drug class plainly, which anchors why completion matters. Yajibu an ta'khudh (you must take) is the formal subjunctive construction required after yajibu an (must) — grammatically correct and unambiguous. Min al-muhim jiddan an tukmil (it is very important that you complete) is the standard, professional way to mandate adherence without sounding aggressive, and reads identically whether the patient is Emirati, Levantine, or of any other Arab nationality.",
       },
     },
   },
@@ -278,15 +280,15 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Side-effect & emergency vocabulary",
+        caption: "Side-effect & emergency vocabulary (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["Side effect", "أثر جانبي", "Athar janibi"],
-          ["Allergy / Allergic reaction", "حساسية", "Hasasiyah"],
-          ["Drowsiness", "نعاس", "Nu'aas"],
-          ["Bleeding", "نزيف", "Nazeef"],
-          ["Difficulty breathing", "ضيق تنفس", "Deeq tanaffus"],
-          ["Go to emergency immediately", "روح الطوارئ فوراً", "Rooh at-tawari' fawran"],
+          ["Side effects", "آثار جانبية", "Athaar janibiyya"],
+          ["Severe drowsiness", "نعاس شديد", "Nu'aas shadeed"],
+          ["Rash / Allergic reaction", "طفح جلدي / حساسية", "Tafah jildi / Hasasiyah"],
+          ["Swelling", "تورم", "Tawarrum"],
+          ["Shortness of breath", "ضيق التنفس", "Deeq al-tanaffus"],
+          ["Go to emergency immediately", "اذهب إلى الطوارئ فوراً", "Idhhab ila al-tawari' fawran"],
         ],
       },
     ],
@@ -319,14 +321,14 @@ export const WEEKS: Week[] = [
       patient:
         "A Khaleeji patient is starting Warfarin. Explain the two most important warning signs (unusual bleeding, bruising), the food/drug interaction with leafy greens and NSAIDs, and precisely when to seek emergency care.",
       instructions:
-        "Write a Khaleeji-dialect counseling script. Include Arabic script and transliteration. Emphasize red-flag signs without frightening the patient into non-adherence.",
+        "Write a formal Modern Standard Arabic (MSA) counseling script. Include Arabic script and transliteration. Emphasize red-flag signs clearly and professionally, in language understood by patients of any Arab nationality.",
       answerKey: {
         arabic:
-          "هذا الدواء يخفف تجلط الدم، فلازم تنتبه. إذا شفت نزيف من الأنف أو اللثة، أو كدمات بدون سبب، رد لنا أو روح الطوارئ. تجنب الأكل الأخضر بكثرة، ولا تاخذ بروفين أو أسبرين إلا بإذن الدكتور.",
+          "هذا الدواء يُخفف من تجلط الدم، لذلك يجب أن تنتبه جيداً. إذا لاحظتَ نزيفاً من الأنف أو اللثة، أو ظهرت كدمات دون سبب واضح، يجب أن تتصل بنا فوراً أو تذهب إلى الطوارئ. تجنّب الإكثار من الخضروات الورقية، ولا تتناول إيبوبروفين أو أسبرين إلا بإذن الطبيب.",
         transliteration:
-          "Hatha ad-dawa yikhaffif tajallut ad-dam, falaazim tintibih. Itha shift nazeef min al-anf aw al-litha, aw kadamat bidoon sabab, rid lena aw rooh at-tawari'. Tajannab al-akel al-akhdar bikithra, wala takhith Brufen aw Aspirin illa bi-ithn ad-doktor.",
+          "Hadha al-dawaa' yukhaffif min tajallut al-dam, lidhalika yajibu an tantabih jayyidan. Idha lahazta nazeefan min al-anf aw al-litha, aw zaharat kadamat duna sabab wadih, yajibu an tattasil bina fawran aw tadh-hab ila al-tawari'. Tajannab al-ikthar min al-khudrawat al-waraqiyya, wa la tatanawal ibuprofen aw aspirin illa bi-idhn al-tabib.",
         rationale:
-          "Framing Warfarin as thinning the blood ('yikhaffif tajallut ad-dam') is more intuitive than clinical MSA. The imperative 'tintibih' (pay attention) primes without alarming. Naming brand names ('Brufen') rather than 'NSAIDs' matches how Gulf patients recognize drugs. The safety net 'rid lena aw rooh at-tawari'' gives the patient two clear escalation paths.",
+          "Framing Warfarin as thinning the blood (yukhaffif min tajallut al-dam) in plain MSA is intuitive and avoids relying on a colloquial idiom for anticoagulation. Repeating 'yajibu an' constructions makes each safety instruction sound equally authoritative regardless of the patient's dialect background. Naming the interaction generically (khudrawat waraqiyya — leafy greens) rather than a dialect-specific food word ensures the warning is understood by any Arabic speaker in the UAE.",
       },
     },
   },
@@ -346,15 +348,15 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Pain descriptors",
+        caption: "Pain descriptors (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["Sharp pain", "وجع حاد", "Waja' hadd"],
-          ["Dull ache", "وجع خفيف", "Waja' khafeef"],
-          ["Throbbing", "نبض", "Nabd"],
-          ["Nausea", "لعيان / غثيان", "La'ayan (Shami) / Ghathayan (MSA)"],
+          ["Pain / Ache", "ألم / وجع", "Alam / Waja'"],
+          ["Cough", "سعال / كحة", "Su'aal / Kahha"],
+          ["Nausea", "غثيان", "Ghathayan"],
+          ["Constipation", "إمساك", "Imsak"],
           ["Diarrhea", "إسهال", "Ishaal"],
-          ["May you see no harm", "سلامتك ما تشوف شر", "Salamtak, ma tshoof shar"],
+          ["Stomach cramps", "مغص", "Maghas"],
         ],
       },
     ],
@@ -387,14 +389,14 @@ export const WEEKS: Week[] = [
       patient:
         "A Levantine woman requests something for her daughter's stomach cramps and diarrhea. The child is 6, has had symptoms for one day, no fever. Counsel with empathy and provide clear red-flag guidance.",
       instructions:
-        "Write a supportive Levantine dialogue. Include Arabic script and transliteration. Use empathy phrases and clearly state when to see a doctor.",
+        "Write a supportive dialogue in formal Modern Standard Arabic (MSA), directed at the mother. Include Arabic script and transliteration. Use standard empathy phrases and clearly state when to see a doctor.",
       answerKey: {
         arabic:
-          "سلامتها، ما تشوفي شر. في عندها حرارة أو لعيان؟ رح أعطيكي دوا للإسهال ومحلول جفاف عشان تعوّضي السوائل. إذا ضل المغص والإسهال أكتر من يومين، لازم تشوفي حكيم.",
+          "أتمنى لها الشفاء. هل لديها حمى الآن؟ سأعطيكِ محلول جفاف لتعويض السوائل، بالإضافة إلى دواء للإسهال. إذا استمر المغص والإسهال أكثر من يومين، يجب أن تري طبيباً.",
         transliteration:
-          "Salamtha, ma tshoofi shar. Fi endha harara aw la'ayan? Rah a'teeki dawa lal-ishaal wa mahlool jafaf a'shan t'awdi al-sawa'il. Itha dall al-maghas wal-ishaal aktar min yomayn, lazim tshoofi hakeem.",
+          "Atamanna laha al-shifaa'. Hal ladayha humma al-aan? Sa-u'tiki mahloul jafaf li-ta'weed al-sawa'il, bil-idafa ila dawaa'in lil-ishaal. Idha istamarra al-maghas wa-l-ishaal akthar min yawmayn, yajibu an tarayi tabeeban.",
         rationale:
-          "'Ma tshoofi shar' (May you see no harm) is a deeply comforting phrase across the Middle East that validates the caregiver's worry. 'La'ayan' is the natural Levantine word for nausea — 'Ghathayan' (MSA) would sound stiff. Coupling ORS with anti-diarrheal is standard pediatric OTC practice, and the 2-day rule is a clean, memorable red flag.",
+          "Atamanna laha al-shifaa' (I wish her a recovery) is the standard MSA empathy marker for a caregiver — it works whether the mother is Emirati, Levantine, or of any other nationality, unlike a dialect-specific comfort phrase. Mahloul jafaf (rehydration solution) and yajibu an tarayi tabeeban (you must see a doctor) are precise clinical MSA terms that leave no room to misjudge the urgency of the two-day red flag.",
       },
     },
   },
@@ -414,14 +416,14 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Chronic disease vocabulary",
+        caption: "Chronic disease vocabulary (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["Diabetes", "السكري", "As-sukkari"],
+          ["Diabetes / Blood Sugar", "السكري / سكر الدم", "Al-sukkari / Sukkar al-dam"],
           ["Blood Pressure", "ضغط الدم", "Daghut al-dam"],
-          ["Fasting (Ramadan)", "الصيام", "As-siyam"],
-          ["Diet / Food intake", "نظام غذائي / أكل", "Nidham ghitha'i / Akel"],
-          ["Measurement / Testing", "قياس / فحص", "Qiyas / Fahis"],
+          ["Fasting (e.g., Ramadan)", "الصيام", "Al-siyam"],
+          ["Diet / Nutrition", "نظام غذائي", "Nidham ghidha'i"],
+          ["Measurement / Testing", "قياس / فحص", "Qiyas / Fahs"],
           ["Suhoor / Iftar", "سحور / إفطار", "Suhoor / Iftar"],
         ],
       },
@@ -455,14 +457,14 @@ export const WEEKS: Week[] = [
       patient:
         "A newly-diagnosed Type 2 diabetic Emirati male is starting Metformin 500mg twice daily. He plans to fast during Ramadan next month. Explain the medication, GI side effects, and open the conversation about fasting safely.",
       instructions:
-        "Write a Khaleeji-dialect counseling dialogue. Include Arabic script and transliteration. Broach Ramadan with religious sensitivity — do not forbid, negotiate.",
+        "Write a formal Modern Standard Arabic (MSA) counseling dialogue. Include Arabic script and transliteration. Approach Ramadan with religious sensitivity — negotiate, do not forbid.",
       answerKey: {
         arabic:
-          "هذا الميتفورمين يساعد يظبط السكر بالدم. خذ حبة الصبح وحبة بالليل، ويفضل مع الأكل عشان ما يزعج المعدة. ممكن تحس بمغص خفيف أول أسبوع، بس يروح. بخصوص رمضان، بنتكلم مع الدكتور نظبط الجرعات على السحور والإفطار، إن شاء الله تصوم بأمان.",
+          "أهلاً بك يا أخي، أتمنى لك الشفاء. هذا دواء السكري (ميتفورمين). يجب أن تتناول حبة في الصباح وحبة في المساء، ويُفضّل تناوله مع الطعام حتى لا يُزعج معدتك. قد تشعر بمغص خفيف في الأسبوع الأول، لكنه سيزول. أما بخصوص الصيام في رمضان، فسنتحدث مع الطبيب لتعديل الجرعات على السحور والإفطار، حتى تصوم بأمان إن شاء الله.",
         transliteration:
-          "Hatha al-Metformin yisa'id yazbut as-sukkar bil-dam. Khudh habbah as-subh wa habbah bil-layl, wa yufaddal ma' al-akel ashan ma yiz'ij al-mi'deh. Mumkin thiss bi-maghas khafeef awwal usboo', bas yirooh. Bikhusoos Ramadan, bnitkallam ma' ad-doktor nazbut al-jur'aat 'ala as-suhoor wal-iftar, insha'Allah tsoom bi-aman.",
+          "Ahlan bika ya akhi, atamanna laka al-shifaa'. Hadha dawaa' al-sukkari (Metformin). Yajibu an tatanawal habbah fi al-sabah wa habbah fi al-masaa', wa yufaddal tanawuluhu ma'a al-ta'aam hatta la yuz'ij mi'datak. Qad tash'ur bi-maghas khafif fi al-usbu' al-awwal, lakinnahu sayazoul. Amma bikhusoos al-siyam fi Ramadan, fasanatahaddath ma'a al-tabib li-ta'deel al-jur'aat 'ala al-suhoor wa-l-iftar, hatta tasoom bi-aman insha'Allah.",
         rationale:
-          "Framing Metformin as helping ('yisa'id yazbut') — not fixing — sets realistic chronic-disease expectations. Warning about GI upset up-front, with reassurance it resolves, dramatically improves first-month adherence. On Ramadan, 'bnitkallam ma' ad-doktor' invites collaboration rather than issuing a fatwa, and closing with 'insha'Allah tsoom bi-aman' (God willing, you fast safely) respects the religious dimension while keeping clinical safety front and center.",
+          "Yajibu an tatanawal (you must take) uses the formal MSA construction consistently, so the dosing schedule reads with the same authority as the safety warning. 'Fasanatahaddath ma'a al-tabib' (we will speak with the doctor) invites collaboration on Ramadan dosing rather than issuing a blanket rule — a standard, respectful MSA framing that works regardless of the patient's specific background. Closing with 'insha'Allah' respects the religious dimension while the rest of the sentence stays in precise clinical register.",
       },
     },
   },
@@ -482,14 +484,14 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "Pediatric & geriatric vocabulary",
+        caption: "Pediatric & geriatric vocabulary (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
           ["Child / Children", "طفل / أطفال", "Tifl / Atfaal"],
           ["Weight", "وزن", "Wazn"],
-          ["Uncle (respectful, m)", "عمو", "Ammu"],
-          ["Aunt (respectful, f)", "خالتو", "Khaltu"],
-          ["Pilgrim (elder honorific)", "حاج / حجة", "Haj / Hajjeh"],
+          ["Uncle (respectful address)", "عمّي", "Ammi"],
+          ["Aunt (respectful address)", "خالتي", "Khalti"],
+          ["Pilgrim (elder honorific)", "حاج / حجة", "Haj / Hajjah"],
           ["Syringe / Dropper", "حقنة / قطارة", "Huqnah / Qattarah"],
         ],
       },
@@ -523,14 +525,14 @@ export const WEEKS: Week[] = [
       patient:
         "A mother brings her 4-year-old (16 kg) with fever. You are dispensing paracetamol syrup 120mg/5ml, dose 15 mg/kg every 6 hours. Counsel the mother clearly: dose, frequency, max/day, and when to see a doctor.",
       instructions:
-        "Write a warm Levantine dialogue directed at the mother, with soft reassurance for the child. Include Arabic script and transliteration.",
+        "Write a warm, formal Modern Standard Arabic (MSA) dialogue directed at the mother, with soft reassurance for the child. Include Arabic script and transliteration.",
       answerKey: {
         arabic:
-          "سلامتها، ما تشوفي شر. وزنها ١٦ كيلو، فالجرعة ١٠ مل من الشراب كل ٦ ساعات، يعني ٤ مرات باليوم كحد أقصى. رجّي القارورة قبل ما تعطيها. إذا الحرارة ما نزلت بعد يومين، أو صارت أكتر من ٣٩، لازم تشوفي حكيم.",
+          "أتمنى لها الشفاء. وزنها ١٦ كيلوغراماً، فالجرعة المناسبة هي ١٠ مل من الشراب كل ٦ ساعات، أي أربع مرات كحد أقصى في اليوم. يجب أن تُرجّي القارورة جيداً قبل إعطائها الدواء. وإذا لم تنخفض الحرارة بعد يومين، أو ارتفعت إلى أكثر من ٣٩ درجة، يجب أن تراجعي طبيباً.",
         transliteration:
-          "Salamtha, ma tshoofi shar. Waznha 16 kilo, fal-jur'ah 10 mil min ash-sharaab kul 6 sa'aat, ya'ni 4 marraat bil-yom ka-hadd aqsa. Rejji al-qaroorah qabl ma ta'teeha. Itha al-harara ma nizlit ba'd yomayn, aw saarat aktar min 39, lazim tshoofi hakeem.",
+          "Atamanna laha al-shifaa'. Waznuha sittata 'ashara kilughraman, fal-jur'ah al-munasibah hiya 'ashara millilitrat min al-sharaab kulla sitta sa'aat, ay arba' marrat ka-hadd aqsa fi al-yawm. Yajibu an turajji al-qarurah jayyidan qabla i'taiha al-dawaa'. Wa idha lam tankhafid al-harara ba'da yawmayn, aw irtafa'at ila akthar min tis'a wa thalathin darajah, yajibu an turaji'i tabeeban.",
         rationale:
-          "Anchoring the calculation in the child's weight ('waznha 16 kilo') teaches the caregiver the underlying logic, so she can generalize. 'Ka-hadd aqsa' (as a maximum) is critical — paracetamol overdose is a leading pediatric ER visit. 'Rejji al-qaroorah' (shake the bottle) prevents inconsistent dosing from settled suspension. The temperature threshold (39°C) and 2-day rule give concrete escalation triggers.",
+          "Anchoring the dose in the child's exact weight (waznuha sittata 'ashara kilughraman) in formal MSA teaches the underlying mg/kg logic clearly, without relying on a dialect-specific number system. Ka-hadd aqsa (as a maximum) is stated plainly — paracetamol overdose is a leading pediatric safety concern, so this phrase must be unambiguous to any caregiver. The temperature threshold and two-day rule give the mother two concrete, standard escalation triggers regardless of her own dialect background.",
       },
     },
   },
@@ -550,15 +552,15 @@ export const WEEKS: Week[] = [
     ],
     vocabTables: [
       {
-        caption: "De-escalation phrases",
+        caption: "De-escalation phrases (MSA)",
         headers: ["English", "Arabic Script", "Transliteration"],
         rows: [
-          ["Stay calm / Be patient", "طوّل بالك / اهدأ", "Tawwil balak / Ihda'"],
-          ["I understand you", "أنا فاهم عليك", "Ana fahim a'layk"],
-          ["I'm on your side", "أنا معك", "Ana ma'ak"],
-          ["Let me help you", "خليني أساعدك", "Khalleeni asa'dak"],
-          ["Insurance denied", "التأمين رفض", "At-ta'meen rafad"],
-          ["Let's find a solution", "خلينا نلاقي حل", "Khalleena nlaqi hal"],
+          ["Please calm down", "أرجو الهدوء", "Arju al-hudoo'"],
+          ["I understand your situation", "أنا أتفهم وضعك", "Ana atafahham wad'ak"],
+          ["Pre-authorization required", "موافقة مسبقة من التأمين", "Muwafaqa musabbaqa min al-ta'meen"],
+          ["Claim rejected", "مطالبة مرفوضة", "Mutalaba marfouda"],
+          ["Alternative (Generic)", "بديل", "Badeel"],
+          ["Do not worry", "لا تقلق", "La taqlaq"],
         ],
       },
     ],
@@ -591,14 +593,14 @@ export const WEEKS: Week[] = [
       patient:
         "A Levantine woman is visibly upset — her chronic medication has been denied by insurance and she cannot afford the full price. She raises her voice at the counter. De-escalate, align with her, and offer concrete next steps.",
       instructions:
-        "Write a deeply empathetic Levantine response. Include Arabic script and transliteration. Show you are on her side, actively solving the problem — never acting as an administrative barrier.",
+        "Write a deeply empathetic response in formal Modern Standard Arabic (MSA). Include Arabic script and transliteration. Show you are on her side, actively solving the problem — never acting as an administrative barrier.",
       answerKey: {
         arabic:
-          "طوّلي بالك، أنا فاهم عليكي وكلّي معكي. خليني أتصل بالتأمين هلق ونشوف شو صار. إذا ما زبطت، بقدر أعطيكي كمية صغيرة اليوم عشان ما تنقطعي عن الدوا، ونكمل باكر. مش رح أتركك بدون حل.",
+          "أعتذر منك يا أختي، ولا تقلقي، أنا أقدر وضعك. للأسف التأمين رفض تغطية هذا الدواء لأنه غالي الثمن. لكن لا تقلقي، سأتصل بالطبيب الآن وأطلب منه أن يكتب بديلاً له نفس المفعول ويغطيه التأمين. اجلسي دقائق فقط.",
         transliteration:
-          "Tawwili balik, ana fahim a'layki wa kulli ma'aki. Khalleeni ittasil bit-ta'meen halla' wa nshoof shu saar. Itha ma zabtat, ba'dir a'teeki kammiyeh sagheereh al-yom ashan ma tinqata'i 'an ad-dawa, wa nkammel bukra. Mish rah atrukik bidoon hal.",
+          "A'tadhir minki ya ukhti, wa la taqlaqi, ana uqaddir wad'aki. Li-l-asaf al-ta'meen rafada taghtiyat hadha al-dawaa' li-annahu ghali al-thaman. Lakin la taqlaqi, sa-uttasil bi-l-tabeeb al-aan wa atlub minhu an yaktuba badeelan lahu nafs al-maf'oul wa yughatteehi al-ta'meen. Ijlisi daqaiq faqat.",
         rationale:
-          "The opening 'Tawwili balik' + 'Ana fahim a'layki wa kulli ma'aki' (I understand you and I'm entirely with you) does three things at once: acknowledges the emotion, validates the person, and signals alliance. Offering to call the insurance company immediately shifts the pharmacist from gatekeeper to advocate. The partial dispense is a concrete face-saving solution that also prevents therapy interruption. Closing with 'Mish rah atrukik bidoon hal' (I won't leave you without a solution) commits publicly — a powerful de-escalation anchor.",
+          "A'tadhir minki (I apologize to you) and la taqlaqi (do not worry) are standard, formal markers for defusing anxiety that read as sincere without leaning on any single dialect's comfort phrase. Ana uqaddir wad'aki (I understand/appreciate your situation) is a direct MSA rendering of professional empathy. Proposing to call the doctor and offering a covered generic alternative (badeel) moves the pharmacist from gatekeeper to active advocate, using clear, standard syntax any patient in the UAE would immediately understand.",
       },
     },
   },
@@ -609,4 +611,6 @@ export interface VocabEntry {
   arabic: string;
   transliteration: string;
   note?: string;
+  nextReviewDate?: number;
+  interval?: number;
 }
