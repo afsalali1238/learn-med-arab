@@ -5,10 +5,11 @@ import { cn } from "@/lib/utils";
 
 interface Props {
   text: string;
+  fallbackText?: string;
   className?: string;
 }
 
-export function SpeakButton({ text, className }: Props) {
+export function SpeakButton({ text, fallbackText, className }: Props) {
   const { speak, stop, speaking, supported } = useTextToSpeech();
 
   if (!supported) return null;
@@ -21,7 +22,7 @@ export function SpeakButton({ text, className }: Props) {
         e.preventDefault();
         e.stopPropagation();
         if (speaking) stop();
-        else speak(text);
+        else speak(text, fallbackText);
       }}
       className={cn(
         "h-7 w-7 text-muted-foreground transition-all hover:text-primary focus:opacity-100",

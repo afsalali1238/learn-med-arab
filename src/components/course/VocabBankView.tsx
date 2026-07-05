@@ -204,7 +204,7 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <p dir="auto" className="font-arabic text-xl sm:text-2xl text-foreground">
                           {e.arabic || e.transliteration}
                         </p>
-                        {e.arabic && <SpeakButton text={e.arabic} className="shrink-0 -mr-2 -mt-2" />}
+                        {(e.arabic || e.transliteration) && <SpeakButton text={e.arabic || e.transliteration} fallbackText={e.transliteration} className="shrink-0 -mr-2 -mt-2" />}
                       </div>
                       <p className="mt-2 font-mono text-sm text-foreground">{e.transliteration}</p>
                       {e.note && <p className="mt-1.5 text-xs text-muted-foreground">{e.note}</p>}
@@ -281,8 +281,8 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <span className="text-sm font-medium text-muted-foreground">
                           {flashcardIndex + 1} / {sessionCards.length}
                         </span>
-                        {sessionCards[flashcardIndex].arabic && (
-                          <SpeakButton text={sessionCards[flashcardIndex].arabic} className="mt-2" />
+                        {(sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration) && (
+                          <SpeakButton text={sessionCards[flashcardIndex].arabic || sessionCards[flashcardIndex].transliteration} fallbackText={sessionCards[flashcardIndex].transliteration} className="mt-2" />
                         )}
                       </div>
                     )}

@@ -149,7 +149,9 @@ export function ClinicalScenario({
                     <span className="text-xs font-semibold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">
                       Model Arabic Answer
                     </span>
-                    <SpeakButton text={scenario.answerKey.arabic} />
+                    {scenario.answerKey.arabic && (
+                      <SpeakButton text={scenario.answerKey.arabic} fallbackText={scenario.answerKey.transliteration} />
+                    )}
                   </div>
                   <p
                     dir="rtl"

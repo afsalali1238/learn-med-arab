@@ -22,24 +22,35 @@ export function useTextToSpeech() {
     }
   }, []);
 
-  const speak = useCallback((text: string) => {
+  const speak = useCallback((text: string, fallbackText?: string) => {
     if (!supported || !window.speechSynthesis) return;
 
     // Cancel any ongoing speech
     window.speechSynthesis.cancel();
-
-    const utterance = new SpeechSynthesisUtterance(text);
-    utteranceRef.current = utterance; // Prevent garbage collection bug in some browsers
     
     // Try to find an Arabic voice
     const currentVoices = voices.length > 0 ? voices : window.speechSynthesis.getVoices();
     const arabicVoice = currentVoices.find(v => v.lang.startsWith("ar"));
     
-    if (arabicVoice) {
-      utterance.voice = arabicVoice;
+    let textToSpeak = text;
+    let voiceToUse = arabicVoice;
+    let langToUse = "ar-SA";
+
+    if (!arabicVoice && fallbackText) {
+      // Graceful fallback: speak the transliteration using an English/default voice
+      textToSpeak = fallbackText;
+      voiceToUse = currentVoices.find(v => v.lang.startsWith("en"));
+      langToUse = "en-US";
+    }
+
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utteranceRef.current = utterance; // Prevent garbage collection bug in some browsers
+
+    if (voiceToUse) {
+      utterance.voice = voiceToUse;
     }
     // Always set lang as fallback
-    utterance.lang = "ar-SA";
+    utterance.lang = langToUse;
 
     // Slightly slower rate for learning
     utterance.rate = 0.85;

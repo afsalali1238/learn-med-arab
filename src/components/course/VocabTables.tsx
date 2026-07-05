@@ -64,7 +64,7 @@ export function VocabTables({ tables, onSaveToVocab }: Props) {
                             {isArabic ? (
                               <div className="flex items-center gap-2 justify-end">
                                 <span>{cell}</span>
-                                <SpeakButton text={cell} className="opacity-0 transition-opacity [tr:hover_&]:opacity-100 focus:opacity-100" />
+                                <SpeakButton text={cell} fallbackText={transCell} className="opacity-0 transition-opacity [tr:hover_&]:opacity-100 focus:opacity-100" />
                               </div>
                             ) : (
                               cell
