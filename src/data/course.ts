@@ -231,12 +231,7 @@ export const WEEKS: Week[] = [
         description: "Native interviews across a range of medical topics.",
         url: "https://www.youtube.com/results?search_query=levantine+arabic+doctor+visit",
       },
-      {
-        type: "article",
-        title: "Prescription Instructions Reference (Arabic)",
-        description: "Standardized prescription phrasing across dialects.",
-        url: "https://www.who.int/publications/i/item/9789241511810",
-      },
+      
     ],
     checkpoints: [
       { id: "w3-c1", label: "Mastered numbers 1–100 and time expressions for dosing." },
@@ -299,12 +294,7 @@ export const WEEKS: Week[] = [
         description: "Native pharmacist walkthroughs of high-risk counseling.",
         url: "https://www.youtube.com/results?search_query=arabic+pharmacist+counseling",
       },
-      {
-        type: "article",
-        title: "WHO — Communicating Medicine Safety Information",
-        description: "Framework for disclosing risks without eroding compliance.",
-        url: "https://www.who.int/teams/regulation-prequalification/regulation-and-safety",
-      },
+      
     ],
     checkpoints: [
       { id: "w4-c1", label: "Mastered 15 common side-effect and adverse-reaction terms." },
@@ -367,12 +357,7 @@ export const WEEKS: Week[] = [
         description: "Real dialogues around pain description and OTC triage.",
         url: "https://www.youtube.com/results?search_query=levantine+arabic+pain+description",
       },
-      {
-        type: "article",
-        title: "OTC Triage Guidelines — Community Pharmacy",
-        description: "Structured framework for pain triage in the pharmacy setting.",
-        url: "https://www.pharmaceutical-journal.com/",
-      },
+      
     ],
     checkpoints: [
       { id: "w5-c1", label: "Used the Miqyas al-alam scale in both dialects." },
@@ -435,12 +420,7 @@ export const WEEKS: Week[] = [
         description: "Real cases on dose timing during fasting.",
         url: "https://www.youtube.com/results?search_query=arabic+pharmacist+ramadan+medication",
       },
-      {
-        type: "article",
-        title: "IDF-DAR Practical Guidelines: Diabetes and Ramadan",
-        description: "International consensus on fasting risk stratification.",
-        url: "https://www.idf.org/our-activities/education/diabetes-and-ramadan.html",
-      },
+      
     ],
     checkpoints: [
       { id: "w6-c1", label: "Explained Metformin mechanism and titration in both dialects." },
@@ -503,12 +483,7 @@ export const WEEKS: Week[] = [
         description: "Polypharmacy and adherence challenges in older patients.",
         url: "https://www.youtube.com/results?search_query=arabic+elderly+care+medical",
       },
-      {
-        type: "article",
-        title: "Pediatric Weight-Based Dosing Reference",
-        description: "Practical mg/kg calculations for community pharmacy.",
-        url: "https://www.who.int/publications/i/item/9789241548373",
-      },
+      
     ],
     checkpoints: [
       { id: "w7-c1", label: "Calculated and communicated weight-based pediatric doses in Arabic." },
@@ -571,12 +546,7 @@ export const WEEKS: Week[] = [
         description: "Real anonymized cases of counter conflict resolution.",
         url: "https://www.youtube.com/results?search_query=arabic+conflict+resolution+pharmacy",
       },
-      {
-        type: "article",
-        title: "Cultural Competency in Gulf Healthcare Communication",
-        description: "Framework for empathetic patient interaction in UAE settings.",
-        url: "https://www.dha.gov.ae/",
-      },
+      
     ],
     checkpoints: [
       { id: "w8-c1", label: "Deployed 10 de-escalation phrases in stress roleplay without hesitation." },
