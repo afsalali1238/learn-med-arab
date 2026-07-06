@@ -1,8 +1,7 @@
 import { ChevronRight, Lock, Check, Eye, Award, ExternalLink } from "lucide-react";
 import type { Week } from "@/data/course";
-import { CAPSTONE } from "@/data/course";
 import { cn } from "@/lib/utils";
-import { Link, useParams } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 
 interface Props {
   weeks: Week[];
@@ -10,7 +9,6 @@ interface Props {
 }
 
 export function SyllabusView({ weeks, perWeekPct }: Props) {
-  const { trackId } = useParams({ strict: false });
   // A week is unlocked for full progress tracking if it's the first, or if the previous week is 100% complete
   const isUnlocked = (index: number): boolean => {
     if (index === 0) return true;
@@ -36,8 +34,8 @@ export function SyllabusView({ weeks, perWeekPct }: Props) {
           return (
             <li key={week.id}>
               <Link
-                to="/$trackId/week/$weekId"
-                params={{ weekId: week.id, trackId: trackId as string }}
+                to="/week/$weekId"
+                params={{ weekId: week.id }}
                 className={cn(
                   "group flex w-full items-center gap-3 rounded-2xl border p-3.5 text-left transition-all sm:gap-4 sm:p-4",
                   unlocked

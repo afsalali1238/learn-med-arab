@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { VocabBankView } from "@/components/course/VocabBankView";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 
-export const Route = createFileRoute("/$trackId/vocab")({
+export const Route = createFileRoute("/vocab")({
   component: VocabRoute,
 });
 

@@ -149,7 +149,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 import { CourseProgressProvider, useCourseProgress } from "@/hooks/useCourseProgress";
-import { WEEKS, TRACKS } from "@/data/course";
+import { WEEKS, COURSE_TITLE } from "@/data/course";
 import { AppHeader } from "@/components/course/AppHeader";
 import { BottomNav } from "@/components/course/BottomNav";
 import Confetti from "react-confetti";
@@ -180,20 +180,13 @@ function CourseLayout() {
   const location = useLocation();
   const isWeekRoute = location.pathname.includes("/week/");
 
-  const trackMatch = location.pathname.match(/^\/([^/]+)/);
-  const trackId = trackMatch ? trackMatch[1] : null;
-  const activeTrack = TRACKS.find((t) => t.id === trackId);
-  const headerTitle = activeTrack ? activeTrack.title : "Med-Arabic-Hub";
-
   const perWeekPct = useMemo(() => {
     const map: Record<string, number> = {};
-    if (activeTrack) {
-      activeTrack.weeks.forEach((w) => {
-        map[w.id] = calculateWeekProgress(activeTrack.id, w.id).pct;
-      });
-    }
+    WEEKS.forEach((w) => {
+      map[w.id] = calculateWeekProgress(w.id).pct;
+    });
     return map;
-  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress, activeTrack]);
+  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress]);
 
   const prevWeekPct = useRef<Record<string, number>>({});
   const prevLevel = useRef<number | null>(null);
@@ -222,7 +215,7 @@ function CourseLayout() {
         prevWeekPct.current[wid] !== 100 &&
         prevWeekPct.current[wid] !== undefined
       ) {
-        const w = activeTrack?.weeks.find((x) => x.id === wid);
+        const w = WEEKS.find((x) => x.id === wid);
         if (w) {
           toast.success(`Week ${w.number} complete`, { description: w.title });
           fireConfetti();
@@ -249,7 +242,7 @@ function CourseLayout() {
 
       {!isWeekRoute && (
         <AppHeader
-          title={headerTitle}
+          title={COURSE_TITLE}
           progressPct={
             level.next
               ? Math.min(100, Math.round(((xp - level.min) / (level.next.min - level.min)) * 100))

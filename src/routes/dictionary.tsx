@@ -1,13 +1,13 @@
 import { useState, useMemo } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { TRACKS } from "@/data/course";
+import { WEEKS } from "@/data/course";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
 import { SpeakButton } from "@/components/course/SpeakButton";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Search, Bookmark, BookmarkCheck, BookOpen } from "lucide-react";
 
-export const Route = createFileRoute("/$trackId/dictionary")({
+export const Route = createFileRoute("/dictionary")({
   component: DictionaryRoute,
 });
 
@@ -21,9 +21,7 @@ interface DictionaryEntry {
 }
 
 function DictionaryRoute() {
-  const { trackId } = Route.useParams();
-  const track = TRACKS.find((t) => t.id === trackId);
-  const weeks = track ? track.weeks : [];
+  const weeks = WEEKS;
 
   const { progress, addVocab, removeVocab } = useCourseProgress();
   const [search, setSearch] = useState("");
