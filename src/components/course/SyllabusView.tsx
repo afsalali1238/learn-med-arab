@@ -125,12 +125,12 @@ export function SyllabusView({ weeks, perWeekPct }: Props) {
           >
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                Medical Arabic (Pharmacy)
+                Medical Arabic (PT)
               </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">
-              Conversational Medical Arabic tailored specifically for Pharmacists.
+              Conversational Medical Arabic tailored specifically for Physiotherapists.
             </p>
           </a>
 

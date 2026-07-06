@@ -63,7 +63,14 @@ export const week2: Week = {
       ],
     },
   ],
-  resources: [],
+  resources: [
+    {
+      type: "article",
+      title: "Hospital Vocabulary in Arabic",
+      description: "Kalimah Center's comprehensive guide to standard medical vocabulary in MSA.",
+      link: "https://kalimah-center.com/hospital-vocabulary-in-arabic/",
+    },
+  ],
   checkpoints: [{ id: "pharmacy-wk2-cp1", label: "Symptoms Quiz" }],
   scenario: {
     patient: "A patient has a high temperature.",

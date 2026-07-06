@@ -62,7 +62,14 @@ export const week3: Week = {
       ],
     },
   ],
-  resources: [],
+  resources: [
+    {
+      type: "audio",
+      title: "Learn Arabic Podcast: Health & Medical Consultations",
+      description: "Focuses on standard phrases used during medical consultations.",
+      link: "https://www.youtube.com/watch?v=2e6T3fN_65o",
+    },
+  ],
   checkpoints: [{ id: "pharmacy-wk3-cp1", label: "Dosage Forms Quiz" }],
   scenario: {
     patient: "Patient needs a painkiller pill.",

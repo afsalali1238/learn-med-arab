@@ -44,7 +44,14 @@ export const week1: Week = {
       ],
     },
   ],
-  resources: [],
+  resources: [
+    {
+      type: "audio",
+      title: "Simple & Easy Arabic Podcast (Beginner Greetings)",
+      description: "Standard beginner greetings without heavy dialect. Good for building foundational conversational confidence.",
+      link: "https://www.youtube.com/watch?v=kYmZ6P1w4B0",
+    },
+  ],
   checkpoints: [{ id: "pharmacy-wk1-cp1", label: "General Vocabulary Quiz" }],
   scenario: {
     patient: "A patient complains of pain in their stomach.",

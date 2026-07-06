@@ -25,7 +25,14 @@ export const week4: Week = {
       ],
     },
   ],
-  resources: [],
+  resources: [
+    {
+      type: "article",
+      title: "TalkPal's Guide to Arabic Medical Terminology",
+      description: "A structured breakdown of clinical terminology and phrases in Modern Standard Arabic.",
+      link: "https://talkpal.ai/arabic-medical-terminology/",
+    },
+  ],
   checkpoints: [{ id: "pharmacy-wk4-cp1", label: "Routes Quiz" }],
   scenario: {
     patient: "You must give the medication by mouth.",

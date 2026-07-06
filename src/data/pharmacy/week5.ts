@@ -41,7 +41,14 @@ export const week5: Week = {
       ],
     },
   ],
-  resources: [],
+  resources: [
+    {
+      type: "article",
+      title: "Arabic Vocabulary for Healthcare Professionals",
+      description: "A structured guide with essential terminology and phrases for patient interactions.",
+      link: "https://tareequljannah.com/arabic-vocabulary-for-healthcare-professionals/",
+    },
+  ],
   checkpoints: [{ id: "pharmacy-wk5-cp1", label: "Timing Quiz" }],
   scenario: {
     patient: "Instruct the patient to take the pill twice daily.",
