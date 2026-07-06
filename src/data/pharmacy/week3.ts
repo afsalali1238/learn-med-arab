@@ -70,10 +70,22 @@ export const week3: Week = {
   ],
   resources: [
     {
-      type: "audio",
-      title: "Learn Arabic Podcast: Health & Medical Consultations",
-      description: "Focuses on standard phrases used during medical consultations.",
-      url: "https://www.youtube.com/watch?v=koha1jJJq6I",
+      type: "video",
+      title: "الاشكال الصيدلانيه للدواء (Pharmaceutical Forms of Medicine)",
+      description: "A brief, professionally animated overview explaining various dosage forms in clear Fusha, allowing pharmacists to learn the exact standard Arabic terms for pills, capsules, and syrups23.",
+      url: "https://www.youtube.com/watch?v=GRkh8yg4wP8",
+    },
+    {
+      type: "docs",
+      title: "3-الأشكال الصيدلانية (Pharmaceutical Forms)",
+      description: "An academic pharmacy document detailing the classification of solid, liquid, and semi-solid dosage forms in highly formal scientific Arabic, perfect for theoretical grounding20.",
+      url: "https://www.scribd.com/document/725897811/3-%D8%A7%D9%84%D8%A3%D8%B4%D9%83%D8%A7%D9%84-%D8%A7%D9%84%D8%B5%D9%8A%D8%AF%D9%84%D8%A7%D9%86%D9%8A%D8%A9",
+    },
+    {
+      type: "article",
+      title: "Part 1",
+      description: "GCC Pharmacy Survival Guide",
+      url: "https://www.youtube.com/watch?v=T1LvMOmKgck",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk3-cp1", label: "Dosage Forms Quiz" }],

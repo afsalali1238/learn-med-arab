@@ -35,10 +35,22 @@ export const week4: Week = {
   ],
   resources: [
     {
-      type: "article",
-      title: "TalkPal's Guide to Arabic Medical Terminology",
-      description: "A structured breakdown of clinical terminology and phrases in Modern Standard Arabic.",
-      url: "https://talkpal.ai/arabic-medical-terminology/",
+      type: "video",
+      title: "Pharmacist Guide: Pharmacology, Pharmacokinetics & Routes of Administration",
+      description: "Presented by a clinical pharmacist, this video seamlessly blends English medical terms with clear, educated Arabic explanations of drug administration routes, mirroring the exact linguistic environment of the GCC27.",
+      url: "https://www.youtube.com/watch?v=10_PvPqm0Ow",
+    },
+    {
+      type: "docs",
+      title: "Guidelines for Patient Information Leaflets (Bilingual)",
+      description: "An official regulatory document from the Egyptian Drug Authority that provides the highest standard of formal, standardized Arabic translations for routes of administration as mandated for pharmaceutical packaging28.",
+      url: "https://www.edaegypt.gov.eg/media/z1tjvegp/inserts-guidelines-draft-v-2_phcare-tech-edaegypt.pdf",
+    },
+    {
+      type: "video",
+      title: "طرق إعطاء الدواء (Methods of Administering Medicine)",
+      description: "An educational video providing visual and linguistic clarity on the differences between intramuscular, intravenous, and enteral routes using highly accessible Fusha29.",
+      url: "https://www.youtube.com/watch?v=CeA66751eA8",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk4-cp1", label: "Routes Quiz" }],

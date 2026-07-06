@@ -76,10 +76,22 @@ export const week6: Week = {
   ],
   resources: [
     {
-      type: "article",
-      title: "65 Must-Know Arabic Words/Phrases for Healthcare",
-      description: "Scribd document featuring a condensed list of critical vocabulary and polite standard phrasing.",
-      url: "https://www.scribd.com/document/731306912/65-Must-Know-Arabic-Words-Phrases-for-Anyone-Working-in-Healthcare",
+      type: "video",
+      title: "Arabic Vocabulary In Use: At The Pharmacy (في الصيدلية)",
+      description: "This video offers a complete, real-life dialogue between a pharmacist and a patient, perfectly demonstrating how to provide complex instructions and empathetic advice in standard educated Arabic36.",
+      url: "https://www.youtube.com/watch?v=iH_RLpy8m8k",
+    },
+    {
+      type: "docs",
+      title: "Understanding Essential English-Modern Standard Arabic (MSA) Translations of Medical and Prescription Information",
+      description: "An exhaustive academic guide specifically designed for pharmacy students to translate complex prescription labels and patient consultation instructions into perfectly standardized Arabic10.",
+      url: "https://www.researchgate.net/publication/394473933_Understanding_Essential_English-Modern_Standard_Arabic_MSA_and_Modern_Standard_Arabic-English_Translations_of_Medical_and_Prescription_Information_A_Guide_for_Pharmacy_Students",
+    },
+    {
+      type: "video",
+      title: "حوار مع الصيدلي الجزء الأول (Dialogue with the Pharmacist - Part 1)",
+      description: "A dedicated situational Arabic lesson focusing entirely on the conversational flow, interrogatives, and polite responses required during a standard pharmacy transaction37.",
+      url: "https://www.youtube.com/watch?v=cEeU979BwPo",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk6-cp1", label: "Instructions Quiz" }],

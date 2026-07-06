@@ -71,10 +71,22 @@ export const week2: Week = {
   ],
   resources: [
     {
+      type: "video",
+      title: "Medical Arabic - Patient Interview #2: Obtaining the History of Present Illness (HPI) in Arabic",
+      description: "This resource expertly models how to clinically extract and interpret symptom histories from patients using neutral, educated Arabic phrasing without regional slang16.",
+      url: "https://www.youtube.com/watch?v=3YD0a0J7a0M",
+    },
+    {
       type: "article",
-      title: "Hospital Vocabulary in Arabic",
-      description: "Kalimah Center's comprehensive guide to standard medical vocabulary in MSA.",
-      url: "https://kalimah-center.com/hospital-vocabulary-in-arabic/",
+      title: "Medical Dictionary & Encyclopedia (Altibbi)",
+      description: "Operating as a highly trusted digital medical encyclopedia, this resource provides exhaustive definitions of signs and symptoms in impeccable Modern Standard Arabic, serving as an ideal reference17.",
+      url: "https://altibbi.com",
+    },
+    {
+      type: "video",
+      title: "At the Doctor's - Medical - health- Sickness Symptons -Learn Levantine Lebanese Arabic with Angela",
+      description: "While featuring Levantine elements, it clearly delineates standard Fusha sickness symptoms, providing crucial listening comprehension for the subtle differences in Arabiya Bayda complaints18.",
+      url: "https://www.youtube.com/watch?v=sxodmzTfXUs",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk2-cp1", label: "Symptoms Quiz" }],

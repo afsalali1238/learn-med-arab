@@ -52,10 +52,22 @@ export const week5: Week = {
   ],
   resources: [
     {
-      type: "article",
-      title: "Arabic Vocabulary for Healthcare Professionals",
-      description: "A structured guide with essential terminology and phrases for patient interactions.",
-      url: "https://tareequljannah.com/arabic-vocabulary-for-healthcare-professionals/",
+      type: "docs",
+      title: "65 Must-Know Arabic Words & Phrases for Healthcare",
+      description: "A structured cheat-sheet providing direct MSA translations for crucial warning phrases, side effects, and exact medication timing terminology necessary for patient safety22.",
+      url: "https://www.scribd.com/document/467153936/65-Must-Know-Arabic-Words-Phrases-for-Anyone-Working-in-Healthcare",
+    },
+    {
+      type: "video",
+      title: "الآثار الجانبية للأدوية (Side Effects of Medications)",
+      description: "A physician discusses the reality of medication side effects and how patients should react, providing excellent listening comprehension practice for conditional medical phrasing in clear Arabic32.",
+      url: "https://www.youtube.com/watch?v=ocOMs0yCnVI",
+    },
+    {
+      type: "video",
+      title: "الآثار الجانبية للعلاج (Side Effects of Treatment)",
+      description: "This resource provides an in-depth look at severe adverse reactions like anaphylaxis and immunosuppression, teaching pharmacists how to articulate acute medical dangers clearly30.",
+      url: "https://www.youtube.com/watch?v=FuP86qSGLC8",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk5-cp1", label: "Timing Quiz" }],

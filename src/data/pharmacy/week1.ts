@@ -51,10 +51,22 @@ export const week1: Week = {
   ],
   resources: [
     {
-      type: "audio",
-      title: "Simple & Easy Arabic Podcast (Beginner Greetings)",
-      description: "Standard beginner greetings without heavy dialect. Good for building foundational conversational confidence.",
-      url: "https://www.youtube.com/results?search_query=Learn+Medical+Arabic+Greetings+Standard",
+      type: "video",
+      title: "Medical Arabic - Patient Interview #1: Body Parts & Organs",
+      description: "This highly structured video provides an excellent foundation in identifying human anatomy in standard medical Arabic, essential for pharmacists conducting preliminary anatomical assessments11.",
+      url: "https://www.youtube.com/watch?v=Rq35hA8bbvw",
+    },
+    {
+      type: "docs",
+      title: "Medical Arabic: A Communication Guide",
+      description: "Authored by linguistic experts, this comprehensive academic textbook focuses on high-level medical terminology and clinical competencies in MSA, filling a critical gap in standardized medical language3.",
+      url: "https://www.scribd.com/document/889157663/Medical-Arabic-by-Abderrahman-Zouhir-Abdulqadir-Abdulkarim",
+    },
+    {
+      type: "video",
+      title: "Medical Conditions and Symptoms- Medical Vocabulary - Learn Modern Standard Arabic",
+      description: "This visual guide delivers a clear, graphically supported breakdown of internal organs and external body parts using strict MSA pronunciation, aiding in auditory retention for clinical practitioners14.",
+      url: "https://www.youtube.com/watch?v=9I6AyraNEeA",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk1-cp1", label: "General Vocabulary Quiz" }],
