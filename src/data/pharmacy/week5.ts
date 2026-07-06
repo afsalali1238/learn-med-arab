@@ -46,7 +46,7 @@ export const week5: Week = {
       type: "article",
       title: "Arabic Vocabulary for Healthcare Professionals",
       description: "A structured guide with essential terminology and phrases for patient interactions.",
-      link: "https://tareequljannah.com/arabic-vocabulary-for-healthcare-professionals/",
+      url: "https://tareequljannah.com/arabic-vocabulary-for-healthcare-professionals/",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk5-cp1", label: "Timing Quiz" }],

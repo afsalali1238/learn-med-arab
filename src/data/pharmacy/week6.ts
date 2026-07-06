@@ -68,7 +68,7 @@ export const week6: Week = {
       type: "article",
       title: "65 Must-Know Arabic Words/Phrases for Healthcare",
       description: "Scribd document featuring a condensed list of critical vocabulary and polite standard phrasing.",
-      link: "https://www.scribd.com/document/731306912/65-Must-Know-Arabic-Words-Phrases-for-Anyone-Working-in-Healthcare",
+      url: "https://www.scribd.com/document/731306912/65-Must-Know-Arabic-Words-Phrases-for-Anyone-Working-in-Healthcare",
     },
   ],
   checkpoints: [{ id: "pharmacy-wk6-cp1", label: "Instructions Quiz" }],
