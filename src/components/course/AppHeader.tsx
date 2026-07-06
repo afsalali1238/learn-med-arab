@@ -19,8 +19,8 @@ export function AppHeader({ title, progressPct, levelTitle, levelLevel, xp = 0 }
         <div className="flex min-w-0 items-center gap-2.5">
           <img src="/provia-logo.png" alt="" aria-hidden="true" className="h-7 w-7 shrink-0" />
           <div className="min-w-0">
-            <span className="block text-base font-black italic tracking-tighter bg-gradient-to-r from-blue-500 to-emerald-400 bg-clip-text text-transparent sm:text-lg">
-              PROVIA
+            <span className="block text-sm font-black tracking-tight text-foreground sm:text-base">
+              Medical Arabic for Pharmacists
             </span>
             <p className="truncate text-[11px] text-muted-foreground sm:text-xs">
               {levelLevel ? `Level ${levelLevel} · ${levelTitle}` : title}
