@@ -76,23 +76,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Medical Pharmacy Arabic" },
+      { title: "Medical Arabic for Physiotherapists" },
       {
         name: "description",
         content:
-          "An 8-week self-paced course for pharmacists to master conversational Medical Arabic — standard clinical vocabulary, patient counseling, and de-escalation.",
+          "Learn conversational Medical Arabic for the physiotherapy clinic with an 8-week gamified course covering greetings, assessment, movement commands and discharge.",
       },
-      { name: "author", content: "Provia" },
+      { name: "author", content: "Movement & Healing" },
       { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#f8fafc" },
       { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#020817" },
       {
         property: "og:title",
-        content: "Medical Pharmacy Arabic",
+        content: "Medical Arabic for Physiotherapists",
       },
       {
         property: "og:description",
         content:
-          "8-week self-paced curriculum: greetings, symptom elicitation, dosage counseling, adverse reactions, and de-escalation — in standard Medical Arabic.",
+          "An 8-week conversational Medical Arabic course for physiotherapists — track progress, save clinical phrases, and master patient dialogue.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -102,10 +102,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: appCss,
       },
-      { rel: "icon", href: "/provia-logo.png", type: "image/png" },
-      { rel: "icon", href: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
       { rel: "icon", href: "/favicon-16.png", sizes: "16x16", type: "image/png" },
-      { rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
+      { rel: "icon", href: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       {
@@ -149,7 +149,7 @@ function RootShell({ children }: { children: ReactNode }) {
 }
 
 import { CourseProgressProvider, useCourseProgress } from "@/hooks/useCourseProgress";
-import { WEEKS, COURSE_TITLE } from "@/data/course";
+import { WEEKS, TRACKS } from "@/data/course";
 import { AppHeader } from "@/components/course/AppHeader";
 import { BottomNav } from "@/components/course/BottomNav";
 import Confetti from "react-confetti";
@@ -178,15 +178,22 @@ function CourseLayout() {
   const { width, height } = useWindowSize();
   const [showConfetti, setShowConfetti] = useState(false);
   const location = useLocation();
-  const isWeekRoute = location.pathname.startsWith("/week/");
+  const isWeekRoute = location.pathname.includes("/week/");
+
+  const trackMatch = location.pathname.match(/^\/([^/]+)/);
+  const trackId = trackMatch ? trackMatch[1] : null;
+  const activeTrack = TRACKS.find((t) => t.id === trackId);
+  const headerTitle = activeTrack ? activeTrack.title : "Med-Arabic-Hub";
 
   const perWeekPct = useMemo(() => {
     const map: Record<string, number> = {};
-    WEEKS.forEach((w) => {
-      map[w.id] = calculateWeekProgress(w.id).pct;
-    });
+    if (activeTrack) {
+      activeTrack.weeks.forEach((w) => {
+        map[w.id] = calculateWeekProgress(activeTrack.id, w.id).pct;
+      });
+    }
     return map;
-  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress]);
+  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress, activeTrack]);
 
   const prevWeekPct = useRef<Record<string, number>>({});
   const prevLevel = useRef<number | null>(null);
@@ -215,7 +222,7 @@ function CourseLayout() {
         prevWeekPct.current[wid] !== 100 &&
         prevWeekPct.current[wid] !== undefined
       ) {
-        const w = WEEKS.find((x) => x.id === wid);
+        const w = activeTrack?.weeks.find((x) => x.id === wid);
         if (w) {
           toast.success(`Week ${w.number} complete`, { description: w.title });
           fireConfetti();
@@ -242,7 +249,7 @@ function CourseLayout() {
 
       {!isWeekRoute && (
         <AppHeader
-          title={COURSE_TITLE}
+          title={headerTitle}
           progressPct={
             level.next
               ? Math.min(100, Math.round(((xp - level.min) / (level.next.min - level.min)) * 100))

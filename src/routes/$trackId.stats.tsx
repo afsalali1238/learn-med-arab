@@ -1,14 +1,18 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, useParams } from "@tanstack/react-router";
 import { StatsView } from "@/components/course/StatsView";
 import { useCourseProgress } from "@/hooks/useCourseProgress";
-import { WEEKS } from "@/data/course";
+import { TRACKS } from "@/data/course";
 import { useMemo } from "react";
+import { Navigate } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/stats")({
+export const Route = createFileRoute("/$trackId/stats")({
   component: StatsRoute,
 });
 
 function StatsRoute() {
+  const { trackId } = Route.useParams();
+  const track = TRACKS.find((t) => t.id === trackId);
+
   const {
     progress,
     exportProgress,
@@ -20,23 +24,29 @@ function StatsRoute() {
     level,
   } = useCourseProgress();
 
-  const { totalCheckpoints, globalPct } = calculateOverallProgress();
+  const { totalCheckpoints, globalPct } = calculateOverallProgress(trackId);
 
   const perWeekPct = useMemo(() => {
     const map: Record<string, number> = {};
-    WEEKS.forEach((w) => {
-      map[w.id] = calculateWeekProgress(w.id).pct;
-    });
+    if (track) {
+      track.weeks.forEach((w) => {
+        map[w.id] = calculateWeekProgress(track.id, w.id).pct;
+      });
+    }
     return map;
-  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress]);
+  }, [progress.completedCheckpoints, progress.assignments, calculateWeekProgress, track]);
+
+  if (!track) {
+    return <Navigate to="/" />;
+  }
 
   return (
     <StatsView
-      weeks={WEEKS}
+      weeks={track.weeks}
       completedCheckpoints={progress.completedCheckpoints}
       assignments={progress.assignments}
       perWeekPct={perWeekPct}
-      totalCheckpoints={totalCheckpoints - WEEKS.length}
+      totalCheckpoints={totalCheckpoints - track.weeks.length}
       vocabCount={progress.vocabBank.length}
       globalPct={globalPct}
       xp={xp}

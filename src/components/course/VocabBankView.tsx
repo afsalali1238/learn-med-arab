@@ -10,6 +10,7 @@ import {
   Frown,
   Meh,
   Smile,
+  Laugh,
 } from "lucide-react";
 import type { VocabEntry } from "@/data/course";
 import { Button } from "@/components/ui/button";
@@ -22,11 +23,13 @@ interface Props {
   onAdd: (entry: Omit<VocabEntry, "id">) => void;
   onRemove: (id: string) => void;
   onUpdate: (id: string, patch: Partial<VocabEntry>) => void;
+  onReview: (id: string, rating: 0 | 1 | 2 | 3) => void;
 }
 
-export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
+export function VocabBankView({ entries, onAdd, onRemove, onUpdate, onReview }: Props) {
   const [arabic, setArabic] = useState("");
   const [translit, setTranslit] = useState("");
+  const [english, setEnglish] = useState("");
   const [note, setNote] = useState("");
   const [search, setSearch] = useState("");
   const [viewMode, setViewMode] = useState<"list" | "flashcards">("list");
@@ -54,10 +57,12 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
     onAdd({
       arabic: arabic.trim(),
       transliteration: translit.trim(),
+      english: english.trim(),
       note: note.trim() || undefined,
     });
     setArabic("");
     setTranslit("");
+    setEnglish("");
     setNote("");
   };
 
@@ -88,28 +93,11 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
     document.body.removeChild(link);
   };
 
-  const handleReview = (quality: "again" | "good" | "easy") => {
+  const handleReview = (rating: 0 | 1 | 2 | 3) => {
     const currentCard = sessionCards[flashcardIndex];
     if (!currentCard) return;
 
-    let nextInterval = currentCard.interval || 1;
-    let nextReviewDate = Date.now();
-
-    const MINUTE = 60 * 1000;
-    const DAY = 24 * 60 * MINUTE;
-
-    if (quality === "again") {
-      nextInterval = 1;
-      nextReviewDate += MINUTE; // 1 minute from now
-    } else if (quality === "good") {
-      nextReviewDate += nextInterval * DAY;
-      nextInterval = Math.min(nextInterval * 2, 30);
-    } else if (quality === "easy") {
-      nextReviewDate += nextInterval * 3 * DAY;
-      nextInterval = Math.min(nextInterval * 3, 60);
-    }
-
-    onUpdate(currentCard.id, { interval: nextInterval, nextReviewDate });
+    onReview(currentCard.id, rating);
     setIsFlipped(false);
 
     // Move to next card in session
@@ -119,6 +107,27 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
       // Session finished, useEffect will re-compute due cards and refresh
       setSessionCards([]);
     }
+  };
+
+  const getNextIntervalLabel = (card: VocabEntry, rating: 0 | 1 | 2 | 3) => {
+    const repetition = card.repetition || 0;
+    const interval = card.interval || 0;
+    const efactor = card.efactor || 2.5;
+
+    if (rating === 0 || rating === 1) {
+      return "1d";
+    }
+    if (rating === 2) {
+      if (repetition === 0) return "1d";
+      if (repetition === 1) return "6d";
+      return `${Math.round(interval * efactor)}d`;
+    }
+    if (rating === 3) {
+      if (repetition === 0) return "3d";
+      if (repetition === 1) return "8d";
+      return `${Math.round(interval * efactor * 1.5)}d`;
+    }
+    return "1d";
   };
 
   return (
@@ -176,7 +185,17 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
               onChange={(e) => setTranslit(e.target.value)}
             />
           </div>
-          <div className="sm:col-span-2">
+          <div className="sm:col-span-1">
+            <label className="mb-1 block text-xs font-medium text-muted-foreground">
+              English Meaning
+            </label>
+            <Input
+              placeholder="e.g. pain"
+              value={english}
+              onChange={(e) => setEnglish(e.target.value)}
+            />
+          </div>
+          <div className="sm:col-span-1">
             <label className="mb-1 block text-xs font-medium text-muted-foreground">
               Note (optional)
             </label>
@@ -222,6 +241,7 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <p dir="auto" className="font-arabic text-xl sm:text-2xl text-foreground">
                           {e.arabic || e.transliteration}
                         </p>
+                        <p className="ml-3 font-semibold text-foreground">{e.english}</p>
                         {(e.arabic || e.transliteration) && (
                           <SpeakButton
                             text={e.arabic || e.transliteration}
@@ -293,32 +313,45 @@ export function VocabBankView({ entries, onAdd, onRemove, onUpdate }: Props) {
                         <Button
                           variant="outline"
                           className="flex-1 flex-col h-auto py-2 border-rose-200 hover:bg-rose-50"
-                          onClick={() => handleReview("again")}
+                          onClick={() => handleReview(0)}
                         >
                           <Frown className="h-5 w-5 mb-1 text-rose-500" />
                           <span className="text-xs font-medium text-rose-600">Again</span>
-                          <span className="text-[10px] text-muted-foreground">&lt; 1m</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {getNextIntervalLabel(sessionCards[flashcardIndex], 0)}
+                          </span>
+                        </Button>
+                        <Button
+                          variant="outline"
+                          className="flex-1 flex-col h-auto py-2 border-amber-200 hover:bg-amber-50"
+                          onClick={() => handleReview(1)}
+                        >
+                          <Meh className="h-5 w-5 mb-1 text-amber-500" />
+                          <span className="text-xs font-medium text-amber-600">Hard</span>
+                          <span className="text-[10px] text-muted-foreground">
+                            {getNextIntervalLabel(sessionCards[flashcardIndex], 1)}
+                          </span>
                         </Button>
                         <Button
                           variant="outline"
                           className="flex-1 flex-col h-auto py-2 border-blue-200 hover:bg-blue-50"
-                          onClick={() => handleReview("good")}
+                          onClick={() => handleReview(2)}
                         >
-                          <Meh className="h-5 w-5 mb-1 text-blue-500" />
+                          <Smile className="h-5 w-5 mb-1 text-blue-500" />
                           <span className="text-xs font-medium text-blue-600">Good</span>
                           <span className="text-[10px] text-muted-foreground">
-                            {(sessionCards[flashcardIndex].interval || 1) * 2}d
+                            {getNextIntervalLabel(sessionCards[flashcardIndex], 2)}
                           </span>
                         </Button>
                         <Button
                           variant="outline"
                           className="flex-1 flex-col h-auto py-2 border-emerald-200 hover:bg-emerald-50"
-                          onClick={() => handleReview("easy")}
+                          onClick={() => handleReview(3)}
                         >
-                          <Smile className="h-5 w-5 mb-1 text-emerald-500" />
+                          <Laugh className="h-5 w-5 mb-1 text-emerald-500" />
                           <span className="text-xs font-medium text-emerald-600">Easy</span>
                           <span className="text-[10px] text-muted-foreground">
-                            {(sessionCards[flashcardIndex].interval || 1) * 3}d
+                            {getNextIntervalLabel(sessionCards[flashcardIndex], 3)}
                           </span>
                         </Button>
                       </div>

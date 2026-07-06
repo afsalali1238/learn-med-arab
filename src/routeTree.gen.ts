@@ -9,82 +9,107 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as VocabRouteImport } from './routes/vocab'
-import { Route as StatsRouteImport } from './routes/stats'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as WeekWeekIdRouteImport } from './routes/week.$weekId'
+import { Route as TrackIdIndexRouteImport } from './routes/$trackId.index'
+import { Route as TrackIdVocabRouteImport } from './routes/$trackId.vocab'
+import { Route as TrackIdStatsRouteImport } from './routes/$trackId.stats'
+import { Route as TrackIdDictionaryRouteImport } from './routes/$trackId.dictionary'
+import { Route as TrackIdWeekWeekIdRouteImport } from './routes/$trackId.week.$weekId'
 
-const VocabRoute = VocabRouteImport.update({
-  id: '/vocab',
-  path: '/vocab',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StatsRoute = StatsRouteImport.update({
-  id: '/stats',
-  path: '/stats',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const WeekWeekIdRoute = WeekWeekIdRouteImport.update({
-  id: '/week/$weekId',
-  path: '/week/$weekId',
+const TrackIdIndexRoute = TrackIdIndexRouteImport.update({
+  id: '/$trackId/',
+  path: '/$trackId/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackIdVocabRoute = TrackIdVocabRouteImport.update({
+  id: '/$trackId/vocab',
+  path: '/$trackId/vocab',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackIdStatsRoute = TrackIdStatsRouteImport.update({
+  id: '/$trackId/stats',
+  path: '/$trackId/stats',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackIdDictionaryRoute = TrackIdDictionaryRouteImport.update({
+  id: '/$trackId/dictionary',
+  path: '/$trackId/dictionary',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TrackIdWeekWeekIdRoute = TrackIdWeekWeekIdRouteImport.update({
+  id: '/$trackId/week/$weekId',
+  path: '/$trackId/week/$weekId',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
-  '/vocab': typeof VocabRoute
-  '/week/$weekId': typeof WeekWeekIdRoute
+  '/$trackId/dictionary': typeof TrackIdDictionaryRoute
+  '/$trackId/stats': typeof TrackIdStatsRoute
+  '/$trackId/vocab': typeof TrackIdVocabRoute
+  '/$trackId/': typeof TrackIdIndexRoute
+  '/$trackId/week/$weekId': typeof TrackIdWeekWeekIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
-  '/vocab': typeof VocabRoute
-  '/week/$weekId': typeof WeekWeekIdRoute
+  '/$trackId/dictionary': typeof TrackIdDictionaryRoute
+  '/$trackId/stats': typeof TrackIdStatsRoute
+  '/$trackId/vocab': typeof TrackIdVocabRoute
+  '/$trackId': typeof TrackIdIndexRoute
+  '/$trackId/week/$weekId': typeof TrackIdWeekWeekIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/stats': typeof StatsRoute
-  '/vocab': typeof VocabRoute
-  '/week/$weekId': typeof WeekWeekIdRoute
+  '/$trackId/dictionary': typeof TrackIdDictionaryRoute
+  '/$trackId/stats': typeof TrackIdStatsRoute
+  '/$trackId/vocab': typeof TrackIdVocabRoute
+  '/$trackId/': typeof TrackIdIndexRoute
+  '/$trackId/week/$weekId': typeof TrackIdWeekWeekIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/stats' | '/vocab' | '/week/$weekId'
+  fullPaths:
+    | '/'
+    | '/$trackId/dictionary'
+    | '/$trackId/stats'
+    | '/$trackId/vocab'
+    | '/$trackId/'
+    | '/$trackId/week/$weekId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/stats' | '/vocab' | '/week/$weekId'
-  id: '__root__' | '/' | '/stats' | '/vocab' | '/week/$weekId'
+  to:
+    | '/'
+    | '/$trackId/dictionary'
+    | '/$trackId/stats'
+    | '/$trackId/vocab'
+    | '/$trackId'
+    | '/$trackId/week/$weekId'
+  id:
+    | '__root__'
+    | '/'
+    | '/$trackId/dictionary'
+    | '/$trackId/stats'
+    | '/$trackId/vocab'
+    | '/$trackId/'
+    | '/$trackId/week/$weekId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  StatsRoute: typeof StatsRoute
-  VocabRoute: typeof VocabRoute
-  WeekWeekIdRoute: typeof WeekWeekIdRoute
+  TrackIdDictionaryRoute: typeof TrackIdDictionaryRoute
+  TrackIdStatsRoute: typeof TrackIdStatsRoute
+  TrackIdVocabRoute: typeof TrackIdVocabRoute
+  TrackIdIndexRoute: typeof TrackIdIndexRoute
+  TrackIdWeekWeekIdRoute: typeof TrackIdWeekWeekIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/vocab': {
-      id: '/vocab'
-      path: '/vocab'
-      fullPath: '/vocab'
-      preLoaderRoute: typeof VocabRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/stats': {
-      id: '/stats'
-      path: '/stats'
-      fullPath: '/stats'
-      preLoaderRoute: typeof StatsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/': {
       id: '/'
       path: '/'
@@ -92,11 +117,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/week/$weekId': {
-      id: '/week/$weekId'
-      path: '/week/$weekId'
-      fullPath: '/week/$weekId'
-      preLoaderRoute: typeof WeekWeekIdRouteImport
+    '/$trackId/': {
+      id: '/$trackId/'
+      path: '/$trackId'
+      fullPath: '/$trackId/'
+      preLoaderRoute: typeof TrackIdIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$trackId/vocab': {
+      id: '/$trackId/vocab'
+      path: '/$trackId/vocab'
+      fullPath: '/$trackId/vocab'
+      preLoaderRoute: typeof TrackIdVocabRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$trackId/stats': {
+      id: '/$trackId/stats'
+      path: '/$trackId/stats'
+      fullPath: '/$trackId/stats'
+      preLoaderRoute: typeof TrackIdStatsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$trackId/dictionary': {
+      id: '/$trackId/dictionary'
+      path: '/$trackId/dictionary'
+      fullPath: '/$trackId/dictionary'
+      preLoaderRoute: typeof TrackIdDictionaryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/$trackId/week/$weekId': {
+      id: '/$trackId/week/$weekId'
+      path: '/$trackId/week/$weekId'
+      fullPath: '/$trackId/week/$weekId'
+      preLoaderRoute: typeof TrackIdWeekWeekIdRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
@@ -104,9 +157,11 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  StatsRoute: StatsRoute,
-  VocabRoute: VocabRoute,
-  WeekWeekIdRoute: WeekWeekIdRoute,
+  TrackIdDictionaryRoute: TrackIdDictionaryRoute,
+  TrackIdStatsRoute: TrackIdStatsRoute,
+  TrackIdVocabRoute: TrackIdVocabRoute,
+  TrackIdIndexRoute: TrackIdIndexRoute,
+  TrackIdWeekWeekIdRoute: TrackIdWeekWeekIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

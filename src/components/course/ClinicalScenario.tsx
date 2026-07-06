@@ -8,6 +8,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
 import { SpeakButton } from "./SpeakButton";
+import { fuzzyMatchArabic } from "@/lib/arabic-utils";
 
 interface Props {
   scenario: Scenario;
@@ -42,9 +43,17 @@ export function ClinicalScenario({
       toast.error("Write your consultation before submitting.");
       return;
     }
+
+    // Auto-grade using fuzzy matching
+    if (fuzzyMatchArabic(answers, scenario.answerKey.arabic)) {
+      if (onSelfScoreChange) onSelfScoreChange("nailed-it");
+      toast.success("Perfect match! Excellent work.");
+    } else {
+      toast.success("Consultation submitted — review the answer key below.");
+    }
+
     onSubmit();
     setDrawerOpen(true);
-    toast.success("Consultation submitted — review the answer key below.");
   };
 
   const wordCount = answers.trim() ? answers.trim().split(/\s+/).length : 0;
