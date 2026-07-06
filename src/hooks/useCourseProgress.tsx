@@ -333,16 +333,14 @@ function useCourseProgressProvider() {
     total += progress.completedCheckpoints.length * XP_PER_QUIZ;
     total += progress.vocabBank.length * XP_PER_FLASHCARD;
 
-    TRACKS.forEach((track) => {
-      track.weeks.forEach((week) => {
-        const done = week.checkpoints.filter((c) =>
-          progress.completedCheckpoints.includes(c.id),
-        ).length;
-        const scenarioDone = progress.assignments[week.id]?.submitted ? 1 : 0;
-        if (done + scenarioDone === week.checkpoints.length + 1) {
-          total += XP_PER_WEEK;
-        }
-      });
+    WEEKS.forEach((week) => {
+      const done = week.checkpoints.filter((c) =>
+        progress.completedCheckpoints.includes(c.id),
+      ).length;
+      const scenarioDone = progress.assignments[week.id]?.submitted ? 1 : 0;
+      if (done + scenarioDone === week.checkpoints.length + 1) {
+        total += XP_PER_WEEK;
+      }
     });
     return total;
   }, [progress]);
