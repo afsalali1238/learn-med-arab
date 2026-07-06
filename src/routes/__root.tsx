@@ -76,23 +76,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Medical Arabic for Physiotherapists" },
+      { title: "Medical Arabic for Pharmacy" },
       {
         name: "description",
         content:
-          "Learn conversational Medical Arabic for the physiotherapy clinic with an 8-week gamified course covering greetings, assessment, movement commands and discharge.",
+          "Learn conversational Medical Arabic for the pharmacy with a gamified course covering medications, dosage, warnings and patient dialogue.",
       },
-      { name: "author", content: "Movement & Healing" },
+      { name: "author", content: "Medical Arabic Hub" },
       { name: "theme-color", media: "(prefers-color-scheme: light)", content: "#f8fafc" },
       { name: "theme-color", media: "(prefers-color-scheme: dark)", content: "#020817" },
       {
         property: "og:title",
-        content: "Medical Arabic for Physiotherapists",
+        content: "Medical Arabic for Pharmacy",
       },
       {
         property: "og:description",
         content:
-          "An 8-week conversational Medical Arabic course for physiotherapists — track progress, save clinical phrases, and master patient dialogue.",
+          "A conversational Medical Arabic course for pharmacists — track progress, save clinical phrases, and master patient dialogue.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
