@@ -48,6 +48,22 @@ export const week1: Week = {
 
       ],
     },
+    {
+      caption: "Basic Greetings",
+      headers: ["English", "Arabic", "Transliteration"],
+      rows: [
+        ["Hello / Welcome", "أهلاً بك / مرحباً", "Ahlan bik / Marhaban"],
+        ["How are you?", "كيف حالك؟", "Kayfa haluk?"],
+        ["Good morning", "صباح الخير", "Sabah al-khayr"],
+        ["Good evening", "مساء الخير", "Masaa al-khayr"],
+        ["Thank you", "شكراً", "Shukran"],
+        ["You're welcome", "عفواً", "Afwan"],
+        ["Please", "من فضلك", "Min fadlik"],
+        ["Yes", "نعم", "Na'am"],
+        ["No", "لا", "Laa"],
+        ["Goodbye", "مع السلامة", "Ma'a as-salamah"],
+      ],
+    },
   ],
   resources: [
     {
