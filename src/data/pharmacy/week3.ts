@@ -59,6 +59,12 @@ export const week3: Week = {
         ["Vaccine", "طعم / لقاح", "Tu'm / Luqaah"],
         ["Alcohol", "كحول", "Kuhool"],
         ["Plaster", "لصقة", "Lasqah"],
+        ["Tablet(s)", "قُرْص (أَقْرَاص) / حَبَّة (حُبُوب)", "Qurṣ (Aqrāṣ) / Ḥabbah (Ḥubūb)"],
+        ["Capsule(s)", "كَبْسُولَة (كَبْسُولَات)", "Kabsūlah (Kabsūlāt)"],
+        ["Once / Twice a day", "مَرَّة / مَرَّتَيْن فِي اليَوْم", "Marrah / Marratayn fil-yawm"],
+        ["Three times a day", "ثَلَاث مَرَّات فِي اليَوْم", "Thalāth marrāt fil-yawm"],
+        ["Before / After food", "قَبْلَ / بَعْدَ الأَكْل", "Qabla / Ba'da al-Akl"],
+
       ],
     },
   ],

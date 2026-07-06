@@ -60,6 +60,12 @@ export const week2: Week = {
         ["Hepatitis", "التهاب كبدي", "Iltihaab alkabedy"],
         ["Peptic Ulcer", "قرحة هضمية", "Qarhah hadmyyah"],
         ["Hernia", "فتق", "Fatq"],
+        ["Pain (Severe/Mild)", "أَلَم (شَدِيد/خَفِيف)", "Alam (Shadīd/Khafīf)"],
+        ["Cough (Dry/Wet)", "سُعَال (جَاف/بِبَلْغَم)", "Su'āl (Jāf / Bi-balgham)"],
+        ["Inflammation", "اِلْتِهَاب", "Iltihāb"],
+        ["Dizziness / Vertigo", "دُوَار / دَوْخَة", "Duwār / Dawkhah"],
+        ["Asthma", "رَبْو", "Rabw"],
+
       ],
     },
   ],

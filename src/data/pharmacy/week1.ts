@@ -41,6 +41,11 @@ export const week1: Week = {
         ["Hospital", "مستشفى", "Mustashfa"],
         ["Clinic", "عيادة", "'Eyaadah"],
         ["Pharmacy", "صيدلية", "Saydaliyah"],
+        ["Head", "رَأْس", "Ra's"],
+        ["Stomach / Abdomen", "مَعِدَة / بَطْن", "Ma'idah / Baṭn"],
+        ["Chest", "صَدْر", "Ṣadr"],
+        ["Emergency Room", "طَوَارِئ", "Ṭawāri'"],
+
       ],
     },
   ],
