@@ -110,28 +110,7 @@ export function SyllabusView({ weeks, perWeekPct }: Props) {
         })}
       </ol>
 
-      {CAPSTONE && (
-        <div className="mt-6">
-          <div className="group flex w-full flex-col gap-3 rounded-2xl border border-amber-500/30 bg-amber-50/50 p-4 text-left dark:bg-amber-500/10 sm:gap-4 sm:p-5">
-            <div className="flex items-center gap-3">
-              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 sm:h-12 sm:w-12">
-                <Award className="h-5 w-5" strokeWidth={2.5} />
-              </div>
-              <div className="min-w-0 flex-1">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-600/80 dark:text-amber-400/80">
-                  Final Challenge
-                </span>
-                <h3 className="mt-0.5 line-clamp-2 text-sm font-semibold leading-snug text-amber-900 dark:text-amber-100 sm:text-[15px]">
-                  {CAPSTONE.title}
-                </h3>
-              </div>
-            </div>
-            <p className="text-sm leading-relaxed text-amber-800/80 dark:text-amber-200/80">
-              {CAPSTONE.description}
-            </p>
-          </div>
-        </div>
-      )}
+
       <div className="mt-12 pt-8 border-t border-border/50">
         <h2 className="text-xl font-bold sm:text-2xl mb-1">The Provia Ecosystem</h2>
         <p className="text-sm text-muted-foreground mb-6">
@@ -146,12 +125,12 @@ export function SyllabusView({ weeks, perWeekPct }: Props) {
           >
             <div className="flex items-center justify-between">
               <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
-                Medical Arabic (PT)
+                Medical Arabic (Pharmacy)
               </h3>
               <ExternalLink className="h-4 w-4 text-muted-foreground group-hover:text-primary transition-colors" />
             </div>
             <p className="text-xs text-muted-foreground">
-              Conversational Medical Arabic tailored specifically for Physiotherapists.
+              Conversational Medical Arabic tailored specifically for Pharmacists.
             </p>
           </a>
 
