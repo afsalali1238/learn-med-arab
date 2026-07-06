@@ -89,6 +89,22 @@ export const week3: Week = {
         ["Saturday", "السبت", "As-Sabt"],
       ],
     },
+    {
+      caption: "Colors for Pills & Liquids",
+      headers: ["English", "Arabic", "Transliteration"],
+      rows: [
+        ["Red", "أحمر", "Ahmar"],
+        ["Blue", "أزرق", "Azraq"],
+        ["Yellow", "أصفر", "Asfar"],
+        ["White", "أبيض", "Abyad"],
+        ["Black", "أسود", "Aswad"],
+        ["Green", "أخضر", "Akhdar"],
+        ["Orange", "برتقالي", "Burtuqali"],
+        ["Pink", "وردي", "Wardi"],
+        ["Brown", "بني", "Bunni"],
+        ["Purple", "بنفسجي", "Banafsaji"],
+      ],
+    },
   ],
   resources: [
     {

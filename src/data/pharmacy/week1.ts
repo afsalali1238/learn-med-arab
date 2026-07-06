@@ -56,6 +56,20 @@ export const week1: Week = {
         ["I don't understand", "لا أفهم", "La afham"],
       ],
     },
+    {
+      caption: "Family & Relationships",
+      headers: ["English", "Arabic", "Transliteration"],
+      rows: [
+        ["Father", "أب / والد", "Ab / Walid"],
+        ["Mother", "أم / والدة", "Umm / Walidah"],
+        ["Son", "ابن", "Ibn"],
+        ["Daughter", "ابنة / بنت", "Ibnah / Bint"],
+        ["Brother", "أخ", "Akh"],
+        ["Sister", "أخت", "Ukht"],
+        ["Husband", "زوج", "Zawj"],
+        ["Wife", "زوجة", "Zawjah"],
+      ],
+    },
   ],
   resources: [
     {
