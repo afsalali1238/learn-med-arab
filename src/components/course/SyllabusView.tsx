@@ -139,7 +139,7 @@ export function SyllabusView({ weeks, perWeekPct }: Props) {
         </p>
         <div className="grid gap-3 sm:grid-cols-2">
           <a
-            href="https://med-arabic-hub.lovable.app"
+            href="https://physioarab.vercel.app/"
             target="_blank"
             rel="noopener noreferrer"
             className="group flex flex-col gap-2 rounded-2xl border border-border bg-card p-4 transition-all hover:border-primary/40 hover:shadow-sm"
